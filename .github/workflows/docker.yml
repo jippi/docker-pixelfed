@@ -7,12 +7,6 @@ on:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
-    branches:
-      - "*"
-      - "**"
-
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
-  release:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   pull_request:
