@@ -240,7 +240,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./images/pixelfed
+          context: .
           file: ./images/pixelfed/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64

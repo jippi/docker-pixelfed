@@ -175,7 +175,7 @@ RUN set -ex \
     && cp --recursive --link --preserve=all storage storage.skel \
     && rm -rf html && ln -s public html
 
-COPY rootfs/shared/root /
+COPY images/pixelfed/rootfs/shared/root /
 
 ENTRYPOINT ["/docker/entrypoint.sh"]
 
@@ -185,7 +185,7 @@ ENTRYPOINT ["/docker/entrypoint.sh"]
 
 FROM shared-runtime AS apache-runtime
 
-COPY rootfs/apache/root /
+COPY images/pixelfed/rootfs/apache/root /
 
 RUN set -ex \
     && a2enmod rewrite remoteip proxy proxy_http \
@@ -228,8 +228,8 @@ RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE
 
 # copy docker entrypoints from the *real* nginx image directly
 COPY --link --from=nginx-image /docker-entrypoint.d /docker/entrypoint.d/
-COPY rootfs/nginx/root /
-COPY rootfs/nginx/Procfile /var/www/Profile
+COPY images/pixelfed/rootfs/nginx/root /
+COPY images/pixelfed/rootfs/nginx/Procfile /var/www/Profile
 
 STOPSIGNAL SIGQUIT
 
