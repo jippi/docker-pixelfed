@@ -238,6 +238,9 @@ jobs:
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
+      - name: list files
+        run: ls -al
+
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
