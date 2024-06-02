@@ -85,7 +85,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./docker-php-base/
-          file: Dockerfile
+          file: ./docker-php-base/Dockerfile
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}
