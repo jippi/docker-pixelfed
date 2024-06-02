@@ -114,10 +114,9 @@ jobs:
             type=schedule,pattern=nightly
             type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
             # release
-            type=semver,pattern=v{{ version }}
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ path }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
@@ -236,10 +235,9 @@ jobs:
             type=schedule,pattern=nightly
             type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
             # release
-            type=semver,pattern=v{{ version }}
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ path }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
