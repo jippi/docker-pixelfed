@@ -1,55 +1,13 @@
 ---
-name: Docker
+name: Docker Release
 
 on:
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
-  workflow_dispatch:
-
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
-    branches:
+    tags:
       - "*"
       - "**"
 
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-  pull_request:
-
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-  schedule:
-    - cron: "0 2 * * *" # run at 2 AM UTC
-
 jobs:
-  bats:
-    name: Bats Testing
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run bats
-        run: docker run -v "$PWD/images/pixelfed:/var/www" bats/bats:latest /var/www/tests/bats
-
-  hadolint:
-    name: hadolint
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: PHP
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: images/php/Dockerfile
-          failure-threshold: error
-
-      - name: Pixelfed
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: images/pixelfed/Dockerfile
-          failure-threshold: error
-
   php:
     name: PHP
     runs-on: ubuntu-latest
@@ -66,11 +24,6 @@ jobs:
         php_base:
           - apache
           - fpm
-
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-      cancel-in-progress: true
 
     permissions:
       contents: read
@@ -104,21 +57,27 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }}-php,enable=true
           flavor: |
-            latest=auto
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
-            # schedule
-            type=schedule,pattern=nightly
-            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
-            # release
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
             type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
-            # default behavior
-            type=ref,event=branch,prefix=branch/
-            type=ref,event=pr,prefix=pr/
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+
+      - name: Find Pixelfed release tag
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        id: pixelfed_release
+        run: echo "::set-output name=fragment::${TAG_NAME%%+*}"
+
+      # checkout pixelfed source code
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v4
+        with:
+          repository: "pixelfed/pixelfed"
+          ref: "${{ steps.pixelfed_release.outputs.fragment }}"
+          path: "src/"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -151,9 +110,6 @@ jobs:
       matrix:
         php_version:
           - 8.3
-        pixelfed_branch:
-          - staging
-          - dev
         debian_release:
           - bookworm
         php_base:
@@ -179,11 +135,6 @@ jobs:
           - target_runtime: nginx
             php_base: apache
 
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}-${{ matrix.pixelfed_branch }}
-      cancel-in-progress: true
-
     permissions:
       contents: read
       packages: write
@@ -193,22 +144,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # checkout pixelfed source code
-      - name: Checkout pixelfed/pixelfed
-        uses: actions/checkout@v4
-        with:
-          repository: "pixelfed/pixelfed"
-          ref: "${{ matrix.pixelfed_branch }}"
-          path: "src/"
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-        with:
-          version: v0.12.0 # *or* newer, needed for annotations to work
 
         # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
       - name: Log in to the GitHub Container registry
@@ -225,21 +166,21 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }},enable=true
           flavor: |
-            latest=auto
-            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
-            # schedule
-            type=schedule,pattern=nightly
-            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
-            # release
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
             type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
-            # default behavior
-            type=ref,event=branch,prefix=branch/
-            type=ref,event=pr,prefix=pr/
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+
+      # checkout pixelfed source code
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v4
+        with:
+          repository: "pixelfed/pixelfed"
+          ref: "${{ matrix.pixelfed_branch }}"
+          path: "src/"
 
       - name: Build and push image
         uses: docker/build-push-action@v5
@@ -260,23 +201,3 @@ jobs:
             type=gha,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           cache-to: |
             type=gha,mode=max,ignore-error=true,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-
-      # goss validate the image
-      #
-      # See: https://github.com/goss-org/goss
-      - uses: e1himself/goss-installation-action@v1
-        with:
-          version: "v0.4.4"
-
-      - name: Execute Goss tests
-        run: |
-          cd images/pixelfed
-
-          for tag in "${{ steps.meta.outputs.tags }}"
-          do
-            dgoss run \
-              -v "./.env.testing:/var/www/.env" \
-              -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
-              -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
-              $tag
-          done
