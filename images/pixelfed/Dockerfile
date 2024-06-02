@@ -142,8 +142,8 @@ FROM ${PHP_IMAGE} AS composer-and-src
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files avaliable (yet)
 RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION},sharing=locked,target=/cache/composer \
-    --mount=type=bind,source=composer.json,target=/var/www/composer.json \
-    --mount=type=bind,source=composer.lock,target=/var/www/composer.lock \
+    --mount=type=bind,source=src/composer.json,target=/var/www/composer.json \
+    --mount=type=bind,source=src/composer.lock,target=/var/www/composer.lock \
     set -ex \
     && composer install --prefer-dist --no-autoloader --ignore-platform-reqs
 
