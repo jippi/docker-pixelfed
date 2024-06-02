@@ -61,7 +61,7 @@ jobs:
           - bookworm
         php_base:
           - apache
-          # - fpm
+          - fpm
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
@@ -143,13 +143,13 @@ jobs:
           - 8.3
         debian_release:
           - bookworm
-        target_runtime:
-          - apache
-          # - fpm
-          # - nginx
         php_base:
           - apache
-          # - fpm
+          - fpm
+        target_runtime:
+          - apache
+          - fpm
+          - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
         # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
