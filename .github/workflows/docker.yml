@@ -113,6 +113,7 @@ jobs:
         with:
           images: |
             name=ghcr.io/${{ github.repository }}-php,enable=true
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
           flavor: |
             latest=auto
             suffix=-${{ matrix.php_version }}
@@ -200,6 +201,7 @@ jobs:
         with:
           repository: "pixelfed/pixelfed"
           ref: "staging"
+          path: "src/"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
