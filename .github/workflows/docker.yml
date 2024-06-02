@@ -240,7 +240,7 @@ jobs:
           cache-from: |
             type=gha,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
           cache-to: |
-            type=gha,mode=max,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,mode=max,ignore-error=true,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
 
       # goss validate the image
       #
