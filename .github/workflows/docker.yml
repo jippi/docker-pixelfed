@@ -255,8 +255,11 @@ jobs:
         run: |
           cd images/pixelfed
 
-          dgoss run \
-            -v "./.env.testing:/var/www/.env" \
-            -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
-            -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
-            ${{ steps.meta.outputs.tags }}
+          for tag in "${{ steps.meta.outputs.tags }}"
+          do
+            dgoss run \
+              -v "./.env.testing:/var/www/.env" \
+              -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
+              -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
+              $tag
+          done
