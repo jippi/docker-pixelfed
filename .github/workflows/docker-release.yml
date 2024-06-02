@@ -164,13 +164,14 @@ jobs:
         id: meta
         with:
           images: |
-            name=ghcr.io/${{ github.repository }},enable=true
+            name=ghcr.io/${{ github.repository }}
           flavor: |
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            prefix=v
           tags: |
-            type=semver,pattern=v{{ major }}                # v1
-            type=semver,pattern=v{{ major }}.{{ minor }}    # v1.2
-            type=semver,pattern=v{{ version }}              # v1.2.3
+            type=semver,pattern={{ major }}
+            type=semver,pattern={{ major }}.{{ minor }}
+            type=semver,pattern={{ version }}
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
