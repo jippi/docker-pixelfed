@@ -46,24 +46,7 @@ jobs:
           dockerfile: images/pixelfed/Dockerfile
           failure-threshold: error
 
-  changes:
-    name: "Detect file changes"
-    outputs:
-      should-build-php: ${{ steps.changes.outputs.php }}
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            php:
-              - 'images/php/**'
-              - '.github/workflows/docker.yml'
-
   php:
-    needs: [changes]
-    if: needs.changes.outputs.should-build-php
     name: PHP
     runs-on: ubuntu-latest
 
