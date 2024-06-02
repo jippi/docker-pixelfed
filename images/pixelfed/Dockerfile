@@ -23,9 +23,12 @@ ARG DOTTIE_VERSION="v0.9.5"
 
 # See: https://hub.docker.com/_/php/tags
 ARG PHP_VERSION="8.3"
-ARG PHP_BASE_TYPE="apache"
-ARG PHP_DEBIAN_RELEASE="bullseye"
 
+# See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants
+ARG PHP_BASE_TYPE="apache"
+ARG PHP_DEBIAN_RELEASE="bookworm"
+
+# The image to use as "php" pre-build source
 ARG PHP_IMAGE="ghcr.io/jippi/pixelfed-docker-php:latest-${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE}"
 
 # GPG key for nginx apt repository

@@ -58,7 +58,7 @@ jobs:
         php_version:
           - 8.3
         debian_release:
-          - bullseye
+          - bookworm
         php_base:
           - apache
           # - fpm
