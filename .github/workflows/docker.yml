@@ -195,7 +195,8 @@ jobs:
         uses: actions/checkout@v4
 
       # checkout pixelfed source code
-      - uses: actions/checkout@v4
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v4
         with:
           repository: "pixelfed/pixelfed"
           ref: "staging"
@@ -241,7 +242,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./images/pixelfed/Dockerfile
+          file: images/pixelfed/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
