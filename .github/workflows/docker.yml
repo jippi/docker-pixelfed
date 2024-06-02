@@ -120,8 +120,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
           push: true
-          sbom: true
-          provenance: true
           build-args: |
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_VERSION=${{ matrix.php_version }}
@@ -225,9 +223,6 @@ jobs:
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
-      - name: list files
-        run: ls -al
-
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
@@ -239,8 +234,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
           push: true
-          sbom: true
-          provenance: true
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}

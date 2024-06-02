@@ -108,8 +108,8 @@ SHELL [ "/usr/bin/bash", "-c" ]
 
 # Install NPM dependencies
 RUN --mount=type=cache,id=pixelfed-node-${BUILDARCH},sharing=locked,target=/tmp/cache \
-    --mount=type=bind,source=package.json,target=/var/www/package.json \
-    --mount=type=bind,source=package-lock.json,target=/var/www/package-lock.json \
+    --mount=type=bind,source=src/package.json,target=/var/www/package.json \
+    --mount=type=bind,source=src/package-lock.json,target=/var/www/package-lock.json \
 <<EOF
     if [[ $BUILD_FRONTEND -eq 1 ]];
     then
