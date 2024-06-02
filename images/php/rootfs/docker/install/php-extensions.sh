@@ -24,4 +24,4 @@ if [[ -e "${custom_pre_configure_script}" ]]; then
 fi
 
 # PECL + PHP extensions
-IPE_KEEP_SYSPKG_CACHE=1 install-php-extensions "${pecl_extensions[@]}" "${php_extensions[@]}"
+IPE_KEEP_SYSPKG_CACHE=1 install-php-extensions "${pecl_extensions[@]}" "${php_extensions[@]}" "@composer-${COMPOSER_VERSION:-2}"

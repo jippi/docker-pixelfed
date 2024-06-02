@@ -11,9 +11,6 @@ ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.2.14"
 # See: https://github.com/composer/composer
 ARG COMPOSER_VERSION="2.7.6"
 
-# See: https://github.com/composer/getcomposer.org/blob/main/web/installer
-ARG COMPOSER_INSTALLER_VERSION="f3108f64b4e1c1ce6eb462b159956461592b3e3e"
-
 ###
 # PHP base configuration
 ###
@@ -88,20 +85,22 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
 ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/${DOCKER_PHP_EXTENSION_INSTALLER_VERSION}/install-php-extensions /usr/local/bin/
 
+ARG COMPOSER_VERSION
 ARG PHP_EXTENSIONS
 ARG PHP_EXTENSIONS_DATABASE
 ARG PHP_EXTENSIONS_EXTRA
 ARG PHP_PECL_EXTENSIONS
 ARG PHP_PECL_EXTENSIONS_EXTRA
 
-RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear  \
+RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
-    PHP_EXTENSIONS=${PHP_EXTENSIONS} \
+    COMPOSER_VERSION=${COMPOSER_VERSION} \
     PHP_EXTENSIONS_DATABASE=${PHP_EXTENSIONS_DATABASE} \
     PHP_EXTENSIONS_EXTRA=${PHP_EXTENSIONS_EXTRA} \
-    PHP_PECL_EXTENSIONS=${PHP_PECL_EXTENSIONS} \
+    PHP_EXTENSIONS=${PHP_EXTENSIONS} \
     PHP_PECL_EXTENSIONS_EXTRA=${PHP_PECL_EXTENSIONS_EXTRA} \
+    PHP_PECL_EXTENSIONS=${PHP_PECL_EXTENSIONS} \
     /docker/install/php-extensions.sh
 
 #######################################################
@@ -116,13 +115,6 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 
 # Disable interactvitity from composer
 ENV COMPOSER_NO_INTERACTION=1
-
-# Install composer
-ARG COMPOSER_VERSION
-ARG COMPOSER_INSTALLER_VERSION
-
-RUN set -ex \
-    && wget https://raw.githubusercontent.com/composer/getcomposer.org/${COMPOSER_INSTALLER_VERSION}/web/installer -O - -q | php -- --version=${COMPOSER_VERSION}
 
 #######################################################
 # Baseline image
