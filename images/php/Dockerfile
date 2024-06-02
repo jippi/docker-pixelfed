@@ -9,7 +9,10 @@
 ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.1.80"
 
 # See: https://github.com/composer/composer
-ARG COMPOSER_VERSION="2.6"
+ARG COMPOSER_VERSION="2.7.6"
+
+# See: https://github.com/composer/getcomposer.org/blob/main/web/installer
+ARG COMPOSER_INSTALLER_VERSION="f3108f64b4e1c1ce6eb462b159956461592b3e3e"
 
 ###
 # PHP base configuration
@@ -43,11 +46,6 @@ ARG PHP_EXTENSIONS_DATABASE="pdo_pgsql pdo_mysql pdo_sqlite"
 #######################################################
 # Docker "copy from" images
 #######################################################
-
-# Composer docker image from Docker Hub
-#
-# NOTE: Docker will *not* pull this image unless it's referenced (via build target)
-FROM composer:${COMPOSER_VERSION} AS composer-image
 
 # php-extension-installer image from Docker Hub
 #
@@ -128,8 +126,9 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 # Disable interactvitity from composer
 ENV COMPOSER_NO_INTERACTION=1
 
-# Copy composer from https://hub.docker.com/_/composer
-COPY --link --from=composer-image /usr/bin/composer /usr/bin/composer
+# Install composer
+RUN set -ex \
+    && wget https://raw.githubusercontent.com/composer/getcomposer.org/${COMPOSER_INSTALLER_VERSION}/web/installer -O - -q | php -- --version=${COMPOSER_VERSION}
 
 #######################################################
 # Baseline image
