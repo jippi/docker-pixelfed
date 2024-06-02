@@ -217,7 +217,7 @@ CMD ["apache2-foreground"]
 
 FROM shared-runtime AS fpm-runtime
 
-COPY rootfs/fpm/root /
+COPY images/pixelfed/rootfs/fpm/root /
 
 CMD ["php-fpm"]
 
