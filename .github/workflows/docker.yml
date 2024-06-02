@@ -58,7 +58,7 @@ jobs:
           filters: |
             php:
               - 'images/php/**'
-              - '.github/workflows/php.yml'
+              - '.github/workflows/docker.yml'
 
   php:
     needs: [changes]
