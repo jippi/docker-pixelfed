@@ -68,6 +68,8 @@ ARG TARGETARCH
 ARG TARGETOS
 ARG GOMPLATE_VERSION
 
+USER root
+
 RUN set -ex \
     && curl \
         --silent \
