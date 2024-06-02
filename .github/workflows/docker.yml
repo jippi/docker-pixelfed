@@ -153,6 +153,9 @@ jobs:
       matrix:
         php_version:
           - 8.3
+        pixelfed_branch:
+          - staging
+          - dev
         debian_release:
           - bookworm
         php_base:
@@ -197,7 +200,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: "pixelfed/pixelfed"
-          ref: "staging"
+          ref: "${{ matrix.pixelfed_branch }}"
           path: "src/"
 
       - name: Set up QEMU
@@ -225,7 +228,7 @@ jobs:
             name=ghcr.io/${{ github.repository }},enable=true
           flavor: |
             latest=auto
-            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
             # schedule
             type=schedule,pattern=nightly
