@@ -33,6 +33,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Find Pixelfed release tag
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        id: pixelfed_release
+        run: echo "fragment=${TAG_NAME%%-*}" >> $GITHUB_OUTPUT
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -59,11 +65,17 @@ jobs:
           flavor: |
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
-            type=semver,pattern=v{{ major }}                # v1
-            type=semver,pattern=v{{ major }}.{{ minor }}    # v1.2
-            type=semver,pattern=v{{ version }}              # v1.2.3
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+            # semver (pixelfed + custom tag) parsed
+            type=semver,pattern={{ major }}
+            type=semver,pattern={{ major }}.{{ minor }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }}
+            type=semver,pattern={{ version }}
+
+            # semver (pixelfed release tag only)
+            type=semver,pattern={{ major }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ major }}.{{ minor }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ version }},value=${{ steps.pixelfed_release.outputs.fragment }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -169,9 +181,6 @@ jobs:
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
             prefix=v
           tags: |
-            # raw tag
-            type=semver,pattern={{ raw }}
-
             # semver (pixelfed + custom tag) parsed
             type=semver,pattern={{ major }}
             type=semver,pattern={{ major }}.{{ minor }}
