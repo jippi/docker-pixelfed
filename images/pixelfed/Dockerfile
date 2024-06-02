@@ -141,6 +141,8 @@ EOF
 
 FROM ${PHP_IMAGE} AS composer-and-src
 
+ARG PHP_VERSION
+
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files avaliable (yet)
 RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION},sharing=locked,target=/cache/composer \
