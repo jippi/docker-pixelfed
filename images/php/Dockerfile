@@ -86,7 +86,7 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
 #######################################################
 
 ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/${DOCKER_PHP_EXTENSION_INSTALLER_VERSION}/download/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/${DOCKER_PHP_EXTENSION_INSTALLER_VERSION}/install-php-extensions /usr/local/bin/
 
 ARG PHP_EXTENSIONS
 ARG PHP_EXTENSIONS_DATABASE

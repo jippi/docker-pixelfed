@@ -131,8 +131,6 @@ jobs:
   pixelfed:
     name: pixelfed
     runs-on: ubuntu-latest
-    # always run the pixelfed step
-    if: ${{ always() }}
     needs: [php]
 
     strategy:
