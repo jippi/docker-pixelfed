@@ -8,6 +8,9 @@ on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
 
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
+  release:
+
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   pull_request:
 
@@ -76,7 +79,7 @@ jobs:
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
-      group: base-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}
       cancel-in-progress: true
 
     permissions:
@@ -136,9 +139,9 @@ jobs:
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_VERSION=${{ matrix.php_version }}
           cache-from: |
-            type=gha,scope=docker-php-base-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}
           cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=docker-php-base-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,mode=max,ignore-error=true,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}
 
   pixelfed:
     name: pixelfed
@@ -224,8 +227,8 @@ jobs:
           tags: |
             type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/{0}', 'staging') }}
-            type=pep440,pattern={{raw}}
-            type=pep440,pattern=v{{major}}.{{minor}}
+            type=pep440,pattern={{ raw }}
+            type=pep440,pattern=v{{ major }}.{{ minor }}
             type=ref,event=branch,prefix=branch-
             type=ref,event=pr,prefix=pr-
             type=ref,event=tag
