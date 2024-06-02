@@ -59,9 +59,9 @@ jobs:
           flavor: |
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
-            type=semver,pattern=v{{ major }}
-            type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
+            type=semver,pattern=v{{ major }}                # v1
+            type=semver,pattern=v{{ major }}.{{ minor }}    # v1.2
+            type=semver,pattern=v{{ version }}              # v1.2.3
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
@@ -168,9 +168,9 @@ jobs:
           flavor: |
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
-            type=semver,pattern=v{{ major }}
-            type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
+            type=semver,pattern=v{{ major }}                # v1
+            type=semver,pattern=v{{ major }}.{{ minor }}    # v1.2
+            type=semver,pattern=v{{ version }}              # v1.2.3
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
