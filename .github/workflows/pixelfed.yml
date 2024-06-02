@@ -1,15 +1,19 @@
 ---
-name: build
+name: pixelfed
 
 on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
-  workflow_dispatch:
+  # workflow_dispatch:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
-  push:
+  # push:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-  pull_request:
+  # pull_request:
+
+  workflow_run:
+    workflows: ["PHP Base"]
+    types: [completed]
 
 jobs:
   build:
