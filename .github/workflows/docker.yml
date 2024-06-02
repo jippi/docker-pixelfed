@@ -48,7 +48,7 @@ jobs:
 
   changes:
     outputs:
-      should-build-php: ${{ steps.changes.outputs.php == 'true' }}
+      should-build-php: ${{ steps.changes.outputs.php }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
 
   php:
     needs: [changes]
-    if: needs.changes.outputs.should-build-php == 'true'
+    if: needs.changes.outputs.should-build-php
     name: PHP
     runs-on: ubuntu-latest
 
@@ -146,6 +146,8 @@ jobs:
   pixelfed:
     name: pixelfed
     runs-on: ubuntu-latest
+    # always run the pixelfed step
+    if: ${{ always() }}
     needs: [php]
 
     strategy:
