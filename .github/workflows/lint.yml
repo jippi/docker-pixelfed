@@ -1,0 +1,60 @@
+---
+name: lint
+
+on:
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+  workflow_dispatch:
+
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
+  push:
+    branches:
+      - dev
+      - staging
+    tags:
+      - "*"
+
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  lint:
+    name: hadolint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Docker Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: error
+
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        env:
+          SHELLCHECK_OPTS: --shell=bash --external-sources
+        with:
+          version: v0.9.0
+          additional_files: "*.envsh .env .env.docker .env.example .env.testing"
+
+  bats:
+    name: Bats Testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run bats
+        run: docker run -v "$PWD:/var/www" bats/bats:latest /var/www/tests/bats
