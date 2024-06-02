@@ -2,7 +2,7 @@ setup() {
     DIR="$(cd "$(dirname "${BATS_TEST_FILENAME:-}")" >/dev/null 2>&1 && pwd)"
     ROOT="$(dirname "$(dirname "$DIR")")"
 
-    load "$ROOT/docker/shared/root/docker/helpers.sh"
+    load "$ROOT/rootfs/shared/root/docker/helpers.sh"
 }
 
 teardown() {
