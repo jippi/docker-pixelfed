@@ -52,31 +52,12 @@ jobs:
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
-      group: docker-build-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}
+      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}
       cancel-in-progress: true
 
     permissions:
       contents: read
       packages: write
-
-    env:
-      # Set the repo variable [DOCKER_HUB_USERNAME] to override the default
-      # at https://github.com/<user>/<project>/settings/variables/actions
-      DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME || 'jippi' }}
-
-      # Set the repo variable [DOCKER_HUB_ORGANISATION] to override the default
-      # at https://github.com/<user>/<project>/settings/variables/actions
-      DOCKER_HUB_ORGANISATION: ${{ vars.DOCKER_HUB_ORGANISATION || 'jippi' }}
-
-      # Set the repo variable [DOCKER_HUB_REPO] to override the default
-      # at https://github.com/<user>/<project>/settings/variables/actions
-      DOCKER_HUB_REPO: ${{ vars.DOCKER_HUB_REPO || 'pixelfed-docker' }}
-
-      # For Docker Hub pushing to work, you need the secret [DOCKER_HUB_TOKEN]
-      # set to your Personal Access Token at https://github.com/<user>/<project>/settings/secrets/actions
-      #
-      # ! NOTE: no [login] or [push] will happen to Docker Hub until this secret is set!
-      HAS_DOCKER_HUB_CONFIGURED: ${{ secrets.DOCKER_HUB_TOKEN != '' }}
 
     steps:
       # checout this repo
@@ -106,21 +87,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-        # See: https://github.com/docker/login-action?tab=readme-ov-file#docker-hub
-      - name: Login to Docker Hub registry (conditionally)
-        if: ${{ env.HAS_DOCKER_HUB_CONFIGURED == true }}
-        uses: docker/login-action@v3
-        with:
-          username: ${{ env.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
       - name: Docker meta
         uses: docker/metadata-action@v5
         id: meta
         with:
           images: |
             name=ghcr.io/${{ github.repository }},enable=true
-            name=${{ env.DOCKER_HUB_ORGANISATION }}/${{ env.DOCKER_HUB_REPO }},enable=${{ env.HAS_DOCKER_HUB_CONFIGURED }}
           flavor: |
             latest=auto
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}

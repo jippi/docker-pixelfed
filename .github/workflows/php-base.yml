@@ -26,32 +26,13 @@ jobs:
       matrix:
         php_version:
           - 8.3
-        target_runtime:
-          - apache
-          # - fpm
-          # - nginx
         php_base:
           - apache
           # - fpm
 
-        # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
-        # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
-        exclude:
-          # targeting [apache] runtime with [fpm] base type doesn't make sense
-          - target_runtime: apache
-            php_base: fpm
-
-          # targeting [fpm] runtime with [apache] base type doesn't make sense
-          - target_runtime: fpm
-            php_base: apache
-
-          # targeting [nginx] runtime with [apache] base type doesn't make sense
-          - target_runtime: nginx
-            php_base: apache
-
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
-      group: docker-build-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}
+      group: base-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}
       cancel-in-progress: true
 
     permissions:
@@ -88,7 +69,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}-php,enable=true
           flavor: |
             latest=auto
-            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            suffix=-${{ matrix.php_version }}
           tags: |
             type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
             type=raw,value=staging,enable=${{ github.ref == format('refs/heads/{0}', 'staging') }}
@@ -100,32 +81,11 @@ jobs:
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
-      - name: Docker meta (Cache)
-        uses: docker/metadata-action@v5
-        id: cache
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-cache
-          flavor: |
-            latest=auto
-            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
-          tags: |
-            type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
-            type=raw,value=staging,enable=${{ github.ref == format('refs/heads/{0}', 'staging') }}
-            type=pep440,pattern={{ raw }}
-            type=pep440,pattern=v{{ major }}.{{ minor }}
-            type=ref,event=branch,prefix=branch-
-            type=ref,event=pr,prefix=pr-
-            type=ref,event=tag
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./docker-php-base/
           file: Dockerfile
-          target: ${{ matrix.target_runtime }}
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}
@@ -137,7 +97,6 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
           cache-from: |
-            type=gha,scope=docker-php-base-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,scope=docker-php-base-${{ matrix.php_base }}-${{ matrix.php_version }}
           cache-to: |
-            type=gha,mode=max,scope=docker-php-base-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
-            ${{ steps.cache.outputs.tags }}
+            type=gha,mode=max,scope=docker-php-base-${{ matrix.php_base }}-${{ matrix.php_version }}
