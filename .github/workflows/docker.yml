@@ -123,10 +123,11 @@ jobs:
           build-args: |
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_VERSION=${{ matrix.php_version }}
+            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
-            type=gha,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,mode=max,ignore-error=true,scope=php-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
@@ -140,6 +141,8 @@ jobs:
       matrix:
         php_version:
           - 8.3
+        debian_release:
+          - bookworm
         target_runtime:
           - apache
           # - fpm
@@ -235,10 +238,11 @@ jobs:
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
+            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
-            type=gha,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,mode=max,ignore-error=true,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       # goss validate the image
       #
