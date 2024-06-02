@@ -47,6 +47,7 @@ jobs:
           failure-threshold: error
 
   changes:
+    name: "Detect file changes"
     outputs:
       should-build-php: ${{ steps.changes.outputs.php }}
     runs-on: ubuntu-22.04
