@@ -162,17 +162,21 @@ ARG RUNTIME_UID
 ENV RUNTIME_UID=${RUNTIME_UID}
 ENV RUNTIME_GID=${RUNTIME_GID}
 
+USER root
+
 COPY --link --from=forego-image /usr/local/bin/forego /usr/local/bin/forego
 COPY --link --from=dottie-image /dottie /usr/local/bin/dottie
 COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplate
+
+#! Changing user to runtime user
+USER ${RUNTIME_UID}:${RUNTIME_GID}
+
 COPY --link --from=composer-and-src --chown=${RUNTIME_UID}:${RUNTIME_GID} /var/www /var/www
 COPY --link --from=frontend-build --chown=${RUNTIME_UID}:${RUNTIME_GID} /var/www/public /var/www/public
 
 # Generate optimized autoloader now that we have all files around
 RUN set -ex \
     && ENABLE_CONFIG_CACHE=false composer dump-autoload --optimize
-
-USER root
 
 # for detail why storage is copied this way, pls refer to https://github.com/pixelfed/pixelfed/pull/2137#discussion_r434468862
 RUN set -ex \
