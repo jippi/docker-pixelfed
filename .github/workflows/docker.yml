@@ -74,13 +74,15 @@ jobs:
       matrix:
         php_version:
           - 8.3
+        debian_release:
+          - bullseye
         php_base:
           - apache
           # - fpm
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
-      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
       cancel-in-progress: true
 
     permissions:
@@ -116,7 +118,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}-php,enable=true
           flavor: |
             latest=auto
-            suffix=-${{ matrix.php_version }}
+            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
             type=ref,event=branch
