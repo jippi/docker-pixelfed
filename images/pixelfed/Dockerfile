@@ -26,7 +26,7 @@ ARG PHP_VERSION="8.3"
 ARG PHP_BASE_TYPE="apache"
 ARG PHP_DEBIAN_RELEASE="bullseye"
 
-ARG PHP_IMAGE="ghcr.io/jippi/pixelfed-docker-php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE}"
+ARG PHP_IMAGE="ghcr.io/jippi/pixelfed-docker-php:latest-${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE}"
 
 # GPG key for nginx apt repository
 ARG NGINX_GPGKEY="573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62"
