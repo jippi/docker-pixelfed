@@ -185,6 +185,9 @@ RUN set -ex \
     && cp --recursive --link --preserve=all storage storage.skel \
     && rm -rf html && ln -s public html
 
+#! Changing to root user
+USER root
+
 COPY images/pixelfed/rootfs/shared/root /
 
 ENTRYPOINT ["/docker/entrypoint.sh"]
