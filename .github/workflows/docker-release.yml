@@ -169,8 +169,10 @@ jobs:
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
             prefix=v
           tags: |
+            type=semver,pattern={{ raw }}
             type=semver,pattern={{ major }}
             type=semver,pattern={{ major }}.{{ minor }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }}
             type=semver,pattern={{ version }}
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
