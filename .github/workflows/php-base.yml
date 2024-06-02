@@ -94,8 +94,8 @@ jobs:
           sbom: true
           provenance: true
           build-args: |
-            PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
+            PHP_VERSION=${{ matrix.php_version }}
           cache-from: |
             type=gha,scope=docker-php-base-${{ matrix.php_base }}-${{ matrix.php_version }}
           cache-to: |

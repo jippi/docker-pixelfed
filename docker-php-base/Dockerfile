@@ -5,6 +5,9 @@
 # Configuration
 #######################################################
 
+# See: https://github.com/mlocati/docker-php-extension-installer
+ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.1.80"
+
 # See: https://github.com/composer/composer
 ARG COMPOSER_VERSION="2.6"
 
