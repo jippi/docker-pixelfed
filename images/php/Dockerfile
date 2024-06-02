@@ -6,7 +6,7 @@
 #######################################################
 
 # See: https://github.com/mlocati/docker-php-extension-installer
-ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.1.80"
+ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.2.14"
 
 # See: https://github.com/composer/composer
 ARG COMPOSER_VERSION="2.7.6"
@@ -44,35 +44,16 @@ ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pdo_pgsql pdo_mysql pdo_sqlite"
 
 #######################################################
-# Docker "copy from" images
-#######################################################
-
-# php-extension-installer image from Docker Hub
-#
-# NOTE: Docker will *not* pull this image unless it's referenced (via build target)
-FROM mlocati/php-extension-installer:${DOCKER_PHP_EXTENSION_INSTALLER_VERSION} AS php-extension-installer
-
-#######################################################
 # Base image
 #######################################################
 
 FROM php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE}
 
-ARG BUILDKIT_SBOM_SCAN_STAGE="true"
+ENV DEBIAN_FRONTEND="noninteractive"
 
-ARG APT_PACKAGES_EXTRA
-ARG PHP_DEBIAN_RELEASE
-ARG PHP_EXTENSIONS
-ARG PHP_EXTENSIONS_DATABASE
-ARG PHP_EXTENSIONS_EXTRA
-ARG PHP_PECL_EXTENSIONS
-ARG PHP_PECL_EXTENSIONS_EXTRA
-ARG PHP_VERSION
 ARG RUNTIME_GID
 ARG RUNTIME_UID
 ARG TARGETPLATFORM
-
-ENV DEBIAN_FRONTEND="noninteractive"
 
 # Ensure we run all scripts through 'bash' rather than 'sh'
 SHELL ["/bin/bash", "-c"]
@@ -88,6 +69,9 @@ RUN set -ex \
 
 WORKDIR /var/www/
 
+ARG PHP_VERSION
+ARG PHP_DEBIAN_RELEASE
+ARG APT_PACKAGES_EXTRA
 ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
 
 # Install and configure base layer
@@ -101,7 +85,14 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
 # PHP: extensions
 #######################################################
 
-COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/${DOCKER_PHP_EXTENSION_INSTALLER_VERSION}/download/install-php-extensions /usr/local/bin/
+
+ARG PHP_EXTENSIONS
+ARG PHP_EXTENSIONS_DATABASE
+ARG PHP_EXTENSIONS_EXTRA
+ARG PHP_PECL_EXTENSIONS
+ARG PHP_PECL_EXTENSIONS_EXTRA
 
 RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear  \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
@@ -127,6 +118,9 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 ENV COMPOSER_NO_INTERACTION=1
 
 # Install composer
+ARG COMPOSER_VERSION
+ARG COMPOSER_INSTALLER_VERSION
+
 RUN set -ex \
     && wget https://raw.githubusercontent.com/composer/getcomposer.org/${COMPOSER_INSTALLER_VERSION}/web/installer -O - -q | php -- --version=${COMPOSER_VERSION}
 

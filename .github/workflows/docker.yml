@@ -251,6 +251,8 @@ jobs:
 
       - name: Execute Goss tests
         run: |
+          cd images/pixelfed
+
           dgoss run \
             -v "./.env.testing:/var/www/.env" \
             -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
