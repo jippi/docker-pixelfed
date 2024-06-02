@@ -58,7 +58,7 @@ FROM ghcr.io/jippi/dottie:${DOTTIE_VERSION} AS dottie-image
 # gomplate-image grabs the gomplate binary from GitHub releases
 #
 # It's in its own layer so it can be fetched in parallel with other build steps
-FROM php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS gomplate-image
+FROM ghcr.io/jippi/pixelfed-docker-php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS gomplate-image
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -78,7 +78,7 @@ RUN set -ex \
 # Base image
 #######################################################
 
-FROM ghcr.io/jippi/pixelfed-docker:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS base
+FROM ghcr.io/jippi/pixelfed-docker-php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS base
 
 #######################################################
 # Node: Build frontend
@@ -133,7 +133,7 @@ EOF
 # PHP: composer and source code
 #######################################################
 
-FROM ghcr.io/jippi/pixelfed-docker:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS composer-and-src
+FROM ghcr.io/jippi/pixelfed-docker-php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS composer-and-src
 
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files avaliable (yet)
@@ -150,7 +150,7 @@ COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/ /var/www/
 # Runtime: base
 #######################################################
 
-FROM ghcr.io/jippi/pixelfed-docker:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS shared-runtime
+FROM ghcr.io/jippi/pixelfed-docker-php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE} AS shared-runtime
 
 ARG RUNTIME_GID
 ARG RUNTIME_UID
