@@ -229,7 +229,7 @@ RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE
 # copy docker entrypoints from the *real* nginx image directly
 COPY --link --from=nginx-image /docker-entrypoint.d /docker/entrypoint.d/
 COPY rootfs/nginx/root /
-COPY rootfs/nginx/Procfile .
+COPY rootfs/nginx/Procfile /var/www/Profile
 
 STOPSIGNAL SIGQUIT
 
