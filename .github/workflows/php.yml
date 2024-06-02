@@ -1,5 +1,5 @@
 ---
-name: PHP Base
+name: PHP
 
 on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
@@ -8,13 +8,30 @@ on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
     paths:
-      - docker-php-base/**
-      - .github/workflows/php-base.yml
+      - images/php/**
+      - .github/workflows/php.yml
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   pull_request:
 
 jobs:
+  lint:
+    name: hadolint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Docker Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: images/php/Dockerfile
+          failure-threshold: error
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -40,7 +57,6 @@ jobs:
       packages: write
 
     steps:
-      # checout this repo
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -51,9 +67,9 @@ jobs:
         uses: docker/setup-buildx-action@v3
         id: buildx
         with:
-          version: v0.12.0 # *or* newer, needed for annotations to work
+          version: latest
 
-        # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
+      # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
       - name: Log in to the GitHub Container registry
         uses: docker/login-action@v3
         with:
@@ -71,21 +87,17 @@ jobs:
             latest=auto
             suffix=-${{ matrix.php_version }}
           tags: |
-            type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
-            type=raw,value=staging,enable=${{ github.ref == format('refs/heads/{0}', 'staging') }}
-            type=pep440,pattern={{raw}}
-            type=pep440,pattern=v{{major}}.{{minor}}
-            type=ref,event=branch,prefix=branch-
-            type=ref,event=pr,prefix=pr-
+            type=ref,event=branch
             type=ref,event=tag
+            type=ref,event=pr
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker-php-base/
-          file: ./docker-php-base/Dockerfile
+          context: ./images/php
+          file: ./images/php/Dockerfile
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}

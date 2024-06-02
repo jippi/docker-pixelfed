@@ -16,6 +16,14 @@ on:
     types: [completed]
 
 jobs:
+  bats:
+    name: Bats Testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run bats
+        run: docker run -v "$PWD/images/pixelfed:/var/www" bats/bats:latest /var/www/tests/bats
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -107,32 +115,11 @@ jobs:
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
-      - name: Docker meta (Cache)
-        uses: docker/metadata-action@v5
-        id: cache
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-cache,enable=true
-            name=${{ env.DOCKER_HUB_ORGANISATION }}/${{ env.DOCKER_HUB_REPO }}-cache,enable=${{ env.HAS_DOCKER_HUB_CONFIGURED }}
-          flavor: |
-            latest=auto
-            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
-          tags: |
-            type=raw,value=dev,enable=${{ github.ref == format('refs/heads/{0}', 'dev') }}
-            type=raw,value=staging,enable=${{ github.ref == format('refs/heads/{0}', 'staging') }}
-            type=pep440,pattern={{raw}}
-            type=pep440,pattern=v{{major}}.{{minor}}
-            type=ref,event=branch,prefix=branch-
-            type=ref,event=pr,prefix=pr-
-            type=ref,event=tag
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: Dockerfile
+          context: ./images/pixelfed
+          file: ./images/pixelfed/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
@@ -145,10 +132,9 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
           cache-from: |
-            type=gha,scope=${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
+            type=gha,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
           cache-to: |
-            type=gha,mode=max,scope=${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
-            ${{ steps.cache.outputs.tags }}
+            type=gha,mode=max,scope=pixelfed-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}
 
       # goss validate the image
       #

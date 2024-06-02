@@ -12,23 +12,6 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    name: hadolint
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Docker Lint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: Dockerfile
-          failure-threshold: error
-
   shellcheck:
     name: ShellCheck
     runs-on: ubuntu-latest
@@ -41,11 +24,3 @@ jobs:
         with:
           version: v0.9.0
           additional_files: "*.envsh .env .env.docker .env.example .env.testing"
-
-  bats:
-    name: Bats Testing
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run bats
-        run: docker run -v "$PWD:/var/www" bats/bats:latest /var/www/tests/bats
