@@ -169,13 +169,20 @@ jobs:
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
             prefix=v
           tags: |
+            # raw tag
             type=semver,pattern={{ raw }}
+
+            # semver (pixelfed + custom tag) parsed
             type=semver,pattern={{ major }}
             type=semver,pattern={{ major }}.{{ minor }}
             type=semver,pattern={{ major }}.{{ minor }}.{{ patch }}
             type=semver,pattern={{ version }}
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+
+            # semver (pixelfed release tag only)
+            type=semver,pattern={{ major }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ major }}.{{ minor }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }},value=${{ steps.pixelfed_release.outputs.fragment }}
+            type=semver,pattern={{ version }},value=${{ steps.pixelfed_release.outputs.fragment }}
 
       - name: Build and push image
         uses: docker/build-push-action@v5
