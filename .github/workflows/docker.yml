@@ -14,6 +14,10 @@ on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   pull_request:
 
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+  schedule:
+    - cron: "0 2 * * *" # run at 2 AM UTC
+
 jobs:
   bats:
     name: Bats Testing
@@ -103,7 +107,15 @@ jobs:
             latest=auto
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            # schedule
+            type=schedule,pattern=nightly
+            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
+            # release
+            type=semver,pattern={{ version }}
+            type=semver,pattern={{ major }}
+            type=semver,pattern={{ major }}.{{ minor }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ path }}
+            # default behavior
             type=ref,event=branch
             type=ref,event=tag
             type=ref,event=pr
@@ -215,9 +227,15 @@ jobs:
             latest=auto
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
-            type=pep440,pattern={{ raw }}
-            type=pep440,pattern=v{{ major }}.{{ minor }}
+            # schedule
+            type=schedule,pattern=nightly
+            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
+            # release
+            type=semver,pattern={{ version }}
+            type=semver,pattern={{ major }}
+            type=semver,pattern={{ major }}.{{ minor }}
+            type=semver,pattern={{ major }}.{{ minor }}.{{ path }}
+            # default behavior
             type=ref,event=branch,prefix=branch-
             type=ref,event=pr,prefix=pr-
             type=ref,event=tag
