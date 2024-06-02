@@ -7,6 +7,9 @@ on:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
+    branches:
+      - "*"
+      - "**"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
   release:
@@ -111,14 +114,13 @@ jobs:
             type=schedule,pattern=nightly
             type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
             # release
-            type=semver,pattern={{ version }}
-            type=semver,pattern={{ major }}
-            type=semver,pattern={{ major }}.{{ minor }}
-            type=semver,pattern={{ major }}.{{ minor }}.{{ path }}
+            type=semver,pattern=v{{ version }}
+            type=semver,pattern=v{{ major }}
+            type=semver,pattern=v{{ major }}.{{ minor }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ path }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
-            type=ref,event=pr
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
@@ -234,14 +236,13 @@ jobs:
             type=schedule,pattern=nightly
             type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
             # release
-            type=semver,pattern={{ version }}
-            type=semver,pattern={{ major }}
-            type=semver,pattern={{ major }}.{{ minor }}
-            type=semver,pattern={{ major }}.{{ minor }}.{{ path }}
+            type=semver,pattern=v{{ version }}
+            type=semver,pattern=v{{ major }}
+            type=semver,pattern=v{{ major }}.{{ minor }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ path }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
-            type=ref,event=tag
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
