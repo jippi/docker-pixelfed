@@ -65,20 +65,6 @@ jobs:
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
-      - name: Find Pixelfed release tag
-        env:
-          TAG_NAME: ${{ github.ref_name }}
-        id: pixelfed_release
-        run: echo "::set-output name=fragment::${TAG_NAME%%+*}"
-
-      # checkout pixelfed source code
-      - name: Checkout pixelfed/pixelfed
-        uses: actions/checkout@v4
-        with:
-          repository: "pixelfed/pixelfed"
-          ref: "${{ steps.pixelfed_release.outputs.fragment }}"
-          path: "src/"
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -144,6 +130,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Find Pixelfed release tag
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        id: pixelfed_release
+        run: echo "::set-output name=fragment::${TAG_NAME%%+*}"
+
+      # checkout pixelfed source code
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v4
+        with:
+          repository: "pixelfed/pixelfed"
+          ref: "${{ steps.pixelfed_release.outputs.fragment }}"
+          path: "src/"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -173,14 +173,6 @@ jobs:
             type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
         env:
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
-
-      # checkout pixelfed source code
-      - name: Checkout pixelfed/pixelfed
-        uses: actions/checkout@v4
-        with:
-          repository: "pixelfed/pixelfed"
-          ref: "${{ matrix.pixelfed_branch }}"
-          path: "src/"
 
       - name: Build and push image
         uses: docker/build-push-action@v5
