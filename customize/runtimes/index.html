@@ -638,39 +638,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      FPM
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FPM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-compose-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker compose (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -891,39 +858,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      FPM
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FPM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-compose-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker compose (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -959,7 +893,7 @@
 <div class="admonition info">
 <p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/jippi/docker-pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
 </div>
-<p>The Pixelfed Dockerfile support multiple target <em>runtimes</em> (<a href="#apache">Apache</a>, <a href="#nginx-fpm">Nginx + FPM</a>, and <a href="#fpm">FPM</a>).</p>
+<p>The Pixelfed Dockerfile support multiple target <em>runtimes</em> (<a href="#apache">Apache</a> and <a href="#nginx-fpm">Nginx + FPM</a>.</p>
 <p>You can consider a <em>runtime</em> target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.</p>
 <div class="admonition info">
 <p class="admonition-title">What runtime is right for me?</p>
@@ -1030,41 +964,6 @@
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">   </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-runtime</span>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">   </span><span class="nt">args</span><span class="p">:</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">     </span><span class="nt">PHP_BASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm</span>
-</code></pre></div>
-<h2 id="fpm">FPM<a class="headerlink" href="#fpm" title="Permanent link">&para;</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">ADVANCED USAGE</p>
-<p>The FPM runtime is for advanced users that want to run their PHP processes in a different container (or even server) from their webserver.</p>
-<p>This is mostly used in horizontal scaling or advanced setups</p>
-</div>
-<p>Building a custom Pixelfed Docker image using FPM (only) can be achieved the following way.</p>
-<h3 id="docker-build-fpm">docker build (FPM)<a class="headerlink" href="#docker-build-fpm" title="Permanent link">&para;</a></h3>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w"> </span>--target<span class="w"> </span>fpm-runtime<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w"> </span>--build-arg<span class="w"> </span><span class="s1">&#39;PHP_BASE_TYPE=fpm&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w"> </span>--tag<span class="w"> </span>&lt;docker<span class="w"> </span>hub<span class="w"> </span>user&gt;/&lt;docker<span class="w"> </span>hub<span class="w"> </span>repo&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w"> </span>.
-</code></pre></div>
-<h3 id="docker-compose-fpm">docker compose (FPM)<a class="headerlink" href="#docker-compose-fpm" title="Permanent link">&para;</a></h3>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">services</span><span class="p">:</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w"> </span><span class="nt">app</span><span class="p">:</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">build</span><span class="p">:</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">   </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">   </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">   </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm-runtime</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">   </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">     </span><span class="nt">PHP_BASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm</span>
 </code></pre></div>
 
 

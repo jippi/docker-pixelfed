@@ -1017,7 +1017,7 @@
 <p class="admonition-title">Most of these build arguments is configurable in your <code>.env</code> file when using the <code>docker-compose.yml</code> from Pixelfed!</p>
 </div>
 <p>The Pixelfed Dockerfile utilizes <a href="https://docs.docker.com/build/building/multi-stage/">Docker Multi-stage builds</a> and <a href="https://docs.docker.com/build/guide/build-args/">Build arguments</a>.</p>
-<p>Using <em>build arguments</em> allows us to create a flexible and more maintainable Dockerfile, supporting <a href="../runtimes/">multiple runtimes</a> (<a href="../runtimes/#fpm">FPM</a>, <a href="../runtimes/#nginx-fpm">Nginx</a>, <a href="../runtimes/#apache">Apache + mod_php</a>) and end-user flexibility without having to fork or copy the Dockerfile.</p>
+<p>Using <em>build arguments</em> allows us to create a flexible and more maintainable Dockerfile, supporting <a href="../runtimes/">multiple runtimes</a> (<a href="../runtimes/#nginx-fpm">Nginx</a> and <a href="../runtimes/#apache">Apache + mod_php</a>) and end-user flexibility without having to fork or copy the Dockerfile.</p>
 <p><em>Build arguments</em> can be configured using <code>--build-arg 'name=value'</code> for <code>docker build</code>, <code>docker compose build</code> and <code>docker buildx build</code>. For <code>docker-compose.yml</code>, the <code>args</code> key for <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#build"><code>build</code></a> can be used.</p>
 <div class="admonition warning">
 <p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using Docker Compose</p>
@@ -1086,13 +1086,11 @@
 <p>When targeting</p>
 <ul>
 <li><a href="../runtimes/#apache"><code>apache-runtime</code></a> use <code>apache</code></li>
-<li><a href="../runtimes/#fpm"><code>fpm-runtime</code></a> use <code>fpm</code></li>
 <li><a href="../runtimes/#nginx-fpm"><code>nginx-runtime</code></a> use <code>fpm</code></li>
 </ul>
 <p><strong>Valid values</strong>:</p>
 <ul>
 <li><code>apache</code></li>
-<li><code>fpm</code></li>
 <li><code>cli</code></li>
 </ul>
 <p><strong>Default value</strong>: <code>apache</code></p>
