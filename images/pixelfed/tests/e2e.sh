@@ -19,11 +19,12 @@ chmod 0777 .env
 
 # configure .env file
 scripts/dottie set \
-    APP_NAME="docker-pixelfed e2e" \
     APP_DOMAIN="${app_domain}" \
+    APP_NAME="docker-pixelfed e2e" \
     DB_PASSWORD="helloworld" \
     DOCKER_APP_PHP_VERSION="${DOCKER_APP_PHP_VERSION:?missing}" \
     DOCKER_APP_RELEASE="${DOCKER_APP_RELEASE:?missing}" \
+    DOCKER_APP_RUNTIME="${DOCKER_APP_RUNTIME:?missing}" \
     DOCKER_PROXY_ACME_PROFILE="disabled" \
     DOCKER_PROXY_LETSENCRYPT_TEST="disabled" \
     DOCKER_PROXY_PROFILE="disabled" \

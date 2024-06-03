@@ -73,7 +73,7 @@ jobs:
           - bookworm
         php_base:
           - apache
-          # - fpm
+          - fpm
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
@@ -161,16 +161,16 @@ jobs:
           - 8.3
         pixelfed_branch:
           - staging
-          # - dev
+          - dev
         debian_release:
           - bookworm
         php_base:
           - apache
-          # - fpm
+          - fpm
         target_runtime:
           - apache
-          # - fpm
-          # - nginx
+          - fpm
+          - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
         # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
@@ -201,7 +201,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # checkout pixelfed source code
+      # checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
         uses: actions/checkout@v4
         with:
@@ -283,31 +283,32 @@ jobs:
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           PHP_BASE_TYPE: ${{ matrix.php_base }}
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: "Setup NodeJS"
         uses: actions/setup-node@v4
         with:
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Run E2E tests
         run: images/pixelfed/tests/e2e.sh
         env:
           CI: true
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+          DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show docker compose logs
         run: docker compose logs
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show docker compose config
         run: docker compose config
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
