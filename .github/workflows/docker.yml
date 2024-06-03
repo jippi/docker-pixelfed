@@ -286,6 +286,9 @@ jobs:
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Setup NodeJS"
         uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Run E2E tests
