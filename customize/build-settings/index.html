@@ -989,7 +989,7 @@
 
 
 <h1 id="build-settings">Build settings<a class="headerlink" href="#build-settings" title="Permanent link">&para;</a></h1>
-<div class="admonition tip">
+<div class="admonition info">
 <p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/jippi/docker-pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
 </div>
 <div class="admonition tip">
@@ -1002,6 +1002,7 @@
 <p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using Docker Compose</p>
 </div>
 <h2 id="php_version"><code>PHP_VERSION</code><a class="headerlink" href="#php_version" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_VERSION</code> in your <code>.env</code> file</span></span></p>
 <p>The <code>PHP</code> version to use when building the runtime container.</p>
 <p>Any valid Docker Hub PHP version is acceptable here, as long as it's <a href="https://hub.docker.com/_/php/tags">published to Docker Hub</a></p>
 <p><strong>Example values</strong>:</p>
@@ -1012,50 +1013,54 @@
 <li><code>latest</code> will use whatever is the latest PHP version</li>
 </ul>
 <p><strong>Default value</strong>: <code>8.1</code></p>
-<h2 id="php_pecl_extensions"><code>PHP_PECL_EXTENSIONS</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_pecl_extensions" title="Permanent link">&para;</a></h2>
+<h2 id="php_pecl_extensions"><code>PHP_PECL_EXTENSIONS</code><a class="headerlink" href="#php_pecl_extensions" title="Permanent link">&para;</a></h2>
 <p>PECL extensions to install via <code>pecl install</code></p>
 <p>Use <a href="#php_pecl_extensions_extra">PHP_PECL_EXTENSIONS_EXTRA</a> if you want to add <em>additional</em> extenstions.</p>
 <p>Only change this setting if you want to change the baseline extensions.</p>
 <p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
 <p><strong>Default value</strong>: <code>imagick redis</code></p>
-<h2 id="php_pecl_extensions_extra"><code>PHP_PECL_EXTENSIONS_EXTRA</code> <Badge type="tip" text="DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA in your .env file" /><a class="headerlink" href="#php_pecl_extensions_extra" title="Permanent link">&para;</a></h2>
+<h2 id="php_pecl_extensions_extra"><code>PHP_PECL_EXTENSIONS_EXTRA</code><a class="headerlink" href="#php_pecl_extensions_extra" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA</code> in your <code>.env</code> file</span></span></p>
 <p>Extra PECL extensions (separated by space) to install via <code>pecl install</code></p>
 <p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
 <p><strong>Default value</strong>: <code>""</code></p>
-<h2 id="php_extensions"><code>PHP_EXTENSIONS</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_extensions" title="Permanent link">&para;</a></h2>
+<h2 id="php_extensions"><code>PHP_EXTENSIONS</code><a class="headerlink" href="#php_extensions" title="Permanent link">&para;</a></h2>
 <p>PHP Extensions to install via <code>docker-php-ext-install</code>.</p>
 <p><strong>NOTE:</strong> use <a href="#php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code></a> if you want to add <em>additional</em> extensions; only override this if you're going to change the baseline extensions.</p>
 <p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information</p>
 <p><strong>Default value</strong>: <code>intl bcmath zip pcntl exif curl gd</code></p>
-<h2 id="php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code> <Badge type="tip" text="DOCKER_APP_PHP_EXTENSIONS_EXTRA in your .env file" /><a class="headerlink" href="#php_extensions_extra" title="Permanent link">&para;</a></h2>
+<h2 id="php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code><a class="headerlink" href="#php_extensions_extra" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_EXTENSIONS_EXTRA</code> in your <code>.env</code> file</span></span></p>
 <p>Extra PHP Extensions (separated by space) to install via <code>docker-php-ext-install</code>.</p>
 <p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information.</p>
 <p><strong>Default value</strong>: <code>""</code></p>
-<h2 id="php_extensions_database"><code>PHP_EXTENSIONS_DATABASE</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_extensions_database" title="Permanent link">&para;</a></h2>
+<h2 id="php_extensions_database"><code>PHP_EXTENSIONS_DATABASE</code><a class="headerlink" href="#php_extensions_database" title="Permanent link">&para;</a></h2>
 <p>PHP database extensions to install.</p>
 <p>By default, we install both <code>pgsql</code> and <code>mysql</code> since they're more convenient (and add very little build time! But it can be overwritten here if desired.</p>
 <p><strong>Default value</strong>: <code>pdo_pgsql pdo_mysql pdo_sqlite</code></p>
-<h2 id="composer_version"><code>COMPOSER_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#composer_version" title="Permanent link">&para;</a></h2>
+<h2 id="composer_version"><code>COMPOSER_VERSION</code><a class="headerlink" href="#composer_version" title="Permanent link">&para;</a></h2>
 <p>The version of Composer to install.</p>
 <p>For valid values, please see the <a href="https://hub.docker.com/_/composer">Docker Hub <code>composer</code> page</a>.</p>
 <p><strong>Default value</strong>: <code>2.6</code></p>
-<h2 id="apt_packages_extra"><code>APT_PACKAGES_EXTRA</code> <Badge type="tip" text="DOCKER_APP_APT_PACKAGES_EXTRA in your .env file" /><a class="headerlink" href="#apt_packages_extra" title="Permanent link">&para;</a></h2>
+<h2 id="apt_packages_extra"><code>APT_PACKAGES_EXTRA</code><a class="headerlink" href="#apt_packages_extra" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_APT_PACKAGES_EXTRA</code> in your <code>.env</code> file</span></span></p>
 <p>Extra APT packages (separated by space) that should be installed inside the image by <code>apt-get install</code></p>
 <p><strong>Default value</strong>: <code>""</code></p>
-<h2 id="nginx_version"><code>NGINX_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#nginx_version" title="Permanent link">&para;</a></h2>
+<h2 id="nginx_version"><code>NGINX_VERSION</code><a class="headerlink" href="#nginx_version" title="Permanent link">&para;</a></h2>
 <p>The version of <code>nginx</code> to use when targeting <a href="../runtimes/#nginx-fpm"><code>nginx-runtime</code></a>.</p>
 <p>Please see the <a href="https://hub.docker.com/_/nginx">Docker Hub <code>nginx</code> page</a> for available versions.</p>
 <p><strong>Default value</strong>: <code>1.25.3</code></p>
-<h2 id="forego_version"><code>FOREGO_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#forego_version" title="Permanent link">&para;</a></h2>
+<h2 id="forego_version"><code>FOREGO_VERSION</code><a class="headerlink" href="#forego_version" title="Permanent link">&para;</a></h2>
 <p>The version of <a href="https://github.com/ddollar/forego"><code>forego</code></a> to install.</p>
 <p><strong>Default value</strong>: <code>0.17.2</code></p>
-<h2 id="gomplate_version"><code>GOMPLATE_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#gomplate_version" title="Permanent link">&para;</a></h2>
+<h2 id="gomplate_version"><code>GOMPLATE_VERSION</code><a class="headerlink" href="#gomplate_version" title="Permanent link">&para;</a></h2>
 <p>The version of <a href="https://github.com/hairyhenderson/gomplate"><code>goplate</code></a> to install.</p>
 <p><strong>Default value</strong>: <code>v3.11.6</code></p>
-<h2 id="dotenv_linter_version"><code>DOTENV_LINTER_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#dotenv_linter_version" title="Permanent link">&para;</a></h2>
+<h2 id="dotenv_linter_version"><code>DOTENV_LINTER_VERSION</code><a class="headerlink" href="#dotenv_linter_version" title="Permanent link">&para;</a></h2>
 <p>Version of <a href="https://github.com/dotenv-linter/dotenv-linter"><code>dotenv-linter</code></a> to install.</p>
 <p><strong>Default value</strong>: <code>v3.2.0</code></p>
-<h2 id="php_base_type"><code>PHP_BASE_TYPE</code> <Badge type="tip" text="DOCKER_APP_BASE_TYPE in your .env file" /><a class="headerlink" href="#php_base_type" title="Permanent link">&para;</a></h2>
+<h2 id="php_base_type"><code>PHP_BASE_TYPE</code><a class="headerlink" href="#php_base_type" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_BASE_TYPE</code> in your <code>.env</code> file</span></span></p>
 <p>The <code>PHP</code> base image layer to use when building the runtime container.</p>
 <p>When targeting</p>
 <ul>
@@ -1070,14 +1075,14 @@
 <li><code>cli</code></li>
 </ul>
 <p><strong>Default value</strong>: <code>apache</code></p>
-<h2 id="php_debian_release"><code>PHP_DEBIAN_RELEASE</code> <Badge type="tip" text="DOCKER_APP_DEBIAN_RELEASE in your .env file" /><a class="headerlink" href="#php_debian_release" title="Permanent link">&para;</a></h2>
+<h2 id="php_debian_release"><code>PHP_DEBIAN_RELEASE</code><a class="headerlink" href="#php_debian_release" title="Permanent link">&para;</a></h2>
+<p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_DEBIAN_RELEASE</code> in your <code>.env</code> file</span></span></p>
 <p>The <code>Debian</code> Operation System version to use.</p>
 <p><strong>Valid values</strong>:</p>
 <ul>
-<li><code>bullseye</code></li>
 <li><code>bookworm</code></li>
 </ul>
-<p><strong>Default value</strong>: <code>bullseye</code></p>
+<p><strong>Default value</strong>: <code>bookworm</code></p>
 
 
 
