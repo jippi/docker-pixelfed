@@ -45,4 +45,4 @@ curl --retry-delay 1 --retry 120 --retry-all-errors --fail "${domain}"
 
 # Run playwright tests
 export E2E_URL="${domain}"
-exec npx playwright test --config images/pixelfed/playwright.config.cjs
+exec npx playwright test --config images/pixelfed/playwright.config.ts
