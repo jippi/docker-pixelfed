@@ -306,6 +306,7 @@ jobs:
         name: "Configure .env file with dottie"
         run: |
           cp .env.docker .env
+          chown www-data:www-data .env
 
           scripts/dottie set APP_DEBUG=true
           scripts/dottie set APP_DOMAIN=${{ steps.print-tunnel-url.outputs.tunnel-url }}
