@@ -1,0 +1,1377 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jippi.github.io/docker-pixelfed/customize/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../faq/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+    
+    
+      
+        <title>Pixelfed + Docker customization - Docker Pixelfed</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Pixelfed + Docker customization - Docker Pixelfed" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/customize.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://jippi.github.io/docker-pixelfed/customize/" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Pixelfed + Docker customization - Docker Pixelfed" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/customize.png" >
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pixelfed-docker-customization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Docker Pixelfed" class="md-header__button md-logo" aria-label="Docker Pixelfed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docker Pixelfed
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pixelfed + Docker customization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8v2m9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.71-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/jippi/docker-pixelfed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jippi/docker-pixelfed
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Docker Pixelfed" class="md-nav__button md-logo" aria-label="Docker Pixelfed" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Docker Pixelfed
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/jippi/docker-pixelfed" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jippi/docker-pixelfed
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker customization
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker customization
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-script-on-startup-entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run script on startup (ENTRYPOINT)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run script on startup (ENTRYPOINT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#included-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Included scripts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-entrypoint-or-individual-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling ENTRYPOINT or individual scripts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#override-anything-and-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override anything and everything
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Override anything and everything">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#override-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#templating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Templating
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Templating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-path-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      File path examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-guide-101" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template guide 101
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ownership-on-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixing ownership on startup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-time-setup-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      One-time setup tasks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic database migrations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-settings-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build settings (arguments)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build settings (arguments)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#php_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_pecl_extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_PECL_EXTENSIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_pecl_extensions_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_PECL_EXTENSIONS_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS_DATABASE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composer_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      COMPOSER_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apt_packages_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      APT_PACKAGES_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nginx_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      NGINX_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forego_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      FOREGO_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gomplate_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOMPLATE_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dotenv_linter_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOTENV_LINTER_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_base_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_BASE_TYPE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_debian_release" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_DEBIAN_RELEASE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker installtion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prerequisites/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker Prerequisites
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runtimes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pixelfed + Docker container runtimes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Migrate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Migrate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migrate/v2.0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Migrate to the Pixelfed + Docker Compose v2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-script-on-startup-entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run script on startup (ENTRYPOINT)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run script on startup (ENTRYPOINT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#included-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Included scripts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-entrypoint-or-individual-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disabling ENTRYPOINT or individual scripts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#override-anything-and-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override anything and everything
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Override anything and everything">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#override-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Override examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#templating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Templating
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Templating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-path-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      File path examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-guide-101" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template guide 101
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ownership-on-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixing ownership on startup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-time-setup-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      One-time setup tasks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic database migrations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-settings-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build settings (arguments)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build settings (arguments)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#php_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_pecl_extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_PECL_EXTENSIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_pecl_extensions_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_PECL_EXTENSIONS_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_extensions_database" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_EXTENSIONS_DATABASE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composer_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      COMPOSER_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apt_packages_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      APT_PACKAGES_EXTRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nginx_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      NGINX_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forego_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      FOREGO_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gomplate_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOMPLATE_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dotenv_linter_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOTENV_LINTER_VERSION
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_base_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_BASE_TYPE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php_debian_release" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP_DEBIAN_RELEASE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/jippi/docker-pixelfed/edit/main/docs/customize.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/jippi/docker-pixelfed/raw/main/docs/customize.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="pixelfed-docker-customization">Pixelfed + Docker customization<a class="headerlink" href="#pixelfed-docker-customization" title="Permanent link">&para;</a></h1>
+<div class="admonition tip">
+<p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/pixelfed/pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Most, if not all, configuration options for both Pixelfed and Docker is included and documented in the <code>.env.docker</code> (or <code>.env</code> file once you copied it during the installation)
+It's highly recommended to give it a read from top to bottom, or trying to search it for the thing you would like to change.</p>
+<p>We of course aim for this page to cover <em>everything</em>, and if we missed anything, please submit a Pull Request or a ticket for us <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
+</div>
+<h2 id="run-script-on-startup-entrypoint">Run script on startup (ENTRYPOINT)<a class="headerlink" href="#run-script-on-startup-entrypoint" title="Permanent link">&para;</a></h2>
+<p>When a Pixelfed container starts up, the <a href="https://docs.docker.com/engine/reference/builder/#entrypoint"><code>ENTRYPOINT</code></a> script will</p>
+<ol>
+<li>Search the <code>/docker/entrypoint.d/</code> directory for files and for each file (in lexical order).</li>
+<li>Check if the file is executable.<ol>
+<li>If the file is <em>not</em> executable, print an error and exit the container.</li>
+</ol>
+</li>
+<li>If the file has the extension <code>.envsh</code>, the file will be <a href="https://superuser.com/a/46146">sourced</a>.</li>
+<li>If the file has the extension <code>.sh</code>, the file will be run like a regular script.</li>
+<li>Any other file extension will log a warning and be ignored.</li>
+</ol>
+<h3 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h3>
+<p>You can set the environment variable <code>DOCKER_APP_ENTRYPOINT_DEBUG=1</code> to show the verbose output of each <code>entrypoint.d</code> script is doing.</p>
+<h3 id="included-scripts">Included scripts<a class="headerlink" href="#included-scripts" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>01-permissions.sh</code> (optionally) ensures permissions for files are corrected (see <a href="#fixing-ownership-on-startup">fixing ownership on startup</a>).</li>
+<li><code>02-check-config.sh</code> Ensures your <code>.env</code> file is valid - like missing quotes or syntax errors.</li>
+<li><code>04-defaults.envsh</code> calculates Docker container environment variables needed for <a href="#templating">templating</a> configuration files.</li>
+<li><code>05-templating.sh</code> renders <a href="#templating">template</a> configuration files.</li>
+<li><code>10-storage.sh</code> ensures Pixelfed storage related permissions and commands are run.</li>
+<li><code>11-first-time-setup.sh</code> automatically runs all "one time setup" steps for a new Pixelfed server.</li>
+<li><code>12-migrations.sh</code> optionally run database migrations on container start up.</li>
+<li><code>20-horizon.sh</code> ensures <a href="https://laravel.com/docs/master/horizon">Laravel Horizon</a> used by Pixelfed is configured.</li>
+<li><code>30-cache.sh</code> ensures all Pixelfed caches (router, view, config) are primed.</li>
+</ul>
+<h3 id="disabling-entrypoint-or-individual-scripts">Disabling <code>ENTRYPOINT</code> or individual scripts<a class="headerlink" href="#disabling-entrypoint-or-individual-scripts" title="Permanent link">&para;</a></h3>
+<p>To disable the entire <code>ENTRYPOINT</code> you can set the variable <code>ENTRYPOINT_SKIP=1</code>.</p>
+<p>To disable individual <code>ENTRYPOINT</code> scripts, you can add the filename to the space (<code>" "</code>) separated variable <code>ENTRYPOINT_SKIP_SCRIPTS</code>. (example: <code>ENTRYPOINT_SKIP_SCRIPTS="10-storage.sh 30-cache.sh"</code>)</p>
+<h2 id="override-anything-and-everything">Override anything and everything<a class="headerlink" href="#override-anything-and-everything" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>With the default Pixelfed <code>docker-compose.yml</code> the <code>overrides</code> bind mount is enabled by default for both <code>web</code> and <code>worker</code> service.</p>
+<p>The <code>overrides</code> folder on the host machine is in <code>./docker-compose-state/overrides</code> and can be changed via <code>DOCKER_APP_HOST_OVERRIDES_PATH</code> in the <code>.env</code> file.</p>
+</div>
+<p>If you mount a bind volume (can be read-only) in <code>/docker/overrides</code> then all files and directories within that directory will be copied on top of <code>/</code>.</p>
+<p>This enables you to create or override <em>anything</em> within the container during container startup.</p>
+<p>The copy operation happens as one of the first things in the <code>ENTRYPOINT</code> so you can put even override <a href="#templating">templates</a> and the <a href="#run-script-on-startup-entrypoint">included <code>ENTRYPOINT</code> scripts</a> - or add new ones!</p>
+<p>Of course it can also be used to override <code>php.ini</code>, <code>index.php</code> or any other config/script files you would want to.</p>
+<h3 id="override-examples">Override examples<a class="headerlink" href="#override-examples" title="Permanent link">&para;</a></h3>
+<ol>
+<li>To override <code>/usr/local/etc/php/php.ini</code> in the container, put the source file in <code>./docker-compose-state/overrides/usr/local/etc/php/php.ini</code>.</li>
+<li>To create <code>/a/fantastic/example.txt</code> in the container put the source file in <code>./docker-compose-state/overrides/a/fantastic/example.txt</code>.</li>
+<li>To override the default <code>/docker/templates/php.ini</code> template, put the source file in <code>./docker-compose-state/overrides/docker/templates/php.ini</code>.</li>
+<li>To override <code>/a/path/inside/the/container</code>, put the source file in <code>./docker-compose-state/overrides/a/path/inside/the/container</code>.</li>
+</ol>
+<h2 id="templating">Templating<a class="headerlink" href="#templating" title="Permanent link">&para;</a></h2>
+<p>The Docker container can do some basic templating (more like variable replacement) as part of the entrypoint scripts via <a href="https://docs.gomplate.ca/">gomplate</a>.</p>
+<p>Any file in the <code>/docker/templates/</code> directory will be templated and written to the proper directory.</p>
+<h3 id="file-path-examples">File path examples<a class="headerlink" href="#file-path-examples" title="Permanent link">&para;</a></h3>
+<ol>
+<li>To template <code>/usr/local/etc/php/php.ini</code> in the container, put the source file in <code>/docker/templates/usr/local/etc/php/php.ini</code>.</li>
+<li>To template <code>/a/fantastic/example.txt</code> in the container put the source file in <code>/docker/templates/a/fantastic/example.txt</code>.</li>
+<li>To template <code>/some/path/anywhere</code> in the container, put the source file in <code>/docker/templates/some/path/anywhere</code>.</li>
+</ol>
+<h3 id="available-variables">Available variables<a class="headerlink" href="#available-variables" title="Permanent link">&para;</a></h3>
+<p>Variables available for templating are sourced (in order, so <em>last</em> source takes precedence) like this:</p>
+<ol>
+<li><code>env:</code> in your <code>docker-compose.yml</code> or <code>-e</code> in your <code>docker run</code> / <code>docker compose run</code> commands.</li>
+<li>Any exported variables in <code>.envsh</code> files loaded <em>before</em> <code>05-templating.sh</code> (e.g., any file with <code>04-</code>, <code>03-</code>, <code>02-</code>, <code>01-</code> or <code>00-</code> prefix).</li>
+<li>All key and value pairs in <code>/var/www/.env.docker</code> (default values, you should not edit this file!)</li>
+<li>All key and value pairs in <code>/var/www/.env</code>.</li>
+</ol>
+<h3 id="template-guide-101">Template guide 101<a class="headerlink" href="#template-guide-101" title="Permanent link">&para;</a></h3>
+<p>Please see the <a href="https://docs.gomplate.ca/"><code>gomplate</code> documentation</a> for a comprehensive overview.</p>
+<p>The most frequent use case you have is likely to print an environment variable (or a default value if it's missing), so this is how to do that:</p>
+<ul>
+<li><code v-pre>{{ getenv "VAR_NAME" }}</code> print an environment variable and <strong>fail</strong> if the variable is not set. (<a href="https://docs.gomplate.ca/functions/env/#envgetenv">docs</a>)</li>
+<li><code v-pre>{{ getenv "VAR_NAME" "default" }}</code> print an environment variable and print <code>default</code> if the variable is not set. (<a href="https://docs.gomplate.ca/functions/env/#envgetenv">docs</a>)</li>
+</ul>
+<p>The script will <em>fail</em> if you reference a variable that does not exist (and doesn't have a default value) in a template.</p>
+<p>Please see the</p>
+<ul>
+<li><a href="https://docs.gomplate.ca/syntax/"><code>gomplate</code> syntax documentation</a></li>
+<li><a href="https://docs.gomplate.ca/functions/"><code>gomplate</code> functions documentation</a></li>
+</ul>
+<h2 id="fixing-ownership-on-startup">Fixing ownership on startup<a class="headerlink" href="#fixing-ownership-on-startup" title="Permanent link">&para;</a></h2>
+<p>You can set the environment variable <code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS</code> to a list of paths that should have their <code>$USER</code> and <code>$GROUP</code> ownership changed to the configured runtime user and group during container bootstrapping.</p>
+<p>The variable is a space-delimited list shown below and accepts both relative and absolute paths:</p>
+<ul>
+<li><code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS="./storage ./bootstrap"</code></li>
+<li><code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS="/some/other/folder"</code></li>
+</ul>
+<h2 id="one-time-setup-tasks">One-time setup tasks<a class="headerlink" href="#one-time-setup-tasks" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">The script stores <code>lock</code> files in the <code>storage/docker/once</code> folder to ensure that these tasks are only run once, so for new Pixelfed servers, you do not need to disable this behavior!</p>
+</div>
+<p>The Docker container will by default try to run the required <a href="../generic/installation.md#one-time-setup-tasks">One-time setup tasks</a> for you on startup.</p>
+<p>If your Pixelfed server already have run these tasks, you must disable this by setting <code>DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS=0</code> in your <code>.env</code> file.</p>
+<h2 id="automatic-database-migrations">Automatic database migrations<a class="headerlink" href="#automatic-database-migrations" title="Permanent link">&para;</a></h2>
+<p>The init script will by default only <em>detect</em> if there are new database migrations - but not apply them - as these can potentially be destructive or take a long time to apply.</p>
+<p>By setting <code>DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY=1</code> in your <code>.env</code> file, the script will automatically apply new migrations when they are detected.</p>
+<h2 id="build-settings-arguments">Build settings (arguments)<a class="headerlink" href="#build-settings-arguments" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Most of these build arguments is configurable in your <code>.env</code> file when using the <code>docker-compose.yml</code> from Pixelfed!</p>
+</div>
+<p>The Pixelfed Dockerfile utilizes <a href="https://docs.docker.com/build/building/multi-stage/">Docker Multi-stage builds</a> and <a href="https://docs.docker.com/build/guide/build-args/">Build arguments</a>.</p>
+<p>Using <em>build arguments</em> allows us to create a flexible and more maintainable Dockerfile, supporting <a href="../runtimes/">multiple runtimes</a> (<a href="../runtimes/#fpm">FPM</a>, <a href="../runtimes/#nginx-fpm">Nginx</a>, <a href="../runtimes/#apache">Apache + mod_php</a>) and end-user flexibility without having to fork or copy the Dockerfile.</p>
+<p><em>Build arguments</em> can be configured using <code>--build-arg 'name=value'</code> for <code>docker build</code>, <code>docker compose build</code> and <code>docker buildx build</code>. For <code>docker-compose.yml</code>, the <code>args</code> key for <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/#build"><code>build</code></a> can be used.</p>
+<div class="admonition warning">
+<p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using Docker Compose</p>
+</div>
+<h3 id="php_version"><code>PHP_VERSION</code> <Badge type="tip" text="DOCKER_APP_PHP_VERSION in your .env file" /><a class="headerlink" href="#php_version" title="Permanent link">&para;</a></h3>
+<p>The <code>PHP</code> version to use when building the runtime container.</p>
+<p>Any valid Docker Hub PHP version is acceptable here, as long as it's <a href="https://hub.docker.com/_/php/tags">published to Docker Hub</a></p>
+<p><strong>Example values</strong>:</p>
+<ul>
+<li><code>8</code> will use the latest version of PHP 8</li>
+<li><code>8.1</code> will use the latest version of PHP 8.1</li>
+<li><code>8.2.14</code> will use PHP 8.2.14</li>
+<li><code>latest</code> will use whatever is the latest PHP version</li>
+</ul>
+<p><strong>Default value</strong>: <code>8.1</code></p>
+<h3 id="php_pecl_extensions"><code>PHP_PECL_EXTENSIONS</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_pecl_extensions" title="Permanent link">&para;</a></h3>
+<p>PECL extensions to install via <code>pecl install</code></p>
+<p>Use <a href="#php_pecl_extensions_extra">PHP_PECL_EXTENSIONS_EXTRA</a> if you want to add <em>additional</em> extenstions.</p>
+<p>Only change this setting if you want to change the baseline extensions.</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p><strong>Default value</strong>: <code>imagick redis</code></p>
+<h3 id="php_pecl_extensions_extra"><code>PHP_PECL_EXTENSIONS_EXTRA</code> <Badge type="tip" text="DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA in your .env file" /><a class="headerlink" href="#php_pecl_extensions_extra" title="Permanent link">&para;</a></h3>
+<p>Extra PECL extensions (separated by space) to install via <code>pecl install</code></p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p><strong>Default value</strong>: <code>""</code></p>
+<h3 id="php_extensions"><code>PHP_EXTENSIONS</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_extensions" title="Permanent link">&para;</a></h3>
+<p>PHP Extensions to install via <code>docker-php-ext-install</code>.</p>
+<p><strong>NOTE:</strong> use <a href="#php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code></a> if you want to add <em>additional</em> extensions; only override this if you're going to change the baseline extensions.</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information</p>
+<p><strong>Default value</strong>: <code>intl bcmath zip pcntl exif curl gd</code></p>
+<h3 id="php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code> <Badge type="tip" text="DOCKER_APP_PHP_EXTENSIONS_EXTRA in your .env file" /><a class="headerlink" href="#php_extensions_extra" title="Permanent link">&para;</a></h3>
+<p>Extra PHP Extensions (separated by space) to install via <code>docker-php-ext-install</code>.</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p><strong>Default value</strong>: <code>""</code></p>
+<h3 id="php_extensions_database"><code>PHP_EXTENSIONS_DATABASE</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#php_extensions_database" title="Permanent link">&para;</a></h3>
+<p>PHP database extensions to install.</p>
+<p>By default, we install both <code>pgsql</code> and <code>mysql</code> since they're more convenient (and add very little build time! But it can be overwritten here if desired.</p>
+<p><strong>Default value</strong>: <code>pdo_pgsql pdo_mysql pdo_sqlite</code></p>
+<h3 id="composer_version"><code>COMPOSER_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#composer_version" title="Permanent link">&para;</a></h3>
+<p>The version of Composer to install.</p>
+<p>For valid values, please see the <a href="https://hub.docker.com/_/composer">Docker Hub <code>composer</code> page</a>.</p>
+<p><strong>Default value</strong>: <code>2.6</code></p>
+<h3 id="apt_packages_extra"><code>APT_PACKAGES_EXTRA</code> <Badge type="tip" text="DOCKER_APP_APT_PACKAGES_EXTRA in your .env file" /><a class="headerlink" href="#apt_packages_extra" title="Permanent link">&para;</a></h3>
+<p>Extra APT packages (separated by space) that should be installed inside the image by <code>apt-get install</code></p>
+<p><strong>Default value</strong>: <code>""</code></p>
+<h3 id="nginx_version"><code>NGINX_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#nginx_version" title="Permanent link">&para;</a></h3>
+<p>The version of <code>nginx</code> to use when targeting <a href="../runtimes/#nginx-fpm"><code>nginx-runtime</code></a>.</p>
+<p>Please see the <a href="https://hub.docker.com/_/nginx">Docker Hub <code>nginx</code> page</a> for available versions.</p>
+<p><strong>Default value</strong>: <code>1.25.3</code></p>
+<h3 id="forego_version"><code>FOREGO_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#forego_version" title="Permanent link">&para;</a></h3>
+<p>The version of <a href="https://github.com/ddollar/forego"><code>forego</code></a> to install.</p>
+<p><strong>Default value</strong>: <code>0.17.2</code></p>
+<h3 id="gomplate_version"><code>GOMPLATE_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#gomplate_version" title="Permanent link">&para;</a></h3>
+<p>The version of <a href="https://github.com/hairyhenderson/gomplate"><code>goplate</code></a> to install.</p>
+<p><strong>Default value</strong>: <code>v3.11.6</code></p>
+<h3 id="dotenv_linter_version"><code>DOTENV_LINTER_VERSION</code> <Badge type="warning" text="not available in your .env file" /><a class="headerlink" href="#dotenv_linter_version" title="Permanent link">&para;</a></h3>
+<p>Version of <a href="https://github.com/dotenv-linter/dotenv-linter"><code>dotenv-linter</code></a> to install.</p>
+<p><strong>Default value</strong>: <code>v3.2.0</code></p>
+<h3 id="php_base_type"><code>PHP_BASE_TYPE</code> <Badge type="tip" text="DOCKER_APP_BASE_TYPE in your .env file" /><a class="headerlink" href="#php_base_type" title="Permanent link">&para;</a></h3>
+<p>The <code>PHP</code> base image layer to use when building the runtime container.</p>
+<p>When targeting</p>
+<ul>
+<li><a href="../runtimes/#apache"><code>apache-runtime</code></a> use <code>apache</code></li>
+<li><a href="../runtimes/#fpm"><code>fpm-runtime</code></a> use <code>fpm</code></li>
+<li><a href="../runtimes/#nginx-fpm"><code>nginx-runtime</code></a> use <code>fpm</code></li>
+</ul>
+<p><strong>Valid values</strong>:</p>
+<ul>
+<li><code>apache</code></li>
+<li><code>fpm</code></li>
+<li><code>cli</code></li>
+</ul>
+<p><strong>Default value</strong>: <code>apache</code></p>
+<h3 id="php_debian_release"><code>PHP_DEBIAN_RELEASE</code> <Badge type="tip" text="DOCKER_APP_DEBIAN_RELEASE in your .env file" /><a class="headerlink" href="#php_debian_release" title="Permanent link">&para;</a></h3>
+<p>The <code>Debian</code> Operation System version to use.</p>
+<p><strong>Valid values</strong>:</p>
+<ul>
+<li><code>bullseye</code></li>
+<li><code>bookworm</code></li>
+</ul>
+<p><strong>Default value</strong>: <code>bullseye</code></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      
+    
+  </body>
+</html>
