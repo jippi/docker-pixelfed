@@ -1,21 +1,20 @@
 # Pixelfed + Docker container runtimes
 
-::: tip If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:
-:::
+!!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 
 The Pixelfed Dockerfile support multiple target *runtimes* ([Apache](#apache), [Nginx + FPM](#nginx-fpm), and [FPM](#fpm)).
 
 You can consider a *runtime* target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.
 
-::: info What runtime is right for me?
-If you are unsure of which runtime to choose, please use the [Apache runtime](#apache); it's the most straightforward one and also the default.
-:::
+!!! info "What runtime is right for me?"
+
+    If you are unsure of which runtime to choose, please use the [Apache runtime](#apache); it's the most straightforward one and also the default.
 
 ## Apache  <Badge type="tip" text="Recommended" />
 
-::: tip RECOMMENDED
-This is the default *and* recommended runtime for almost all single-server Pixelfed instances, as it has fewer moving parts, simplified operational model, and strikes a good balance between performance, features, and convenience.
-:::
+!!! tip "RECOMMENDED"
+
+    This is the default *and* recommended runtime for almost all single-server Pixelfed instances, as it has fewer moving parts, simplified operational model, and strikes a good balance between performance, features, and convenience.
 
 Building a custom Pixelfed Docker image using `Apache` + `mod_php` can be achieved the following way.
 
@@ -31,16 +30,16 @@ docker build \
 
 ### docker compose (Apache)
 
-:::info This is already configured if you use the default Pixelfed `docker-compose.yml`
+!!! info
 
-Instead you control the target runtime via your `.env` file
+    This is already configured if you use the default Pixelfed `docker-compose.yml`
 
-```shell
-DOCKER_APP_BASE_TYPE="apache"
-DOCKER_APP_RUNTIME="apache"
-```
+    Instead you control the target runtime via your `.env` file
 
-:::
+    ```shell
+    DOCKER_APP_BASE_TYPE="apache"
+    DOCKER_APP_RUNTIME="apache"
+    ```
 
 ```yaml
 version: "3"
@@ -55,11 +54,11 @@ services:
 
 ## Nginx + FPM <Badge type="warning" text="Advanced" />
 
-:::info ADVANCED USAGE
-Nginx + FPM has more moving parts than the default (and recommended) [Apache runtime](#apache).
+!!! info "ADVANCED USAGE"
 
-Only select this runtime if you have valid *technical* reasons to do so.
-:::
+    Nginx + FPM has more moving parts than the default (and recommended) [Apache runtime](#apache).
+
+    Only select this runtime if you have valid *technical* reasons to do so.
 
 Building a custom Pixelfed Docker image using nginx + FPM can be achieved the following way.
 
@@ -76,16 +75,16 @@ docker build \
 
 ### docker compose (Nginx)
 
-:::info This is already configured if you use the default Pixelfed `docker-compose.yml`
+!!! info
 
-Instead you control the target runtime via your `.env` file
+    This is already configured if you use the default Pixelfed `docker-compose.yml`
 
-```shell
-DOCKER_APP_BASE_TYPE="fpm"
-DOCKER_APP_RUNTIME="nginx"
-```
+    Instead you control the target runtime via your `.env` file
 
-:::
+    ```shell
+    DOCKER_APP_BASE_TYPE="fpm"
+    DOCKER_APP_RUNTIME="nginx"
+    ```
 
 ```yaml
 version: "3"
@@ -102,11 +101,11 @@ services:
 
 ## FPM <Badge type="warning" text="Advanced" />
 
-::: warning ADVANCED USAGE
-The FPM runtime is for advanced users that want to run their PHP processes in a different container (or even server) from their webserver.
+!!! warning "ADVANCED USAGE"
 
-This is mostly used in horizontal scaling or advanced setups
-:::
+    The FPM runtime is for advanced users that want to run their PHP processes in a different container (or even server) from their webserver.
+
+    This is mostly used in horizontal scaling or advanced setups
 
 Building a custom Pixelfed Docker image using FPM (only) can be achieved the following way.
 
@@ -123,16 +122,16 @@ docker build \
 
 ### docker compose (FPM)
 
-:::info This is already configured if you use the default Pixelfed `docker-compose.yml`
+!!! info
 
-Instead you control the target runtime via your `.env` file
+    This is already configured if you use the default Pixelfed `docker-compose.yml`
 
-```shell
-DOCKER_APP_BASE_TYPE="fpm"
-DOCKER_APP_RUNTIME="fpm"
-```
+    Instead you control the target runtime via your `.env` file
 
-:::
+    ```shell
+    DOCKER_APP_BASE_TYPE="fpm"
+    DOCKER_APP_RUNTIME="fpm"
+    ```
 
 ```yaml
 version: "3"

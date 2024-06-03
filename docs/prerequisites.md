@@ -1,7 +1,6 @@
 # Pixelfed + Docker Prerequisites
 
-::: tip If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:
-:::
+!!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 
 This guide will help you install and run Pixelfed on **your** server using [Docker Compose](https://docs.docker.com/compose/).
 
@@ -50,13 +49,11 @@ Required software to be installed on your server
 
 ## SMTP provider (Optional)
 
-::: info What is this?
-An **E-mail/SMTP provider** is used for sending e-mails to your users, such as e-mail confirmation and notifications.
-:::
+!!! info "What is this?"
 
-::: warning
-If you don't plan to use an e-mail/SMTP provider, then make sure to set `ENFORCE_EMAIL_VERIFICATION="false"` in your `.env` file!
-:::
+    An **E-mail/SMTP provider** is used for sending e-mails to your users, such as e-mail confirmation and notifications.
+
+!!! warning "If you don't plan to use an e-mail/SMTP provider, then make sure to set `ENFORCE_EMAIL_VERIFICATION="false"` in your `.env` file!"
 
 There are *many* providers out there with wildly different pricing structures, features, and reliability.
 
@@ -70,13 +67,11 @@ It's beyond the scope of this document to detail which provider to pick or how t
 
 ## Object Storage (Optional)
 
-::: info What is this?
-An **Object Storage** provider stores all media content remotely rather than locally on your server. It's *often* cheaper to use an Object Storage service than to have media files stored directly on the HDD, ***especially*** for medium to large data volumes.
-:::
+!!! info "What is this?"
 
-::: tip
-This is *entirely* optional - by default, Pixelfed will store all uploads (videos, images, etc.) directly on your servers' storage.
-:::
+    An **Object Storage** provider stores all media content remotely rather than locally on your server. It's *often* cheaper to use an Object Storage service than to have media files stored directly on the HDD, ***especially*** for medium to large data volumes.
+
+!!! tip "This is *entirely* optional - by default, Pixelfed will store all uploads (videos, images, etc.) directly on your servers' storage."
 
 > Object storage is a technology that stores and manages data in an unstructured format called objects. Modern organizations create and analyze large volumes of unstructured data such as photos, videos, e-mail, web pages, sensor data, and audio files.
 >

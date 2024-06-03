@@ -11,6 +11,9 @@ dev_addr: "0.0.0.0:8000"
 nav:
   - ...
 
+extra_css:
+  - stylesheets/extra.css
+
 plugins:
   - awesome-pages: # pip install mkdocs-awesome-pages-plugin
       collapse_single_pages: false

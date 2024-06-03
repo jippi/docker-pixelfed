@@ -1,0 +1,5 @@
+.md-typeset h3 .admonition {
+    display: inline-flex;
+    margin: 0;
+    border: 0;
+}

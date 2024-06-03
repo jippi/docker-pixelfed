@@ -1,15 +1,14 @@
 # Pixelfed + Docker installtion
 
-::: tip If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:
-:::
+!!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 
 Connect via SSH to your server and decide where you want to install Pixelfed.
 
-::: info
-In this guide, I will assume you will install Pixelfed in `/data/pixelfed` and that the [Docker Prerequisites](prerequisites.md) are met.
+!!! info
 
-You can change the installation path; update the commands below to fit your setup.
-:::
+    In this guide, I will assume you will install Pixelfed in `/data/pixelfed` and that the [Docker Prerequisites](prerequisites.md) are met.
+
+    You can change the installation path; update the commands below to fit your setup.
 
 ## Initial set up
 
@@ -97,5 +96,4 @@ You made it to the end of the installation tutorial and *hopefully* you have ful
 
 We recommend your next steps is to [check out how to customize your Pixelfed instance](customize.md)
 
-::: tip If anything was confusing, unclear, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:
-:::
+!!! tip "If anything was confusing, unclear, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
