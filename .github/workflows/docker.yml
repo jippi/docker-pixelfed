@@ -276,7 +276,7 @@ jobs:
           version: "v0.4.4"
 
       - name: Execute Goss tests
-        run: images/pixelfed/tests/goss.sh
+        run: tests/goss.sh
         working-directory: images/pixelfed
         env:
           TAGS: "${{ steps.meta.outputs.tags }}"
@@ -294,6 +294,14 @@ jobs:
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
+
+      - if: always()
+        name: Show docker compose logs
+        run: docker compose logs
+
+      - if: always()
+        name: Show docker compose config
+        run: docker compose config
 
       # - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
       #   uses: actions/upload-artifact@v4
