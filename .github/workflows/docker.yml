@@ -276,92 +276,24 @@ jobs:
           version: "v0.4.4"
 
       - name: Execute Goss tests
-        run: |
-          cd images/pixelfed
-
-          for tag in "${{ steps.meta.outputs.tags }}"
-          do
-            dgoss run \
-              -v "./.env.testing:/var/www/.env" \
-              -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
-              -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
-              $tag
-          done
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Setup ngrok tunnel
-        id: print-tunnel-url
-        run: |
-          docker run -d -e NGROK_AUTHTOKEN --net=host -p 4040:4040 ngrok/ngrok http 8080
-          echo "tunnel-url=$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")" >> $GITHUB_OUTPUT
+        run: images/pixelfed/tests/goss.sh
+        working-directory: images/pixelfed
         env:
-          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+          TAGS: "${{ steps.meta.outputs.tags }}"
+          DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
+          PHP_BASE_TYPE: ${{ matrix.php_base }}
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Print ngrok tunnel URL"
-        run: echo "${{ steps.print-tunnel-url.outputs.tunnel-url }}"
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Configure .env file with dottie"
-        run: |
-          ls -al .env.docker
-
-          cp .env.docker .env
-          ls -al .env
-
-          chmod 0777 .env
-          ls -al .env
-
-          domain="${{ steps.print-tunnel-url.outputs.tunnel-url }}"
-          echo "domain v1=${domain}"
-
-          domain=${domain#https://*}
-          echo "domain v2=${domain}"
-
-          scripts/dottie set \
-            APP_NAME="docker-pixelfed e2e" \
-            APP_DOMAIN="${domain}" \
-            DB_PASSWORD="helloworld" \
-            DOCKER_APP_PHP_VERSION="${{ matrix.php_version }}" \
-            DOCKER_APP_RELEASE="branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}" \
-            DOCKER_PROXY_ACME_PROFILE="disabled" \
-            DOCKER_PROXY_LETSENCRYPT_TEST="disabled" \
-            DOCKER_PROXY_PROFILE="disabled" \
-            ENFORCE_EMAIL_VERIFICATION="false" \
-            INSTANCE_CONTACT_EMAIL="github@example.com" \
-            OAUTH_ENABLED="true"
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Print .env file"
-        run: scripts/dottie print
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Print docker-compose config"
-        run: docker compose config
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Start containers"
-        run: |
-          docker compose up -d --no-build
-          docker compose logs -f &
-
-          # wait for the site to come up, while streaming the logs
-          curl --retry-delay 1 --retry 120 --retry-all-errors --fail ${{ steps.print-tunnel-url.outputs.tunnel-url }}
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: "Setup NodeJS"
         uses: actions/setup-node@v4
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Install dependencies
-        run: npm ci
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Run Playwright tests
-        run: npx playwright test --config images/pixelfed/playwright.config.cjs
+        name: Run E2E tests
+        run: images/pixelfed/tests/e2e.sh
+        env:
+          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+          DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
+          DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
 
       # - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
       #   uses: actions/upload-artifact@v4
