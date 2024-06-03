@@ -338,4 +338,4 @@ jobs:
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Start containers"
-        run: docker compose up
+        run: docker compose up --no-build
