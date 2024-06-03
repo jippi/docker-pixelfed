@@ -314,9 +314,13 @@ jobs:
           ls -al .env
 
           domain="${{ steps.print-tunnel-url.outputs.tunnel-url }}"
+          echo "domain v1=${domain}"
+
+          domain=${domain#https://*}
+          echo "domain v2=${domain}"
 
           scripts/dottie set APP_DEBUG="true"
-          scripts/dottie set APP_DOMAIN="${domain#https://*}"
+          scripts/dottie set APP_DOMAIN="${domain}"
           scripts/dottie set DB_PASSWORD="helloworld"
           scripts/dottie set DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
