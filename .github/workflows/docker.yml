@@ -288,3 +288,23 @@ jobs:
               -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
               $tag
           done
+
+      - uses: luisboto/ngrok-tunnel-action
+        with:
+          timeout: 10m
+          port: 8080
+          ngrok_authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
+          tunnel_type: http
+          save_url_to_filename: ngrok-url.txt
+
+      - run: cat ngrok-url.txt
+
+      - run: |
+          cp env.docker .env
+          scripts/dottie set APP_DEBUG=true
+          scripts/dottie set APP_DOMAIN=$(cat ngrok-url.txt)
+          scripts/dottie set DB_PASSWORD="helloworld"
+          scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
+          scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
+
+          docker-compose up
