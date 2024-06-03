@@ -322,7 +322,7 @@ jobs:
             APP_DEBUG="true" \
             APP_DOMAIN="${domain}" \
             DB_PASSWORD="helloworld" \
-            DOCKER_APP_RELEASE="branch-${{ github.ref_name }}" \
+            DOCKER_APP_RELEASE="branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}" \
             DOCKER_APP_PHP_VERSION="${{ matrix.php_version }}" \
             DOCKER_PROXY_PROFILE="disabled" \
             DOCKER_PROXY_ACME_PROFILE="disabled" \
