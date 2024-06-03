@@ -310,6 +310,6 @@ jobs:
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.target_runtime }}
           path: test-results/
           retention-days: 30
