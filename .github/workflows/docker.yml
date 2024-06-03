@@ -345,9 +345,8 @@ jobs:
           docker compose up -d --no-build
           docker compose logs -f &
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Wait for e2e site to come up"
-        run: curl --retry-delay 1 --retry 120 --retry-all-errors --fail ${{ steps.print-tunnel-url.outputs.tunnel-url }}
+          # wait for the site to come up, while streaming the logs
+          curl --retry-delay 1 --retry 120 --retry-all-errors --fail ${{ steps.print-tunnel-url.outputs.tunnel-url }}
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         uses: actions/setup-node@v4
