@@ -169,7 +169,6 @@ jobs:
           - fpm
         target_runtime:
           - apache
-          - fpm
           - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
@@ -178,10 +177,6 @@ jobs:
           # targeting [apache] runtime with [fpm] base type doesn't make sense
           - target_runtime: apache
             php_base: fpm
-
-          # targeting [fpm] runtime with [apache] base type doesn't make sense
-          - target_runtime: fpm
-            php_base: apache
 
           # targeting [nginx] runtime with [apache] base type doesn't make sense
           - target_runtime: nginx
@@ -299,6 +294,10 @@ jobs:
           DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
+
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
+        name: Show ngrok logs
+        run: docker logs ngrok
 
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show docker compose logs

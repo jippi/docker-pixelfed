@@ -2,8 +2,14 @@
 
 set -o errexit -o nounset -o pipefail
 
+# copy .env file
+cp -v .env.docker .env
+
+# fix .env permissions
+chmod -v 0777 .env
+
 # start ngrok
-docker run -d -e NGROK_AUTHTOKEN --net=host -p 4040:4040 ngrok/ngrok http 8080
+docker run --quiet --detach --name ngrok --env NGROK_AUTHTOKEN --net=host ngrok/ngrok http 8080
 
 # find ngrok domain
 domain="$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
@@ -12,10 +18,6 @@ echo "domain=${domain}"
 # remove https:// prefix for APP_DOMAIN
 app_domain=${domain#https://*}
 echo "app_domain=${domain}"
-
-# copy .env file
-cp .env.docker .env
-chmod 0777 .env
 
 # configure .env file
 scripts/dottie set \
