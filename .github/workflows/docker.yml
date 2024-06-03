@@ -359,6 +359,7 @@ jobs:
         run: pnpx playwright install --with-deps
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        run: pnpx playwright test --config images/pixelfed/playwright.config.cjs
+        working-directory: images/pixelfed
+        run: pnpx playwright test
         env:
           E2E_URL: ${{ steps.print-tunnel-url.outputs.tunnel-url }}
