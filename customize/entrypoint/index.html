@@ -950,8 +950,8 @@ It's highly recommended to give it a read from top to bottom, or trying to searc
 <ul>
 <li><code>01-permissions.sh</code> (optionally) ensures permissions for files are corrected (see <a href="#fixing-ownership-on-startup">fixing ownership on startup</a>).</li>
 <li><code>02-check-config.sh</code> Ensures your <code>.env</code> file is valid - like missing quotes or syntax errors.</li>
-<li><code>04-defaults.envsh</code> calculates Docker container environment variables needed for <a href="#templating">templating</a> configuration files.</li>
-<li><code>05-templating.sh</code> renders <a href="#templating">template</a> configuration files.</li>
+<li><code>04-defaults.envsh</code> calculates Docker container environment variables needed for <a href="../templating/">templating</a> configuration files.</li>
+<li><code>05-templating.sh</code> renders <a href="../templating/">template</a> configuration files.</li>
 <li><code>10-storage.sh</code> ensures Pixelfed storage related permissions and commands are run.</li>
 <li><code>11-first-time-setup.sh</code> automatically runs all "one time setup" steps for a new Pixelfed server.</li>
 <li><code>12-migrations.sh</code> optionally run database migrations on container start up.</li>
@@ -969,7 +969,7 @@ It's highly recommended to give it a read from top to bottom, or trying to searc
 </div>
 <p>If you mount a bind volume (can be read-only) in <code>/docker/overrides</code> then all files and directories within that directory will be copied on top of <code>/</code>.</p>
 <p>This enables you to create or override <em>anything</em> within the container during container startup.</p>
-<p>The copy operation happens as one of the first things in the <code>ENTRYPOINT</code> so you can put even override <a href="#templating">templates</a> and the <a href="#run-script-on-startup-entrypoint">included <code>ENTRYPOINT</code> scripts</a> - or add new ones!</p>
+<p>The copy operation happens as one of the first things in the <code>ENTRYPOINT</code> so you can put even override <a href="../templating/">templates</a> and the <a href="#run-script-on-startup-entrypoint">included <code>ENTRYPOINT</code> scripts</a> - or add new ones!</p>
 <p>Of course it can also be used to override <code>php.ini</code>, <code>index.php</code> or any other config/script files you would want to.</p>
 <h3 id="override-examples">Override examples<a class="headerlink" href="#override-examples" title="Permanent link">&para;</a></h3>
 <ol>
@@ -989,7 +989,7 @@ It's highly recommended to give it a read from top to bottom, or trying to searc
 <div class="admonition tip">
 <p class="admonition-title">The script stores <code>lock</code> files in the <code>storage/docker/once</code> folder to ensure that these tasks are only run once, so for new Pixelfed servers, you do not need to disable this behavior!</p>
 </div>
-<p>The Docker container will by default try to run the required <a href="../../generic/installation.md#one-time-setup-tasks">One-time setup tasks</a> for you on startup.</p>
+<p>The Docker container will by default try to run the required <a href="https://docs.pixelfed.org/running-pixelfed/installation.html#one-time-setup-tasks">One-time setup tasks</a> for you on startup.</p>
 <p>If your Pixelfed server already have run these tasks, you must disable this by setting <code>DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS=0</code> in your <code>.env</code> file.</p>
 <h2 id="automatic-database-migrations">Automatic database migrations<a class="headerlink" href="#automatic-database-migrations" title="Permanent link">&para;</a></h2>
 <p>The init script will by default only <em>detect</em> if there are new database migrations - but not apply them - as these can potentially be destructive or take a long time to apply.</p>
