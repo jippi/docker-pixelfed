@@ -313,8 +313,10 @@ jobs:
           chmod 0777 .env
           ls -al .env
 
+          domain="${{ steps.print-tunnel-url.outputs.tunnel-url }}"
+
           scripts/dottie set APP_DEBUG="true"
-          scripts/dottie set APP_DOMAIN="${{ steps.print-tunnel-url.outputs.tunnel-url }}"
+          scripts/dottie set APP_DOMAIN="${domain#https://*}"
           scripts/dottie set DB_PASSWORD="helloworld"
           scripts/dottie set DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
