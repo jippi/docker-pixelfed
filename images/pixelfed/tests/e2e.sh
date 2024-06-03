@@ -38,7 +38,7 @@ docker compose up -d --no-build
 npm ci
 
 # Install playwright depdendencies
-npx playwright install --with-deps
+npx playwright install chromium --with-deps
 
 # Wait for the site to come up, while streaming the logs
 curl --retry-delay 1 --retry 120 --retry-all-errors --fail "${domain}"

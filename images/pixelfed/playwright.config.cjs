@@ -12,7 +12,7 @@ module.exports = {
 
     use: {
         // Base URL to use in actions like `await page.goto('/')`.
-        baseURL: process.env.E2E_URL ?? 'http://127.0.0.1:8080',
+        baseURL: process.env.E2E_URL,
 
         // Collect trace when retrying the failed test.
         trace: 'on-first-retry',
