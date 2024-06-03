@@ -3,4 +3,5 @@
 /.env
 /.env.dottie-backup
 /.idea
+/node_modules
 /src
