@@ -319,14 +319,16 @@ jobs:
           echo "domain v2=${domain}"
 
           scripts/dottie set \
-            APP_DEBUG="true" \
             APP_DOMAIN="${domain}" \
             DB_PASSWORD="helloworld" \
-            DOCKER_APP_RELEASE="branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}" \
             DOCKER_APP_PHP_VERSION="${{ matrix.php_version }}" \
-            DOCKER_PROXY_PROFILE="disabled" \
+            DOCKER_APP_RELEASE="branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}" \
             DOCKER_PROXY_ACME_PROFILE="disabled" \
-            INSTANCE_CONTACT_EMAIL="github@example.com"
+            DOCKER_PROXY_LETSENCRYPT_TEST="disabled" \
+            DOCKER_PROXY_PROFILE="disabled" \
+            ENFORCE_EMAIL_VERIFICATION="false" \
+            INSTANCE_CONTACT_EMAIL="github@example.com" \
+            OAUTH_ENABLED="true"
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Print .env file"
@@ -338,4 +340,14 @@ jobs:
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Start containers"
-        run: docker compose up --no-build
+        run: |
+          docker compose up -d --no-build
+          docker compose logs -f &
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: "Wait for e2e site to come up"
+        run: curl --retry-all-errors --fail --retry 120 --retry-max-time 120 ${{ steps.print-tunnel-url.outputs.tunnel-url }}
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: "Sleep a bit"
+        run: sleep 120
