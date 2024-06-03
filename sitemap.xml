@@ -16,7 +16,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://jippi.github.io/docker-pixelfed/faq/</loc>
+         <loc>https://jippi.github.io/docker-pixelfed/customize/faq/</loc>
+         <lastmod>2024-06-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://jippi.github.io/docker-pixelfed/customize/runtimes/</loc>
          <lastmod>2024-06-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -26,12 +31,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://jippi.github.io/docker-pixelfed/prerequisites/</loc>
-         <lastmod>2024-06-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://jippi.github.io/docker-pixelfed/runtimes/</loc>
+         <loc>https://jippi.github.io/docker-pixelfed/installation/prerequisites/</loc>
          <lastmod>2024-06-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
