@@ -12,7 +12,7 @@ on:
       - "**"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-  pull_request:
+  # pull_request:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
   schedule:
@@ -112,21 +112,14 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }}-php,enable=true
           flavor: |
-            latest=auto
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
           tags: |
             # schedule
             type=schedule,pattern=nightly
             type=schedule,pattern=nightly-{{ date 'YYYYMMDD' tz='UTC' }}
-            # release
-            type=semver,pattern=v{{ major }}
-            type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -169,7 +162,6 @@ jobs:
           - fpm
         target_runtime:
           - apache
-          - fpm
           - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
@@ -178,10 +170,6 @@ jobs:
           # targeting [apache] runtime with [fpm] base type doesn't make sense
           - target_runtime: apache
             php_base: fpm
-
-          # targeting [fpm] runtime with [apache] base type doesn't make sense
-          - target_runtime: fpm
-            php_base: apache
 
           # targeting [nginx] runtime with [apache] base type doesn't make sense
           - target_runtime: nginx
@@ -201,7 +189,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # checkout pixelfed source code
+      # checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
         uses: actions/checkout@v4
         with:
@@ -233,21 +221,14 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }},enable=true
           flavor: |
-            latest=auto
             suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
             # schedule
             type=schedule,pattern=nightly
             type=schedule,pattern=nightly-{{ date 'YYYYMMDD' tz='UTC' }}
-            # release
-            type=semver,pattern=v{{ major }}
-            type=semver,pattern=v{{ major }}.{{ minor }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
-        env:
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: Build and push image
         uses: docker/build-push-action@v5
@@ -277,14 +258,49 @@ jobs:
           version: "v0.4.4"
 
       - name: Execute Goss tests
-        run: |
-          cd images/pixelfed
+        run: tests/goss.sh
+        working-directory: images/pixelfed
+        env:
+          TAGS: "${{ steps.meta.outputs.tags }}"
+          DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
+          PHP_BASE_TYPE: ${{ matrix.php_base }}
 
-          for tag in "${{ steps.meta.outputs.tags }}"
-          do
-            dgoss run \
-              -v "./.env.testing:/var/www/.env" \
-              -e "EXPECTED_PHP_VERSION=${{ matrix.php_version }}" \
-              -e "PHP_BASE_TYPE=${{ matrix.php_base }}" \
-              $tag
-          done
+      - if: matrix.pixelfed_branch == 'staging'
+        name: "Setup NodeJS"
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      - if: matrix.pixelfed_branch == 'staging'
+        name: Run E2E tests
+        run: images/pixelfed/tests/e2e.sh
+        env:
+          CI: true
+          DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
+          DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
+          DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
+          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+
+      - if: always() && matrix.pixelfed_branch == 'staging'
+        name: Show ngrok logs
+        run: |
+          docker logs ngrok
+          docker rm -f ngrok
+
+      - if: always() && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose config
+        run: docker compose config
+
+      - if: always() && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs
+        run: |
+          docker compose logs
+          docker compose down -v
+
+      - if: always() && matrix.pixelfed_branch == 'staging'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.target_runtime }}
+          path: test-results/
+          retention-days: 30

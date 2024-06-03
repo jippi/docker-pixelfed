@@ -72,6 +72,7 @@ services:
     profiles:
       - ${DOCKER_WEB_PROFILE:-}
     build:
+      dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
         - "type=registry,ref=${DOCKER_APP_IMAGE}-cache:${DOCKER_APP_TAG}"
@@ -124,6 +125,7 @@ services:
     profiles:
       - ${DOCKER_WORKER_PROFILE:-}
     build:
+      dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
         - "type=registry,ref=${DOCKER_APP_IMAGE}-cache:${DOCKER_APP_TAG}"

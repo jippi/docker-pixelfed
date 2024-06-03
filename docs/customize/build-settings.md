@@ -6,7 +6,7 @@
 
 The Pixelfed Dockerfile utilizes [Docker Multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and [Build arguments](https://docs.docker.com/build/guide/build-args/).
 
-Using *build arguments* allows us to create a flexible and more maintainable Dockerfile, supporting [multiple runtimes](./runtimes.md) ([FPM](./runtimes.md#fpm), [Nginx](./runtimes.md#nginx-fpm), [Apache + mod_php](./runtimes.md#apache)) and end-user flexibility without having to fork or copy the Dockerfile.
+Using *build arguments* allows us to create a flexible and more maintainable Dockerfile, supporting [multiple runtimes](./runtimes.md) ([Nginx](./runtimes.md#nginx-fpm) and [Apache + mod_php](./runtimes.md#apache)) and end-user flexibility without having to fork or copy the Dockerfile.
 
 *Build arguments* can be configured using `--build-arg 'name=value'` for `docker build`, `docker compose build` and `docker buildx build`. For `docker-compose.yml`, the `args` key for [`build`](https://docs.docker.com/compose/compose-file/compose-file-v3/#build) can be used.
 
@@ -130,13 +130,11 @@ The `PHP` base image layer to use when building the runtime container.
 When targeting
 
 * [`apache-runtime`](./runtimes.md#apache) use `apache`
-* [`fpm-runtime`](./runtimes.md#fpm) use `fpm`
 * [`nginx-runtime`](./runtimes.md#nginx-fpm) use `fpm`
 
 **Valid values**:
 
 * `apache`
-* `fpm`
 * `cli`
 
 **Default value**: `apache`
