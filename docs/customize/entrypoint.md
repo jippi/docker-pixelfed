@@ -28,8 +28,8 @@ You can set the environment variable `DOCKER_APP_ENTRYPOINT_DEBUG=1` to show the
 
 * `01-permissions.sh` (optionally) ensures permissions for files are corrected (see [fixing ownership on startup](#fixing-ownership-on-startup)).
 * `02-check-config.sh` Ensures your `.env` file is valid - like missing quotes or syntax errors.
-* `04-defaults.envsh` calculates Docker container environment variables needed for [templating](#templating) configuration files.
-* `05-templating.sh` renders [template](#templating) configuration files.
+* `04-defaults.envsh` calculates Docker container environment variables needed for [templating](templating.md) configuration files.
+* `05-templating.sh` renders [template](templating.md) configuration files.
 * `10-storage.sh` ensures Pixelfed storage related permissions and commands are run.
 * `11-first-time-setup.sh` automatically runs all "one time setup" steps for a new Pixelfed server.
 * `12-migrations.sh` optionally run database migrations on container start up.
@@ -54,7 +54,7 @@ If you mount a bind volume (can be read-only) in `/docker/overrides` then all fi
 
 This enables you to create or override *anything* within the container during container startup.
 
-The copy operation happens as one of the first things in the `ENTRYPOINT` so you can put even override [templates](#templating) and the [included `ENTRYPOINT` scripts](#run-script-on-startup-entrypoint) - or add new ones!
+The copy operation happens as one of the first things in the `ENTRYPOINT` so you can put even override [templates](templating.md) and the [included `ENTRYPOINT` scripts](#run-script-on-startup-entrypoint) - or add new ones!
 
 Of course it can also be used to override `php.ini`, `index.php` or any other config/script files you would want to.
 
@@ -78,7 +78,7 @@ The variable is a space-delimited list shown below and accepts both relative and
 
 !!! tip "The script stores `lock` files in the `storage/docker/once` folder to ensure that these tasks are only run once, so for new Pixelfed servers, you do not need to disable this behavior!"
 
-The Docker container will by default try to run the required [One-time setup tasks](../../generic/installation.md#one-time-setup-tasks) for you on startup.
+The Docker container will by default try to run the required [One-time setup tasks](https://docs.pixelfed.org/running-pixelfed/installation.html#one-time-setup-tasks) for you on startup.
 
 If your Pixelfed server already have run these tasks, you must disable this by setting `DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS=0` in your `.env` file.
 

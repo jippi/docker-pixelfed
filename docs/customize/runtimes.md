@@ -52,7 +52,7 @@ services:
       target: apache-runtime
 ```
 
-## Nginx + FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div>
+## Nginx + FPM
 
 !!! info "ADVANCED USAGE"
 
@@ -99,7 +99,7 @@ services:
      PHP_BASE_TYPE: fpm
 ```
 
-## FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div>
+## FPM
 
 !!! warning "ADVANCED USAGE"
 
