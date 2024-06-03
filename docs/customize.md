@@ -1,4 +1,4 @@
-# Pixelfed + Docker customization
+# Customization
 
 !!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 
@@ -137,7 +137,7 @@ Using *build arguments* allows us to create a flexible and more maintainable Doc
 
 !!! warning "Most settings have two names in the title. The first one is the build arg name (`--build-arg`) and the second is the name in your `.env` file when using Docker Compose"
 
-### `PHP_VERSION` <Badge type="tip" text="DOCKER_APP_PHP_VERSION in your .env file" />
+### `PHP_VERSION` <div class="admonition tip"><div class="admonition-title">DOCKER_APP_PHP_VERSION in your .env file</div></div>{}
 
 The `PHP` version to use when building the runtime container.
 

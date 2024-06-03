@@ -3,3 +3,73 @@
     margin: 0;
     border: 0;
 }
+
+.mdx-badge--danger {
+    border-color: #ff1744;
+}
+
+.mdx-badge--danger .twemoji {
+    color: #ff1744;
+}
+
+.mdx-badge--attention {
+    border-color: #ff9100;
+}
+
+.mdx-badge--attention .twemoji {
+    color: #ff9100;
+}
+
+.mdx-badge--improvement {
+    border-color: #00bfa5;
+}
+
+.mdx-badge--improvement .twemoji {
+    color: #00bfa5;
+}
+
+.md-typeset .mdx-badge__icon {
+    border-top-left-radius: 0.1rem;
+}
+
+[dir="rtl"] .md-typeset .mdx-badge__icon {
+    border-top-right-radius: 0.1rem;
+}
+
+.md-typeset .mdx-badge__icon {
+    border-bottom-left-radius: 0.1rem;
+}
+
+[dir="rtl"] .md-typeset .mdx-badge__icon {
+    border-bottom-right-radius: 0.1rem;
+}
+
+.md-typeset .mdx-badge__icon {
+    background: var(--md-accent-fg-color--transparent);
+    padding: 0.2rem;
+}
+
+.md-typeset .mdx-badge__icon:last-child {
+    border-radius: 0.1rem;
+}
+
+.md-typeset .mdx-badge__text {
+    border-top-right-radius: 0.1rem;
+}
+
+[dir="rtl"] .md-typeset .mdx-badge__text {
+    border-top-left-radius: 0.1rem;
+}
+
+.md-typeset .mdx-badge__text {
+    border-bottom-right-radius: 0.1rem;
+}
+
+[dir="rtl"] .md-typeset .mdx-badge__text {
+    border-bottom-left-radius: 0.1rem;
+}
+
+.md-typeset .mdx-badge__text {
+    box-shadow: 0 0 0 1px inset var(--md-accent-fg-color--transparent);
+    padding: 0.2rem 0.3rem;
+}

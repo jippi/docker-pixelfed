@@ -1,4 +1,4 @@
-# Pixelfed + Docker Prerequisites
+# Prerequisites
 
 !!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 

@@ -1,4 +1,4 @@
-# Pixelfed + Docker container runtimes
+# Container runtimes
 
 !!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/pixelfed/pixelfed/issues/new) :heart:"
 
@@ -52,7 +52,7 @@ services:
       target: apache-runtime
 ```
 
-## Nginx + FPM <Badge type="warning" text="Advanced" />
+## Nginx + FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div>
 
 !!! info "ADVANCED USAGE"
 
@@ -99,7 +99,7 @@ services:
      PHP_BASE_TYPE: fpm
 ```
 
-## FPM <Badge type="warning" text="Advanced" />
+## FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div>
 
 !!! warning "ADVANCED USAGE"
 

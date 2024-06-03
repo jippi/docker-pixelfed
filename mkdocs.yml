@@ -14,6 +14,10 @@ nav:
 extra_css:
   - stylesheets/extra.css
 
+# Hooks
+hooks:
+  - docs-customization/overrides/hooks/shortcodes.py
+
 plugins:
   - awesome-pages: # pip install mkdocs-awesome-pages-plugin
       collapse_single_pages: false
@@ -24,6 +28,7 @@ plugins:
 
 theme:
   name: material
+  # custom_dir: docs-customization/overrides
   features:
     - content.action.edit
     - content.action.view
@@ -57,9 +62,6 @@ theme:
       toggle:
         icon: material/toggle-switch-off
         name: Switch to system preference
-
-extra_css:
-  - stylesheets/extra.css
 
 # Extensions
 markdown_extensions:
