@@ -2,7 +2,7 @@
 
 !!! info "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/jippi/docker-pixelfed/issues/new) :heart:"
 
-The Pixelfed Dockerfile support multiple target *runtimes* ([Apache](#apache), [Nginx + FPM](#nginx-fpm), and [FPM](#fpm)).
+The Pixelfed Dockerfile support multiple target *runtimes* ([Apache](#apache) and [Nginx + FPM](#nginx-fpm).
 
 You can consider a *runtime* target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.
 
@@ -95,53 +95,6 @@ services:
    context: .
    dockerfile: Dockerfile
    target: nginx-runtime
-   args:
-     PHP_BASE_TYPE: fpm
-```
-
-## FPM
-
-!!! warning "ADVANCED USAGE"
-
-    The FPM runtime is for advanced users that want to run their PHP processes in a different container (or even server) from their webserver.
-
-    This is mostly used in horizontal scaling or advanced setups
-
-Building a custom Pixelfed Docker image using FPM (only) can be achieved the following way.
-
-### docker build (FPM)
-
-```shell
-docker build \
- -f Dockerfile \
- --target fpm-runtime \
- --build-arg 'PHP_BASE_TYPE=fpm' \
- --tag <docker hub user>/<docker hub repo> \
- .
-```
-
-### docker compose (FPM)
-
-!!! info
-
-    This is already configured if you use the default Pixelfed `docker-compose.yml`
-
-    Instead you control the target runtime via your `.env` file
-
-    ```shell
-    DOCKER_APP_BASE_TYPE="fpm"
-    DOCKER_APP_RUNTIME="fpm"
-    ```
-
-```yaml
-version: "3"
-
-services:
- app:
-  build:
-   context: .
-   dockerfile: Dockerfile
-   target: fpm-runtime
    args:
      PHP_BASE_TYPE: fpm
 ```
