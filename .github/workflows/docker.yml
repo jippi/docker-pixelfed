@@ -289,7 +289,7 @@ jobs:
               $tag
           done
 
-      - uses: luisboto/ngrok-tunnel-action
+      - uses: luisboto/ngrok-tunnel-action@v0.1.7.2
         with:
           timeout: 10m
           port: 8080
