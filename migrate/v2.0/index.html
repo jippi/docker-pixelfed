@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://jippi.github.io/docker-pixelfed/migrate/v2.0/">
       
       
-        <link rel="prev" href="../../customize/runtimes/">
+        <link rel="prev" href="../../customize/templating/">
       
       
       
@@ -308,6 +308,26 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../conventions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conventions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -323,10 +343,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -337,8 +357,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Installation
           </label>
@@ -399,26 +419,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../conventions/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Conventions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     
     
     
@@ -462,11 +462,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../customize/" class="md-nav__link">
+      <a href="../../customize/build-settings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Customization
+    Build settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customize/entrypoint/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entrypoint
   </span>
   
 
@@ -509,6 +530,27 @@
   
   <span class="md-ellipsis">
     Container runtimes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customize/templating/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Templating
   </span>
   
 
@@ -1681,7 +1723,7 @@
 </div>
 <h3 id="breaking-change-new-dockerfile"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <code>Dockerfile</code><a class="headerlink" href="#breaking-change-new-dockerfile" title="Permanent link">&para;</a></h3>
 <p>All <a href="../../customize/runtimes/">runtime variations</a> of Pixelfed on Docker are now build from a single <code>Dockerfile</code>, rather than the previously three.</p>
-<p>Please see the <a href="../../customize/runtimes/">Docker Runtimes</a> and <a href="../../customize/">Docker Customization</a> documentation for more information.</p>
+<p>Please see the <a href="../../customize/runtimes/">Docker Runtimes</a> and <a href="../../customize/entrypoint/">Docker Customization</a> documentation for more information.</p>
 <h3 id="breaking-change-new-docker-compose-file"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New Docker Compose file<a class="headerlink" href="#breaking-change-new-docker-compose-file" title="Permanent link">&para;</a></h3>
 <p>The <code>docker-compose.yml</code> file has been rewritten from the ground up to be provide better defaults and more flexible out of the box.</p>
 <p>This mean that <em>most</em> things you would likely want to tweak can be controlled from your <code>.env</code> config file, like installing additional APT Packages, PECL/PHP extensions, changing PHP version, modifying PHP settings (such as <code>memory_limit</code>), disabling specific services, changing where data and config files are stored, and so on.</p>
@@ -1744,23 +1786,23 @@ of a Docker volume.</p>
 <p>You can control which Pixelfed release you use via the <code>DOCKER_APP_RELEASE</code> key/value pair in your <code>.env</code> file.</p>
 <h3 id="improvement-customizable-dockerfile"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Customizable <code>Dockerfile</code><a class="headerlink" href="#improvement-customizable-dockerfile" title="Permanent link">&para;</a></h3>
 <p>It's now possible to tweak many Docker related settings without copying or forking Pixelfed Dockerfile!</p>
-<p>The new Dockerfile has many <a href="../../customize/#build-settings-arguments">Build Arguments</a> (e.g., <code>--build-arg</code>) allowing you to easily</p>
+<p>The new Dockerfile has many <a href="../../customize/entrypoint/#build-settings-arguments">Build Arguments</a> (e.g., <code>--build-arg</code>) allowing you to easily</p>
 <ul>
-<li><a href="../../customize/#php_version">Change your PHP version</a></li>
-<li><a href="../../customize/#php_pecl_extensions">Install extra PECL extensions</a></li>
-<li><a href="../../customize/#php_extensions">Install extra PHP extensions</a></li>
-<li><a href="../../customize/#apt_packages_extra">Install extra APT packages</a></li>
-<li><a href="../../customize/#php_debian_release">Change Debian version</a></li>
+<li><a href="../../customize/entrypoint/#php_version">Change your PHP version</a></li>
+<li><a href="../../customize/entrypoint/#php_pecl_extensions">Install extra PECL extensions</a></li>
+<li><a href="../../customize/entrypoint/#php_extensions">Install extra PHP extensions</a></li>
+<li><a href="../../customize/entrypoint/#apt_packages_extra">Install extra APT packages</a></li>
+<li><a href="../../customize/entrypoint/#php_debian_release">Change Debian version</a></li>
 </ul>
 <p>All of these (and more) settings are controlled from your <code>.env</code> file, and you simply need to run <code>docker compose build</code> to build your own bespoke version of Pixelfed on your server!</p>
 <h3 id="improvement-customizable-entrypoint"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Customizable <code>ENTRYPOINT</code><a class="headerlink" href="#improvement-customizable-entrypoint" title="Permanent link">&para;</a></h3>
-<p>Do you want to <a href="../../customize/#run-script-on-startup">run a script on container start up?</a> Or perhaps to <a href="../../customize/#disabling-entrypoint-or-individual-scripts">disable a specific init script?</a> Or even <a href="../../customize/#disabling-entrypoint-or-individual-scripts">disable all of the init scripts?</a></p>
+<p>Do you want to <a href="../../customize/entrypoint/#run-script-on-startup">run a script on container start up?</a> Or perhaps to <a href="../../customize/entrypoint/#disabling-entrypoint-or-individual-scripts">disable a specific init script?</a> Or even <a href="../../customize/entrypoint/#disabling-entrypoint-or-individual-scripts">disable all of the init scripts?</a></p>
 <p>Now you can! And like with all the other settings it's just a setting in your <code>.env</code> file!</p>
 <h3 id="improvement-templating-files"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Templating files<a class="headerlink" href="#improvement-templating-files" title="Permanent link">&para;</a></h3>
-<p>The new <code>ENTRYPOINT</code> system offers an <a href="../../customize/#templating">extensible and flexible way for you to template configuration files</a> such as your <code>php.ini</code> during container start up.</p>
-<p>The templating system has access to all settings from your <code>.env</code> file, and you can <a href="../../customize/#file-path-examples">easily add your own templates!</a></p>
+<p>The new <code>ENTRYPOINT</code> system offers an <a href="../../customize/entrypoint/#templating">extensible and flexible way for you to template configuration files</a> such as your <code>php.ini</code> during container start up.</p>
+<p>The templating system has access to all settings from your <code>.env</code> file, and you can <a href="../../customize/entrypoint/#file-path-examples">easily add your own templates!</a></p>
 <h3 id="improvement-automatic-phpweb-server-configuration"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Automatic PHP/Web server configuration<a class="headerlink" href="#improvement-automatic-phpweb-server-configuration" title="Permanent link">&para;</a></h3>
-<p>Thanks to the new <a href="../../customize/#templating">templating system</a> we now automatically calculate and configure required PHP / Web server settings for you - using your <code>.env</code> settings - such as</p>
+<p>Thanks to the new <a href="../../customize/entrypoint/#templating">templating system</a> we now automatically calculate and configure required PHP / Web server settings for you - using your <code>.env</code> settings - such as</p>
 <ul>
 <li>(php.ini) <code>upload_max_filesize</code> with this formula <code>(MAX_PHOTO_SIZE * MAX_ALBUM_LENGTH) + BUFFER</code></li>
 <li>(php.ini) <code>post_max_size</code> with this formula <code>(MAX_PHOTO_SIZE * MAX_ALBUM_LENGTH) + BUFFER</code></li>
@@ -1769,7 +1811,7 @@ of a Docker volume.</p>
 <li>(php.ini) <code>[Date]date.timezone</code> using <code>APP_TIMEZONE</code></li>
 </ul>
 <h3 id="improvement-permission-auto-fixing"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Permission auto-fixing<a class="headerlink" href="#improvement-permission-auto-fixing" title="Permanent link">&para;</a></h3>
-<p>If your installation for some reason has issues with permissions to files/directories, you can now automatically <a href="../../customize/#fixing-ownership-on-startup">fix ownership and permissions on start up</a>.</p>
+<p>If your installation for some reason has issues with permissions to files/directories, you can now automatically <a href="../../customize/entrypoint/#fixing-ownership-on-startup">fix ownership and permissions on start up</a>.</p>
 <p>This is an opt-in feature.</p>
 <h3 id="improvement-faster-docker-image-building"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27Z"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Faster Docker image building<a class="headerlink" href="#improvement-faster-docker-image-building" title="Permanent link">&para;</a></h3>
 <p>We now utilize <a href="https://docs.docker.com/build/buildkit/">BuildKit</a>, <a href="https://docs.docker.com/build/cache/backends/">layer caching</a>, <a href="https://docs.docker.com/build/building/multi-stage/">multi-stage</a>, and <a href="https://docs.docker.com/build/building/multi-platform/">multi-platform</a> to <em>really</em> speed up the building of Docker images.</p>
@@ -1983,7 +2025,7 @@ of a Docker volume.</p>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>worker
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">250</span><span class="w"> </span>--follow<span class="w"> </span>worker
 </code></pre></div>
-<p>The container should output a <em>lot</em> of logs from the <a href="../../customize/#run-script-on-startup">docker-entrypoint system</a>, but <em>eventually</em> you should see these messages</p>
+<p>The container should output a <em>lot</em> of logs from the <a href="../../customize/entrypoint/#run-script-on-startup">docker-entrypoint system</a>, but <em>eventually</em> you should see these messages</p>
 <ul>
 <li><code>Configuration complete; ready for start up</code></li>
 <li><code>Horizon started successfully.</code></li>
