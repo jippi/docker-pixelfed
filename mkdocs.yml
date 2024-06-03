@@ -9,6 +9,10 @@ remote_branch: gh-pages
 dev_addr: "0.0.0.0:8000"
 
 nav:
+  - index.md
+  - Installation:
+      - installation/prerequisites.md
+      - installation/index.md
   - ...
 
 extra_css:

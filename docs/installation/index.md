@@ -1,4 +1,4 @@
-# Installation
+# Guide
 
 !!! tip "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/jippi/docker-pixelfed/issues/new) :heart:"
 
@@ -94,6 +94,6 @@ If you only care about specific containers, you can add them to the end of the c
 
 You made it to the end of the installation tutorial and *hopefully* you have fully functional Pixelfed instance.
 
-We recommend your next steps is to [check out how to customize your Pixelfed instance](customize.md)
+We recommend your next steps is to [check out how to customize your Pixelfed instance](../customize/index.md)
 
 !!! tip "If anything was confusing, unclear, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/jippi/docker-pixelfed/issues/new) :heart:"

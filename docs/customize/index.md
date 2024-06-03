@@ -115,7 +115,7 @@ The variable is a space-delimited list shown below and accepts both relative and
 
 !!! tip "The script stores `lock` files in the `storage/docker/once` folder to ensure that these tasks are only run once, so for new Pixelfed servers, you do not need to disable this behavior!"
 
-The Docker container will by default try to run the required [One-time setup tasks](../generic/installation.md#one-time-setup-tasks) for you on startup.
+The Docker container will by default try to run the required [One-time setup tasks](../../generic/installation.md#one-time-setup-tasks) for you on startup.
 
 If your Pixelfed server already have run these tasks, you must disable this by setting `DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS=0` in your `.env` file.
 
@@ -131,7 +131,7 @@ By setting `DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY=1` in your `.env` file, the sc
 
 The Pixelfed Dockerfile utilizes [Docker Multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and [Build arguments](https://docs.docker.com/build/guide/build-args/).
 
-Using *build arguments* allows us to create a flexible and more maintainable Dockerfile, supporting [multiple runtimes](runtimes.md) ([FPM](runtimes.md#fpm), [Nginx](runtimes.md#nginx-fpm), [Apache + mod_php](runtimes.md#apache)) and end-user flexibility without having to fork or copy the Dockerfile.
+Using *build arguments* allows us to create a flexible and more maintainable Dockerfile, supporting [multiple runtimes](./runtimes.md) ([FPM](./runtimes.md#fpm), [Nginx](./runtimes.md#nginx-fpm), [Apache + mod_php](./runtimes.md#apache)) and end-user flexibility without having to fork or copy the Dockerfile.
 
 *Build arguments* can be configured using `--build-arg 'name=value'` for `docker build`, `docker compose build` and `docker buildx build`. For `docker-compose.yml`, the `args` key for [`build`](https://docs.docker.com/compose/compose-file/compose-file-v3/#build) can be used.
 
@@ -214,7 +214,7 @@ Extra APT packages (separated by space) that should be installed inside the imag
 
 ### `NGINX_VERSION` <Badge type="warning" text="not available in your .env file" />
 
-The version of `nginx` to use when targeting [`nginx-runtime`](runtimes.md#nginx-fpm).
+The version of `nginx` to use when targeting [`nginx-runtime`](./runtimes.md#nginx-fpm).
 
 Please see the [Docker Hub `nginx` page](https://hub.docker.com/_/nginx) for available versions.
 
@@ -244,9 +244,9 @@ The `PHP` base image layer to use when building the runtime container.
 
 When targeting
 
-* [`apache-runtime`](runtimes.md#apache) use `apache`
-* [`fpm-runtime`](runtimes.md#fpm) use `fpm`
-* [`nginx-runtime`](runtimes.md#nginx-fpm) use `fpm`
+* [`apache-runtime`](./runtimes.md#apache) use `apache`
+* [`fpm-runtime`](./runtimes.md#fpm) use `fpm`
+* [`nginx-runtime`](./runtimes.md#nginx-fpm) use `fpm`
 
 **Valid values**:
 
