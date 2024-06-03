@@ -12,6 +12,11 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
+[*.md]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = false
+
 [*.{sh,envsh,env,env*}]
 indent_style = space
 indent_size = 4
