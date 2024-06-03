@@ -38,7 +38,7 @@ scripts/dottie set \
     OAUTH_ENABLED="true"
 
 echo "==> Starting Pixelfed containers"
-docker compose up -d --no-build --quiet
+docker compose up -d --no-build --quiet-pull
 
 echo "==> Starting npm dependencies"
 npm ci
