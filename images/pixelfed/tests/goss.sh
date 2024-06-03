@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit -o nounset -o pipefail
+
 for tag in ${TAGS:?missing}; do
     dgoss run \
         -v "./.env.testing:/var/www/.env" \

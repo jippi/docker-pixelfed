@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit -o nounset -o pipefail
+
 # start ngrok
 docker run -d -e NGROK_AUTHTOKEN --net=host -p 4040:4040 ngrok/ngrok http 8080
 
@@ -29,16 +31,11 @@ scripts/dottie set \
     INSTANCE_CONTACT_EMAIL="github@example.com" \
     OAUTH_ENABLED="true"
 
-# print configurations
-
-scripts/dottie print
-docker compose config
-
 # Start Pixelfed containers in the background
 docker compose up -d --no-build
 
 # Install npm dependencies
-run: npm ci
+npm ci
 
 # Install playwright depdendencies
 npx playwright install --with-deps
