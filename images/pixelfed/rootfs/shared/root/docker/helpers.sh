@@ -248,13 +248,15 @@ function log-info-stderr()
 }
 
 # @description Loads the dot-env files used by Docker
-function load-config-files() {
+function load-config-files()
+{
     local export_vars=0
     load-config-files-impl "$export_vars"
 }
 
 # @description Loads the dot-env files used by Docker and exports the variables to subshells
-function load-and-export-config-files() {
+function load-and-export-config-files()
+{
     local export_vars=1
     load-config-files-impl "$export_vars"
 }
@@ -466,14 +468,14 @@ function await-database-ready()
     case "${DB_CONNECTION:-}" in
         mysql)
             # shellcheck disable=SC2154
-            while ! echo "SELECT 1" | mysql --user="${DB_USERNAME}" --password="${DB_PASSWORD}" --host="${DB_HOST}" --port="${DOCKER_DB_HOST_PORT}" "${DB_DATABASE}" --silent >/dev/null; do
+            while ! echo "SELECT 1" | mysql --user="${DB_USERNAME}" --password="${DB_PASSWORD}" --host="${DB_HOST}" --port="${DB_PORT}" "${DB_DATABASE}" --silent >/dev/null; do
                 staggered-sleep
             done
             ;;
 
         pgsql)
             # shellcheck disable=SC2154
-            while ! echo "SELECT 1" | PGPASSWORD="${DB_PASSWORD}" psql --user="${DB_USERNAME}" --host="${DB_HOST}" --port="${DOCKER_DB_HOST_PORT}" "${DB_DATABASE}" >/dev/null; do
+            while ! echo "SELECT 1" | PGPASSWORD="${DB_PASSWORD}" psql --user="${DB_USERNAME}" --host="${DB_HOST}" --port="${DB_PORT}" "${DB_DATABASE}" >/dev/null; do
                 staggered-sleep
             done
             ;;
