@@ -47,7 +47,7 @@ echo "==> Install playwright depdendencies"
 npx playwright install chromium --with-deps
 
 echo "==> Wait for the site to come up, while streaming the logs"
-curl --header "ngrok-skip-browser-warning: true" --retry-delay 1 --retry 120 --retry-all-errors --fail -o /dev/null "${domain}"
+curl --header "ngrok-skip-browser-warning: true" --retry-delay 1 --retry 60 --retry-max-time 60 --retry-all-errors --fail -o /dev/null "${domain}"
 
 echo "==> Run playwright tests"
 export E2E_URL="${domain}"
