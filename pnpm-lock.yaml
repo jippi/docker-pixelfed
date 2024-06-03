@@ -7,16 +7,10 @@ settings:
 importers:
 
   .:
-    devDependencies:
+    dependencies:
       '@playwright/test':
-        specifier: ^1.44.0
+        specifier: ^1.44.1
         version: 1.44.1
-      '@types/node':
-        specifier: ^20.12.12
-        version: 20.14.0
-      markdown-it-footnote:
-        specifier: ^4.0.0
-        version: 4.0.0
 
 packages:
 
@@ -25,16 +19,10 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  '@types/node@20.14.0':
-    resolution: {integrity: sha512-5cHBxFGJx6L4s56Bubp4fglrEpmyJypsqI6RgzMfBHWUJQGWAAi8cWcgetEbZXHYXo9C2Fa4EEds/uSyS4cxmA==}
-
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
-
-  markdown-it-footnote@4.0.0:
-    resolution: {integrity: sha512-WYJ7urf+khJYl3DqofQpYfEYkZKbmXmwxQV8c8mO/hGIhgZ1wOe7R4HLFNwqx7TjILbnC98fuyeSsin19JdFcQ==}
 
   playwright-core@1.44.1:
     resolution: {integrity: sha512-wh0JWtYTrhv1+OSsLPgFzGzt67Y7BE/ZS3jEqgGBlp2ppp1ZDj8c+9IARNW4dwf1poq5MgHreEM2KV/GuR4cFA==}
@@ -46,23 +34,14 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-
 snapshots:
 
   '@playwright/test@1.44.1':
     dependencies:
       playwright: 1.44.1
 
-  '@types/node@20.14.0':
-    dependencies:
-      undici-types: 5.26.5
-
   fsevents@2.3.2:
     optional: true
-
-  markdown-it-footnote@4.0.0: {}
 
   playwright-core@1.44.1: {}
 
@@ -71,5 +50,3 @@ snapshots:
       playwright-core: 1.44.1
     optionalDependencies:
       fsevents: 2.3.2
-
-  undici-types@5.26.5: {}
