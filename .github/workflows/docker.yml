@@ -290,10 +290,10 @@ jobs:
         run: images/pixelfed/tests/e2e.sh
         env:
           CI: true
-          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
-          DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
+          DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
+          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show ngrok logs
