@@ -294,6 +294,7 @@ jobs:
         name: Run E2E tests
         run: images/pixelfed/tests/e2e.sh
         env:
+          CI: true
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
