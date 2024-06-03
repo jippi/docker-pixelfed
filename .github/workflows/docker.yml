@@ -289,22 +289,25 @@ jobs:
               $tag
           done
 
-      - uses: luisboto/ngrok-tunnel-action@v0.1.7.2
-        with:
-          timeout: 10m
-          port: 8080
-          ngrok_authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
-          tunnel_type: http
-          save_url_to_filename: ngrok-url.txt
+      - name: Setup ngrok tunnel
+        id: print-tunnel-url
+        run: |
+          docker run -d -e NGROK_AUTHTOKEN -p 3000:4040 ngrok/ngrok http 8080
+          echo "tunnel-url=$(curl http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
+        env:
+          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
-      - run: cat ngrok-url.txt
+      - name: "Print ngrok tunnel URL"
+        run: echo "${{ steps.print-tunnel-url.outputs.tunnel-url }}"
 
-      - run: |
+      - name: "Configure .env file with dottie"
+        run: |
           cp env.docker .env
           scripts/dottie set APP_DEBUG=true
-          scripts/dottie set APP_DOMAIN=$(cat ngrok-url.txt)
+          scripts/dottie set APP_DOMAIN=${{ steps.print-tunnel-url.outputs.tunnel-url }}
           scripts/dottie set DB_PASSWORD="helloworld"
           scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
 
-          docker-compose up
+      - name: "Start containers"
+        run: docker-compose up
