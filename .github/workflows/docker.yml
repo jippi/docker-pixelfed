@@ -319,13 +319,22 @@ jobs:
           domain=${domain#https://*}
           echo "domain v2=${domain}"
 
-          scripts/dottie set APP_DEBUG="true"
-          scripts/dottie set APP_DOMAIN="${domain}"
-          scripts/dottie set DB_PASSWORD="helloworld"
-          scripts/dottie set DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}"
-          scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
-          scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
+          scripts/dottie set \
+            APP_DEBUG="true" \
+            APP_DOMAIN="${domain}" \
+            DB_PASSWORD="helloworld" \
+            DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}" \
+            DOCKER_PROXY_PROFILE="disabled" \
+            INSTANCE_CONTACT_EMAIL="github@example.com"
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: "Print .env file"
+        run: scripts/dottie print
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: "Print docker-compose config"
+        run: docker compose config
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Start containers"
-        run: docker-compose up
+        run: docker compose up
