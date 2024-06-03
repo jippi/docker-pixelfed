@@ -319,7 +319,7 @@ jobs:
           echo "domain v2=${domain}"
 
           scripts/dottie set \
-            APP_NAME="${domain}" \
+            APP_NAME="docker-pixelfed e2e" \
             APP_DOMAIN="${domain}" \
             DB_PASSWORD="helloworld" \
             DOCKER_APP_PHP_VERSION="${{ matrix.php_version }}" \

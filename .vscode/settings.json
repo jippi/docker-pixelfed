@@ -17,5 +17,8 @@
     "files.associations": {
         ".env": "shellscript",
         ".env.*": "shellscript"
-    }
+    },
+    "cSpell.words": [
+        "pixelfed"
+    ]
 }
