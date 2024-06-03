@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://jippi.github.io/docker-pixelfed/conventions/</loc>
+         <lastmod>2024-06-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://jippi.github.io/docker-pixelfed/customize/</loc>
          <lastmod>2024-06-03</lastmod>
          <changefreq>daily</changefreq>

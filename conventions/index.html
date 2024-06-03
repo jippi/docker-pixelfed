@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://jippi.github.io/docker-pixelfed/runtimes/">
+        <link rel="canonical" href="https://jippi.github.io/docker-pixelfed/conventions/">
       
       
-        <link rel="prev" href="../prerequisites/">
+        <link rel="prev" href="..">
       
       
-        <link rel="next" href="../migrate/v2.0/">
+        <link rel="next" href="../customize/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Container runtimes - Docker Pixelfed</title>
+        <title>Conventions - Docker Pixelfed</title>
       
     
     
@@ -59,11 +59,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Container runtimes - Docker Pixelfed" >
+        <meta  property="og:title"  content="Conventions - Docker Pixelfed" >
       
         <meta  property="og:description"  content="None" >
       
-        <meta  property="og:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/runtimes.png" >
+        <meta  property="og:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/conventions.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -71,15 +71,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://jippi.github.io/docker-pixelfed/runtimes/" >
+        <meta  property="og:url"  content="https://jippi.github.io/docker-pixelfed/conventions/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Container runtimes - Docker Pixelfed" >
+        <meta  name="twitter:title"  content="Conventions - Docker Pixelfed" >
       
         <meta  name="twitter:description"  content="None" >
       
-        <meta  name="twitter:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/runtimes.png" >
+        <meta  name="twitter:image"  content="https://jippi.github.io/docker-pixelfed/assets/images/social/conventions.png" >
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#container-runtimes" class="md-skip">
+        <a href="#conventions" class="md-skip">
           Skip to content
         </a>
       
@@ -138,7 +138,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Container runtimes
+              Conventions
             
           </span>
         </div>
@@ -308,10 +308,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../conventions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Conventions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -320,6 +340,110 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symbols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Symbols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Symbols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default" class="md-nav__link">
+    <span class="md-ellipsis">
+      is computed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default" class="md-nav__link">
+    <span class="md-ellipsis">
+      is empty
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experimental" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experimental
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -408,30 +532,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Container runtimes
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../runtimes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -440,125 +544,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apache" class="md-nav__link">
-    <span class="md-ellipsis">
-      Apache
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Apache">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-apache" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (Apache)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-compose-apache" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker compose (Apache)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx-fpm-advanced" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nginx + FPM Advanced
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Nginx + FPM Advanced">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-nginx" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (Nginx)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-compose-nginx" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker compose (Nginx)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fpm-advanced" class="md-nav__link">
-    <span class="md-ellipsis">
-      FPM Advanced
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FPM Advanced">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-compose-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker compose (FPM)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -660,28 +645,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apache" class="md-nav__link">
+  <a href="#symbols" class="md-nav__link">
     <span class="md-ellipsis">
-      Apache
+      Symbols
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Apache">
+    <nav class="md-nav" aria-label="Symbols">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#docker-build-apache" class="md-nav__link">
+  <a href="#version" class="md-nav__link">
     <span class="md-ellipsis">
-      docker build (Apache)
+      Version
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#docker-compose-apache" class="md-nav__link">
+  <a href="#default" class="md-nav__link">
     <span class="md-ellipsis">
-      docker compose (Apache)
+      Default value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Default value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default" class="md-nav__link">
+    <span class="md-ellipsis">
+      is computed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default" class="md-nav__link">
+    <span class="md-ellipsis">
+      is empty
     </span>
   </a>
   
@@ -691,63 +695,29 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#nginx-fpm-advanced" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nginx + FPM Advanced
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Nginx + FPM Advanced">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#docker-build-nginx" class="md-nav__link">
+  <a href="#experimental" class="md-nav__link">
     <span class="md-ellipsis">
-      docker build (Nginx)
+      Experimental
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#docker-compose-nginx" class="md-nav__link">
+  <a href="#required" class="md-nav__link">
     <span class="md-ellipsis">
-      docker compose (Nginx)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fpm-advanced" class="md-nav__link">
-    <span class="md-ellipsis">
-      FPM Advanced
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FPM Advanced">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-build-fpm" class="md-nav__link">
-    <span class="md-ellipsis">
-      docker build (FPM)
+      Required value
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#docker-compose-fpm" class="md-nav__link">
+  <a href="#customization" class="md-nav__link">
     <span class="md-ellipsis">
-      docker compose (FPM)
+      Customization
     </span>
   </a>
   
@@ -773,7 +743,7 @@
                   
 
   
-    <a href="https://github.com/jippi/docker-pixelfed/edit/main/docs/runtimes.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/jippi/docker-pixelfed/edit/main/docs/conventions.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -782,124 +752,31 @@
     
       
     
-    <a href="https://github.com/jippi/docker-pixelfed/raw/main/docs/runtimes.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/jippi/docker-pixelfed/raw/main/docs/conventions.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-<h1 id="container-runtimes">Container runtimes<a class="headerlink" href="#container-runtimes" title="Permanent link">&para;</a></h1>
-<div class="admonition tip">
-<p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/pixelfed/pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
-</div>
-<p>The Pixelfed Dockerfile support multiple target <em>runtimes</em> (<a href="#apache">Apache</a>, <a href="#nginx-fpm">Nginx + FPM</a>, and <a href="#fpm">FPM</a>).</p>
-<p>You can consider a <em>runtime</em> target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.</p>
-<div class="admonition info">
-<p class="admonition-title">What runtime is right for me?</p>
-<p>If you are unsure of which runtime to choose, please use the <a href="#apache">Apache runtime</a>; it's the most straightforward one and also the default.</p>
-</div>
-<h2 id="apache">Apache  <Badge type="tip" text="Recommended" /><a class="headerlink" href="#apache" title="Permanent link">&para;</a></h2>
-<div class="admonition tip">
-<p class="admonition-title">RECOMMENDED</p>
-<p>This is the default <em>and</em> recommended runtime for almost all single-server Pixelfed instances, as it has fewer moving parts, simplified operational model, and strikes a good balance between performance, features, and convenience.</p>
-</div>
-<p>Building a custom Pixelfed Docker image using <code>Apache</code> + <code>mod_php</code> can be achieved the following way.</p>
-<h3 id="docker-build-apache">docker build (Apache)<a class="headerlink" href="#docker-build-apache" title="Permanent link">&para;</a></h3>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w"> </span>--target<span class="w"> </span>apache-runtime<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w"> </span>--tag<span class="w"> </span>&lt;docker<span class="w"> </span>hub<span class="w"> </span>user&gt;/&lt;docker<span class="w"> </span>hub<span class="w"> </span>repo&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w"> </span>.
-</code></pre></div>
-<h3 id="docker-compose-apache">docker compose (Apache)<a class="headerlink" href="#docker-compose-apache" title="Permanent link">&para;</a></h3>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">services</span><span class="p">:</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">app</span><span class="p">:</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apache-runtime</span>
-</code></pre></div>
-<h2 id="nginx-fpm-advanced">Nginx + FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div><a class="headerlink" href="#nginx-fpm-advanced" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">ADVANCED USAGE</p>
-<p>Nginx + FPM has more moving parts than the default (and recommended) <a href="#apache">Apache runtime</a>.</p>
-<p>Only select this runtime if you have valid <em>technical</em> reasons to do so.</p>
-</div>
-<p>Building a custom Pixelfed Docker image using nginx + FPM can be achieved the following way.</p>
-<h3 id="docker-build-nginx">docker build (Nginx)<a class="headerlink" href="#docker-build-nginx" title="Permanent link">&para;</a></h3>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w"> </span>--target<span class="w"> </span>nginx-runtime<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w"> </span>--build-arg<span class="w"> </span><span class="s1">&#39;PHP_BASE_TYPE=fpm&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w"> </span>--tag<span class="w"> </span>&lt;docker<span class="w"> </span>hub<span class="w"> </span>user&gt;/&lt;docker<span class="w"> </span>hub<span class="w"> </span>repo&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w"> </span>.
-</code></pre></div>
-<h3 id="docker-compose-nginx">docker compose (Nginx)<a class="headerlink" href="#docker-compose-nginx" title="Permanent link">&para;</a></h3>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;nginx&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">services</span><span class="p">:</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w"> </span><span class="nt">app</span><span class="p">:</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">build</span><span class="p">:</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">   </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">   </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">   </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-runtime</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">   </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">     </span><span class="nt">PHP_BASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm</span>
-</code></pre></div>
-<h2 id="fpm-advanced">FPM <div class="admonition warning"><div class="admonition-title">Advanced</div></div><a class="headerlink" href="#fpm-advanced" title="Permanent link">&para;</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">ADVANCED USAGE</p>
-<p>The FPM runtime is for advanced users that want to run their PHP processes in a different container (or even server) from their webserver.</p>
-<p>This is mostly used in horizontal scaling or advanced setups</p>
-</div>
-<p>Building a custom Pixelfed Docker image using FPM (only) can be achieved the following way.</p>
-<h3 id="docker-build-fpm">docker build (FPM)<a class="headerlink" href="#docker-build-fpm" title="Permanent link">&para;</a></h3>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w"> </span>--target<span class="w"> </span>fpm-runtime<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w"> </span>--build-arg<span class="w"> </span><span class="s1">&#39;PHP_BASE_TYPE=fpm&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w"> </span>--tag<span class="w"> </span>&lt;docker<span class="w"> </span>hub<span class="w"> </span>user&gt;/&lt;docker<span class="w"> </span>hub<span class="w"> </span>repo&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w"> </span>.
-</code></pre></div>
-<h3 id="docker-compose-fpm">docker compose (FPM)<a class="headerlink" href="#docker-compose-fpm" title="Permanent link">&para;</a></h3>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">services</span><span class="p">:</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w"> </span><span class="nt">app</span><span class="p">:</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">build</span><span class="p">:</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">   </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">   </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">   </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm-runtime</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">   </span><span class="nt">args</span><span class="p">:</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">     </span><span class="nt">PHP_BASE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fpm</span>
-</code></pre></div>
+<h1 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h1>
+<p>This section explains several conventions used in this documentation.</p>
+<h2 id="symbols">Symbols<a class="headerlink" href="#symbols" title="Permanent link">&para;</a></h2>
+<p>This documentation use some symbols for illustration purposes. Before you read on, please make sure you've made yourself familiar with the following list of conventions:</p>
+<h3 id="version"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#version" title="Minimum version"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.41 11.58-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5 1.5 1.5 0 0 1 6.5 5Z"/></svg></span></a></span></span> – Version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h3>
+<p>The tag symbol in conjunction with a version number denotes when a specific feature or behavior was added. Make sure you're at least on this version if you want to use it.</p>
+<h3 id="default"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span></span> – Default value<a class="headerlink" href="#default" title="Permanent link">&para;</a></h3>
+<p>Some properties in <code>.env</code> have default values for when the author does not explicitly define them. The default value of the property is always included.</p>
+<h4 id="default"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59 1.16 1.41M17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6Z"/></svg></span></a></span></span> – Default value is computed<a class="headerlink" href="#default" title="Permanent link">&para;</a></h4>
+<p>Some default values are not set to static values but computed from other values, like the site language, repository provider, or other settings.</p>
+<h4 id="default"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#default" title="Default value is empty"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 3.77-.75.84S9.97 6.06 8.68 7.94C7.39 9.82 6 12.07 6 14.23a6 6 0 0 0 6 6 6 6 0 0 0 6-6c0-2.16-1.39-4.41-2.68-6.29-1.29-1.88-2.57-3.33-2.57-3.33L12 3.77m0 3.13c.44.52.84.95 1.68 2.17 1.21 1.76 2.32 4 2.32 5.16 0 2.22-1.78 4-4 4-2.22 0-4-1.78-4-4 0-1.16 1.11-3.4 2.32-5.16.84-1.22 1.24-1.65 1.68-2.17Z"/></svg></span></a></span></span> – Default value is empty<a class="headerlink" href="#default" title="Permanent link">&para;</a></h4>
+<p>Some properties do not contain default values. This means that the functionality that is associated with them is not available unless explicitly enabled.</p>
+<h3 id="experimental"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#experimental" title="Experimental"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3H6m7-6 1.34-1.34L16.27 18H7.73l2.66-4.61L13 16m-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5Z"/></svg></span></a></span></span> – Experimental<a class="headerlink" href="#experimental" title="Permanent link">&para;</a></h3>
+<p>Some newer features are still considered experimental, which means they might (although rarely) change at any time, including their complete removal (which hasn't happened yet).</p>
+<h3 id="required"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2 1 21Z"/></svg></span></a></span></span> – Required value<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
+<p>Some (very few in fact) properties or settings are required, which means the authors must explicitly define them.</p>
+<h3 id="customization"><span class="mdx-badge"><span class="mdx-badge__icon"><a href="#customization" title="Customization"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3C5.79 3 4 4.79 4 7v7c0 1.1.9 2 2 2h3v4c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-4h3c1.1 0 2-.9 2-2V3H8m0 2h4v2h2V5h1v4h2V5h1v5H6V7c0-1.1.9-2 2-2m-2 9v-2h12v2H6Z"/></svg></span></a></span></span> – Customization<a class="headerlink" href="#customization" title="Permanent link">&para;</a></h3>
+<p>This symbol denotes that the thing described is a customization that must be added by the author.</p>
 
 
 
