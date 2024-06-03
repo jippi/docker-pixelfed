@@ -299,15 +299,15 @@ jobs:
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
 
-      - if: always()
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose logs
         run: docker compose logs
 
-      - if: always()
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose config
         run: docker compose config
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

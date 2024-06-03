@@ -25,5 +25,10 @@ export default defineConfig({
 
         // Whether to automatically capture a screenshot after each test. Defaults to 'off'.
         screenshot: 'on',
+
+        // https://playwright.dev/docs/api/class-testoptions#test-options-extra-http-headers
+        extraHTTPHeaders: {
+            'ngrok-skip-browser-warning': 'true',
+        },
     },
 })
