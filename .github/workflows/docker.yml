@@ -289,7 +289,7 @@ jobs:
               $tag
           done
 
-      - if: matrix.target_runtime == 'apache'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Setup ngrok tunnel
         id: print-tunnel-url
         run: |
@@ -298,11 +298,11 @@ jobs:
         env:
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
-      - if: matrix.target_runtime == 'apache'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Print ngrok tunnel URL"
         run: echo "${{ steps.print-tunnel-url.outputs.tunnel-url }}"
 
-      - if: matrix.target_runtime == 'apache'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Configure .env file with dottie"
         run: |
           cp .env.docker .env
@@ -313,6 +313,6 @@ jobs:
           scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
 
-      - if: matrix.target_runtime == 'apache'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Start containers"
         run: docker-compose up
