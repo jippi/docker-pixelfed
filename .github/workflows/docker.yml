@@ -297,15 +297,19 @@ jobs:
 
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show ngrok logs
-        run: docker logs ngrok
-
-      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
-        name: Show docker compose logs
-        run: docker compose logs
+        run: |
+          docker logs ngrok
+          docker rm -f ngrok
 
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         name: Show docker compose config
         run: docker compose config
+
+      - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs
+        run: |
+          docker compose logs
+          docker compose down -v
 
       - if: always() && contains(fromJSON('["apache", "nginx"]'), matrix.target_runtime) && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4
