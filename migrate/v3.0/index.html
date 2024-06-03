@@ -693,6 +693,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#breaking-change-new-docker-image-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Docker image names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#breaking-change-splitting-the-dockerfile" class="md-nav__link">
     <span class="md-ellipsis">
       Splitting the Dockerfile
@@ -792,6 +801,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#breaking-change-new-docker-image-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Docker image names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#breaking-change-splitting-the-dockerfile" class="md-nav__link">
     <span class="md-ellipsis">
       Splitting the Dockerfile
@@ -883,6 +901,25 @@
 <div class="admonition danger">
 <p class="admonition-title">These changes are breaking, removing, or changing existing behavior from Docker Compose v1 and <em>requires</em> your attention and possibly some steps to fix.</p>
 </div>
+<h3 id="breaking-change-new-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New Docker image names<a class="headerlink" href="#breaking-change-new-docker-image-names" title="Permanent link">&para;</a></h3>
+<p>Since <code>docker-pixelfed</code> do not exist within the <code>pixelfed</code> project itself, the URL for the container images will change.</p>
+<p>Before you might have something like the following in your <code>.env</code> file</p>
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;jippi-fork-1&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/pixelfed&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bullseye&quot;</span>
+</code></pre></div>
+<p>Those are now</p>
+<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># [v0] for the least v0.x.y release of Pixelfed</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># [v0.12] for the least v0.12.x release of Pixelfed</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># [v0.12.1] for the v0.12.1 release of Pixelfed</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nv">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;v0.12.1&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># changed from ghcr.io/jippi/pixelfed</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nv">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/docker-pixelfed&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># changed from &quot;bullseye&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nv">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bookworm&quot;</span>
+</code></pre></div>
 <h3 id="breaking-change-splitting-the-dockerfile"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> Splitting the <code>Dockerfile</code><a class="headerlink" href="#breaking-change-splitting-the-dockerfile" title="Permanent link">&para;</a></h3>
 <p>v3 splits the Dockerfile into two to keep them focused, and reducing build times, by having higher cache utilization.</p>
 <ul>
