@@ -325,6 +325,7 @@ jobs:
             DB_PASSWORD="helloworld" \
             DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}" \
             DOCKER_PROXY_PROFILE="disabled" \
+            DOCKER_PROXY_ACME_PROFILE="disabled" \
             INSTANCE_CONTACT_EMAIL="github@example.com"
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
