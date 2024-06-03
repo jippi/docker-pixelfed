@@ -289,7 +289,8 @@ jobs:
               $tag
           done
 
-      - name: Setup ngrok tunnel
+      - if: matrix.target_runtime == 'apache'
+        name: Setup ngrok tunnel
         id: print-tunnel-url
         run: |
           docker run -d -e NGROK_AUTHTOKEN -p 3000:4040 ngrok/ngrok http 8080
@@ -297,10 +298,12 @@ jobs:
         env:
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
-      - name: "Print ngrok tunnel URL"
+      - if: matrix.target_runtime == 'apache'
+        name: "Print ngrok tunnel URL"
         run: echo "${{ steps.print-tunnel-url.outputs.tunnel-url }}"
 
-      - name: "Configure .env file with dottie"
+      - if: matrix.target_runtime == 'apache'
+        name: "Configure .env file with dottie"
         run: |
           cp .env.docker .env
 
@@ -310,5 +313,6 @@ jobs:
           scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
 
-      - name: "Start containers"
+      - if: matrix.target_runtime == 'apache'
+        name: "Start containers"
         run: docker-compose up
