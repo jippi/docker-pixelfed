@@ -360,3 +360,5 @@ jobs:
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         run: playwright test --config images/pixelfed/playwright.config.cjs
+        env:
+          E2E_URL: ${{ steps.print-tunnel-url.outputs.tunnel-url }}

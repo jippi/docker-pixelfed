@@ -1,0 +1,9 @@
+{
+    "license": "MIT",
+    "type": "module",
+    "devDependencies": {
+        "@playwright/test": "^1.44.0",
+        "@types/node": "^20.12.12",
+        "markdown-it-footnote": "^4.0.0"
+    }
+}

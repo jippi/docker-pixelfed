@@ -9,5 +9,5 @@ test('page should load without errors', async ({ page }) => {
     });
 
     // Navigate to the URL
-    await page.goto('http://localhost:8080/');
+    await page.goto('/');
 });
