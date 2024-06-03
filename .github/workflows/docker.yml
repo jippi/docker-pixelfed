@@ -16,7 +16,15 @@ on:
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
   schedule:
-    - cron: "0 8 * * *" # run at 8 AM UTC
+    #          ┌───────────── minute (0 - 59)
+    #          │  ┌───────────── hour (0 - 23)
+    #          │  │ ┌───────────── day of the month (1 - 31)
+    #          │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #          │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #          │  │ │ │ │
+    #          │  │ │ │ │
+    #          │  │ │ │ │
+    - cron: "*/15 * * * *" # run at 8 AM UTC
 
 jobs:
   bats:
@@ -109,7 +117,7 @@ jobs:
           tags: |
             # schedule
             type=schedule,pattern=nightly
-            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
             # release
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
@@ -230,7 +238,7 @@ jobs:
           tags: |
             # schedule
             type=schedule,pattern=nightly
-            type=schedule,pattern={{ date 'YYY-YM-MDD' tz='UTC' }}
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
             # release
             type=semver,pattern=v{{ major }}
             type=semver,pattern=v{{ major }}.{{ minor }}
