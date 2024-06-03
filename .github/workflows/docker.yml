@@ -350,16 +350,23 @@ jobs:
         run: curl --retry-delay 1 --retry 120 --retry-all-errors --fail ${{ steps.print-tunnel-url.outputs.tunnel-url }}
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        uses: wyvox/action-setup-pnpm@v3
-        with:
-          node-version: 20
+        uses: actions/setup-node@v4
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: install playwright
-        run: pnpx playwright install --with-deps
+        name: Install dependencies
+        run: npm ci
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        working-directory: images/pixelfed
-        run: pnpx playwright test
-        env:
-          E2E_URL: ${{ steps.print-tunnel-url.outputs.tunnel-url }}
+        name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Run Playwright tests
+        run: npx playwright test
+
+      # - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report/
+      #     retention-days: 30
