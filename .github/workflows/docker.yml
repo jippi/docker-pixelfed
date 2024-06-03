@@ -361,7 +361,7 @@ jobs:
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --config images/pixelfed/playwright.config.cjs
 
       # - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
       #   uses: actions/upload-artifact@v4
