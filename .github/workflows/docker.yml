@@ -233,7 +233,6 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }},enable=true
           flavor: |
-            latest=auto
             suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}
           tags: |
             # schedule
