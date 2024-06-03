@@ -293,8 +293,8 @@ jobs:
         name: Setup ngrok tunnel
         id: print-tunnel-url
         run: |
-          docker run -d -e NGROK_AUTHTOKEN -p 3000:4040 ngrok/ngrok http 8080
-          echo "tunnel-url=$(curl http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
+          docker run -d -e NGROK_AUTHTOKEN -p 4040:4040 ngrok/ngrok http 8080
+          echo "tunnel-url=$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")" >> $GITHUB_OUTPUT
         env:
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
