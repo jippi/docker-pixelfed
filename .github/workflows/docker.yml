@@ -73,7 +73,7 @@ jobs:
           - bookworm
         php_base:
           - apache
-          - fpm
+          # - fpm
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
@@ -161,16 +161,16 @@ jobs:
           - 8.3
         pixelfed_branch:
           - staging
-          - dev
+          # - dev
         debian_release:
           - bookworm
         php_base:
           - apache
-          - fpm
+          # - fpm
         target_runtime:
           - apache
-          - fpm
-          - nginx
+          # - fpm
+          # - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
         # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
@@ -308,11 +308,12 @@ jobs:
           cp .env.docker .env
           chown www-data:www-data .env
 
-          scripts/dottie set APP_DEBUG=true
-          scripts/dottie set APP_DOMAIN=${{ steps.print-tunnel-url.outputs.tunnel-url }}
+          scripts/dottie set APP_DEBUG="true"
+          scripts/dottie set APP_DOMAIN="${{ steps.print-tunnel-url.outputs.tunnel-url }}"
           scripts/dottie set DB_PASSWORD="helloworld"
-          scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
+          scripts/dottie set DOCKER_APP_PHP_VERSION="branch-${{ github.ref_name }}"
           scripts/dottie set DOCKER_PROXY_PROFILE="disabled"
+          scripts/dottie set INSTANCE_CONTACT_EMAIL="github@example.com"
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Start containers"
