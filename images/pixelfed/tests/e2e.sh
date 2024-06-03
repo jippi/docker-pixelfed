@@ -41,7 +41,7 @@ npm ci
 npx playwright install chromium --with-deps
 
 # Wait for the site to come up, while streaming the logs
-curl --retry-delay 1 --retry 120 --retry-all-errors --fail "${domain}"
+curl --header "ngrok-skip-browser-warning: true" --retry-delay 1 --retry 120 --retry-all-errors --fail -o /dev/null "${domain}"
 
 # Run playwright tests
 export E2E_URL="${domain}"
