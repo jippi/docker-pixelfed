@@ -64,6 +64,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}-php,enable=true
           flavor: |
             suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
+            prefix=v
           tags: |
             # semver (pixelfed + custom tag) parsed
             type=semver,pattern={{ major }}
