@@ -10,6 +10,7 @@ dev_addr: "0.0.0.0:8000"
 
 nav:
   - index.md
+  - conventions.md
   - Installation:
       - installation/prerequisites.md
       - installation/index.md
