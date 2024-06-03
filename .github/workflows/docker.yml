@@ -319,6 +319,7 @@ jobs:
           echo "domain v2=${domain}"
 
           scripts/dottie set \
+            APP_NAME="${domain}" \
             APP_DOMAIN="${domain}" \
             DB_PASSWORD="helloworld" \
             DOCKER_APP_PHP_VERSION="${{ matrix.php_version }}" \
@@ -346,8 +347,16 @@ jobs:
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Wait for e2e site to come up"
-        run: curl --retry-all-errors --fail --retry 120 --retry-max-time 120 ${{ steps.print-tunnel-url.outputs.tunnel-url }}
+        run: curl --retry-delay 1 --retry 120 --retry-all-errors --fail ${{ steps.print-tunnel-url.outputs.tunnel-url }}
 
       - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Sleep a bit"
-        run: sleep 120
+        uses: wyvox/action-setup-pnpm@v3
+        with:
+          node-version: 20
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: install playwright
+        run: pnpx playwright install --with-deps
+
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        run: playwright test --config images/pixelfed/playwright.config.cjs
