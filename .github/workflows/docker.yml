@@ -265,14 +265,14 @@ jobs:
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           PHP_BASE_TYPE: ${{ matrix.php_base }}
 
-      - if: matrix.pixelfed_branch == 'staging'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: "Setup NodeJS"
         uses: actions/setup-node@v4
         with:
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
-      - if: matrix.pixelfed_branch == 'staging'
+      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Run E2E tests
         run: images/pixelfed/tests/e2e.sh
         env:
@@ -282,23 +282,23 @@ jobs:
           DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
-      - if: always() && matrix.pixelfed_branch == 'staging'
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show ngrok logs
         run: |
           docker logs ngrok
           docker rm -f ngrok
 
-      - if: always() && matrix.pixelfed_branch == 'staging'
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose config
         run: docker compose config
 
-      - if: always() && matrix.pixelfed_branch == 'staging'
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose logs
         run: |
           docker compose logs
           docker compose down -v
 
-      - if: always() && matrix.pixelfed_branch == 'staging'
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ matrix.target_runtime }}
