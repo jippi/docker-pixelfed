@@ -31,7 +31,7 @@ declare DB_PASSWORD
 DB_PASSWORD=$(__dottie value "DB_PASSWORD")
 
 if [[ $DB_PASSWORD == "__CHANGE_ME__" ]]; then
-    action_start "Generating new unique password for your database password"
+    action_start "${BLUE}Generating new unique password for your database password${NO_COLOR}"
     DB_PASSWORD=$(random_string 25) && action_ok "Done!"
     __dottie set DB_PASSWORD="$DB_PASSWORD"
     echo ""
@@ -47,6 +47,8 @@ ask_confirm_boolean "OAUTH_ENABLED" "Enable OAuth? (required for using mobile ap
 # Use the included Docker Proxy or not
 if ask_confirm_profile "DOCKER_PROXY_PROFILE" "Do you want to use the included HTTP(S) proxy?"; then
     ask_confirm_profile "DOCKER_PROXY_ACME_PROFILE" "Do you want to use the included HTTP(S) LetsEncrypt side-car?" || :
+else
+    __feature enable-proxy-acme
 fi
 
 # Yay, everything is fine

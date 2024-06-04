@@ -114,11 +114,13 @@ function ask_input()
     local value
     value=$(__dottie value "${key_name}" --with-disabled)
 
+    [[ "$value" == "__CHANGE_ME__" ]] && value=""
+
     while true; do
         action_start_newline "${BLUE}${title}${NO_COLOR}"
 
         value=$(__gum input --placeholder="${placeholder}" --value "${value}")
-        __dottie set "${key_name}"="${value}" && action_ok "Successfully set '${key_name}'" && echo "" && return 0
+        __dottie set "${key_name}"="${value}" && action_ok "Successfully set '${key_name}' to '${value}'" && echo "" && return 0
 
         action_error "Looks like the name is invalid, try again"
         echo ""
