@@ -1,0 +1,26 @@
+name: Documentation Release
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: build
+        run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
+
+      - name: deploy
+        run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs gh-deploy --force
