@@ -1,0 +1,3 @@
+[alias]
+commit = meteor
+ci = meteor
