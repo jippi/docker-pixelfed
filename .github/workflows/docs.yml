@@ -6,19 +6,27 @@ on:
       - "*"
 
 jobs:
-  deploy:
-    name: "Deploy"
+  markdownlint:
+    name: "check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: markdown-lint
+      - name: check
         uses: DavidAnson/markdownlint-cli2-action@v16
         with:
           config: .markdownlint.yml
           globs: "docs.io/**/*.md"
+
+  deadlinks:
+    name: "check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: build container
         run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
@@ -40,7 +48,6 @@ jobs:
 
           docker run --rm --net=host raviqqe/muffet \
             --color=always \
-            --ignore-fragments \
             -e 'https://cdn\.jsdelivr.net/.*' \
             -e 'https://docs\.pixelfed\.org/.*' \
             -e 'https://fonts\.gstatic\.com' \
