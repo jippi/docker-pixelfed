@@ -172,7 +172,7 @@ ENV RUNTIME_GID=${RUNTIME_GID}
 USER root
 
 COPY --link --from=forego-image /usr/local/bin/forego /usr/local/bin/forego
-COPY --link --from=dottie-image /dottie /usr/local/bin/dottie
+COPY --link --from=dottie-image /usr/local/bin/dottie /usr/local/bin/dottie
 COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplate
 
 #! Changing user to runtime user
