@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 declare service="${PF_SERVICE:=worker}"
 declare user="${PF_USER:=www-data}"

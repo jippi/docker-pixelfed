@@ -1,42 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e -o errexit -o nounset -o pipefail
 
-#
-# Colors
-#
+declare project_root="${PWD}"
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
 
-declare -r RED="\e[31m"
-declare -r GREEN="\e[32m"
-declare -r BLUE="\e[34m"
-declare -r NO_COLOR="\e[0m"
-
-#
-# Helper functions
-#
-
-function highlight() {
-    local reset="${2:-$NO_COLOR}"
-    echo "${BLUE}$1${reset}"
-}
-
-function action_start() {
-    echo -en "⚙️ $1: "
-}
-
-function action_ok() {
-    echo -e "\n\t✅ ${GREEN}${*}${NO_COLOR}\n"
-}
-
-function action_error() {
-    echo -e "\n\t❌ ${RED}${*}${NO_COLOR}" >&2
-}
-
-function action_error_exit() {
-    action_error "${*}\n\n${RED}Aborting!${NO_COLOR}"
-
-    exit 1
-}
+# shellcheck source=lib/shared.sh
+source "${project_root}/scripts/lib/shared.sh"
 
 #
 # Configuration
@@ -122,5 +92,15 @@ action_start "Checking if [$(highlight "docker compose version")] minor version 
 }
 action_ok "You're using minor version ${compose_version_arr[1]}"
 
+# docker compose version is acceptable?
+action_start "Checking if [$(highlight "docker compose")] and [$(highlight "docker-compose")] are the same binary"
+docker_compose_version=$(docker-compose version --short)
+if [[ "${docker_compose_version}" != "${compose_version}" ]]; then
+    action_warn "[docker compose] (${compose_version}) and [docker-compose] (${docker_compose_version}) are NOT the same, make sure to use [docker compose] and *NOT* [docker-compose]"
+else
+    action_ok "[docker-compose] and [docker compose] are the same binary"
+fi
+
 # Yay, everything is fine
-echo -e "🎉 ${GREEN}All checks passed, you should be ready to run Pixelfed on this server!${NO_COLOR}"
+echo ""
+echo -e "🎉 ${GREEN}All required checks passed, you should be ready to run Pixelfed on this server!${NO_COLOR}"

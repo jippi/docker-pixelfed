@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -e -o errexit -o nounset -o pipefail
+
+declare project_root="${PWD}"
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+
+if [[ ! -f "${project_root}/.env" ]]; then
+    action_start_newline "No '.env' file found, copying the default one for you"
+    cp -v "${project_root}/.env.docker" "${project_root}/.env" || action_error_exit "copy operation failed"
+    action_ok "OK"
+    echo
+fi
+
+# shellcheck source=lib/shared.sh
+source "${project_root}/scripts/lib/shared.sh"
+
+ask_input "APP_NAME" "The name/title for your site"
+ask_input "APP_DOMAIN" "Application domain used for routing. (e.g., pixelfed.org)"
+ask_input "INSTANCE_CONTACT_EMAIL" "The public e-mail address people can use to contact you by"
+
+declare DB_PASSWORD
+DB_PASSWORD=$(__dottie value "DB_PASSWORD")
+
+if [[ $DB_PASSWORD == "__CHANGE_ME__" ]]; then
+    action_start "Generating new unique password for your database password"
+    DB_PASSWORD=$(random_string 25) && action_ok "Done!"
+    __dottie set DB_PASSWORD="$DB_PASSWORD"
+    echo ""
+fi
+
+ask_input "DB_PASSWORD" "The password to your database"
+
+ask_confirm_boolean "OPEN_REGISTRATION" "Enable new local account registrations"
+ask_confirm_boolean "ENFORCE_EMAIL_VERIFICATION" "Require email verification before a new user can do anything (you need to setup SMTP outside of this guide for it to work!)"
+ask_confirm_boolean "OAUTH_ENABLED" "Enable OAuth? (required for using mobile apps)"
+
+if ask_confirm_profile "DOCKER_PROXY_PROFILE" "Do you want to use the included HTTP(S) proxy?"; then
+    ask_confirm_profile "DOCKER_PROXY_ACME_PROFILE" "Do you want to use the included HTTP(S) LetsEncrypt side-car?" || :
+fi

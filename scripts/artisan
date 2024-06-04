@@ -1,11 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-declare service="${PF_SERVICE:=worker}"
-declare user="${PF_USER:=www-data}"
+declare -r service="${PF_SERVICE:=worker}"
+declare -r user="${PF_USER:=www-data}"
+
+# default [docker run] flags
+declare -ra flags=(
+    --user "${user}"
+    --env TERM
+    --env COLORTERM
+    --workdir /var/www
+)
 
 exec docker compose exec \
-    --user "${user}" \
-    --env TERM \
-    --env COLORTERM \
+    "${flags[@]}" \
     "${service}" \
     php artisan "${@}"

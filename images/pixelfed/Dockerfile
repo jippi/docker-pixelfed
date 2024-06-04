@@ -15,7 +15,7 @@ ARG FOREGO_VERSION="0.17.2"
 ARG GOMPLATE_VERSION="v3.11.8"
 
 # See: https://github.com/jippi/dottie
-ARG DOTTIE_VERSION="v0.12.1"
+ARG DOTTIE_VERSION="v0.13.1"
 
 ###
 # PHP base configuration

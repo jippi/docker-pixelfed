@@ -1,14 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e -o errexit -o nounset -o pipefail
 
+# run dottie directly if it exists on the host
+#! WE EXIT HERE IF DOTTIE EXISTS LOCALLY!
+command -v dottie &>/dev/null && exec dottie "$@"
+
 declare project_root="${PWD}"
+
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+
 declare user="${PF_USER:=www-data}"
-
-if command -v git &>/dev/null; then
-    project_root=$(git rev-parse --show-toplevel)
-fi
-
 declare -r release="${DOTTIE_VERSION:-latest}"
 
 declare -r update_check_file="/tmp/.dottie-update-check"      # file to check age of since last update
