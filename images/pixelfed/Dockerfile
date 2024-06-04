@@ -12,10 +12,10 @@ ARG NGINX_VERSION="1.25.3"
 ARG FOREGO_VERSION="0.17.2"
 
 # See: https://github.com/hairyhenderson/gomplate
-ARG GOMPLATE_VERSION="v3.11.6"
+ARG GOMPLATE_VERSION="v3.11.8"
 
 # See: https://github.com/jippi/dottie
-ARG DOTTIE_VERSION="v0.9.5"
+ARG DOTTIE_VERSION="v0.12.1"
 
 ###
 # PHP base configuration
@@ -172,7 +172,7 @@ ENV RUNTIME_GID=${RUNTIME_GID}
 USER root
 
 COPY --link --from=forego-image /usr/local/bin/forego /usr/local/bin/forego
-COPY --link --from=dottie-image /dottie /usr/local/bin/dottie
+COPY --link --from=dottie-image /usr/local/bin/dottie /usr/local/bin/dottie
 COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplate
 
 #! Changing user to runtime user
