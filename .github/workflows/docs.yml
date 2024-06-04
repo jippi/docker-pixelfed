@@ -32,6 +32,8 @@ jobs:
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
+      - run: npm ci
+
       - name: check for dead links
         run: |
           npx http-server site/ &
