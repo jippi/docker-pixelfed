@@ -12,10 +12,10 @@ ARG NGINX_VERSION="1.25.3"
 ARG FOREGO_VERSION="0.17.2"
 
 # See: https://github.com/hairyhenderson/gomplate
-ARG GOMPLATE_VERSION="v3.11.6"
+ARG GOMPLATE_VERSION="v3.11.8"
 
 # See: https://github.com/jippi/dottie
-ARG DOTTIE_VERSION="v0.9.5"
+ARG DOTTIE_VERSION="v0.12.1"
 
 ###
 # PHP base configuration
