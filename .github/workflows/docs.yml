@@ -7,7 +7,7 @@ on:
 
 jobs:
   markdownlint:
-    name: "check"
+    name: "markdownlint"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
           globs: "docs.io/**/*.md"
 
   deadlinks:
-    name: "check"
+    name: "dead links"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
