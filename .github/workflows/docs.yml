@@ -3,12 +3,7 @@ name: Documentation
 on:
   push:
     branches:
-      - "main"
-    tags:
-      - "v*"
-
-permissions:
-  contents: write
+      - "*"
 
 jobs:
   deploy:
@@ -19,8 +14,37 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: build
+      - name: markdown-lint
+        uses: DavidAnson/markdownlint-cli2-action@v16 # v16
+        with:
+          config: .markdownlint.yaml
+          globs: "docs.io/**/*.md"
+
+      - name: build container
         run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
 
-      - name: deploy
-        run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs gh-deploy --force
+      - name: dist site
+        run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs build
+
+      - name: "Setup NodeJS"
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      - name: check for dead links
+        run: |
+          npx http-server site/ &
+
+          docker run --rm --net=host raviqqe/muffet \
+            --color=always \
+            --ignore-fragments \
+            -e 'https://github\.com/jippi/docker-pixelfed/raw/.*' \
+            -e 'https://github\.com/jippi/docker-pixelfed/edit/.*' \
+            -e 'https://superuser.com/.*' \
+            -e 'https://www\.backblaze\.com/.*' \
+            -e 'https://fonts\.gstatic\.com' \
+            -e 'https://cdn\.jsdelivr.net/.*' \
+            --header 'Accept-Encoding:deflate, gzip' \
+            --buffer-size 8192 \
+            http://0.0.0.0:8080/
