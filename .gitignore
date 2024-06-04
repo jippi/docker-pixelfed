@@ -3,6 +3,7 @@
 /.env
 /.env.dottie-backup
 /.idea
+/.venv
 /node_modules
 /site
 /src
