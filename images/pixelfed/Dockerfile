@@ -212,16 +212,6 @@ RUN set -ex \
 CMD ["apache2-foreground"]
 
 #######################################################
-# Runtime: fpm
-#######################################################
-
-FROM shared-runtime AS fpm-runtime
-
-COPY images/pixelfed/rootfs/fpm/root /
-
-CMD ["php-fpm"]
-
-#######################################################
 # Runtime: nginx
 #######################################################
 
