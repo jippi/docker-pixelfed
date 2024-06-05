@@ -1,16 +1,29 @@
 name: Docker Release Changelog
 
 on:
-  release:
-    types:
-      - created
+  push:
+    tags: "*"
 
 jobs:
-  changelog:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: "Generate release changelog"
-        uses: heinrichreimer/action-github-changelog-generator@v2.4
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Generate CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          stripGeneratorNotice: true
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+          writeToFile: false
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          token: ${{ github.token }}
