@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Generate CHANGELOG
         id: changelog
@@ -20,6 +22,7 @@ jobs:
         with:
           token: ${{ github.token }}
           tag: ${{ github.ref_name }}
+          includeInvalidCommits: true
 
       - name: Create Release
         uses: ncipollo/release-action@v1
