@@ -24,6 +24,7 @@ jobs:
           tag: ${{ github.ref_name }}
           writeToFile: false
           includeInvalidCommits: true
+          excludeTypes: "__NO_EXCLUDES__"
 
       - name: Create Release
         uses: ncipollo/release-action@v1
