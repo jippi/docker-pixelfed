@@ -9,7 +9,8 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: "✏️ Generate release changelog"
-        uses: heinrichreimer/action-github-changelog-generator@v2
+      - name: "Generate release changelog"
+        uses: heinrichreimer/action-github-changelog-generator@v2.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          stripGeneratorNotice: true
