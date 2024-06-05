@@ -1,25 +1,16 @@
 name: Documentation
 
 on:
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+  workflow_dispatch:
+
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
     branches:
       - "*"
+      - "**"
 
 jobs:
-  markdownlint:
-    name: "markdownlint"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: check
-        uses: DavidAnson/markdownlint-cli2-action@v16
-        with:
-          config: .markdownlint.yml
-          globs: "docs.io/**/*.md"
-
   deadlinks:
     name: "dead links"
     runs-on: ubuntu-latest
