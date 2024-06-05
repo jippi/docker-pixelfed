@@ -40,6 +40,7 @@ jobs:
       - name: self-hosted Renovate
         uses: renovatebot/github-action@v40.1.12
         env:
+          RENOVATE_AUTODISCOVER: true
           RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
           LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
         with:
