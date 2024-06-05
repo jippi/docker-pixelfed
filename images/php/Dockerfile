@@ -6,9 +6,13 @@
 #######################################################
 
 # See: https://github.com/mlocati/docker-php-extension-installer
+#
+# renovate: datasource=github-releases depName=mlocati/docker-php-extension-installer
 ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.2.14"
 
 # See: https://github.com/composer/composer
+#
+# renovate: datasource=github-releases depName=composer/composer
 ARG COMPOSER_VERSION="2.7.6"
 
 ###
@@ -16,6 +20,8 @@ ARG COMPOSER_VERSION="2.7.6"
 ###
 
 # See: https://hub.docker.com/_/php/tags
+#
+# renovate: datasource=docker depName=php
 ARG PHP_VERSION="8.3"
 
 # See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants

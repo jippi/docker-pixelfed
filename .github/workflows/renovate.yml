@@ -1,0 +1,47 @@
+name: Renovate
+
+on:
+  # Allows manual/automated ad-hoc trigger
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Override default log level"
+        required: false
+        default: "info"
+        type: string
+      overrideSchedule:
+        description: "Override all schedules"
+        required: false
+        default: "false"
+        type: string
+
+  # Run 3 times a day
+  schedule:
+    - cron: "30 */8 * * *"
+
+concurrency: renovate
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get token
+        id: get_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.renovate_app_id }}
+          private-key: ${{ secrets.renovate_private_key }}
+          repositories: "docker-pixelfed"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: self-hosted Renovate
+        uses: renovatebot/github-action@v40.1.12
+        env:
+          RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+          LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
+        with:
+          configurationFile: .github/renovate.json5
+          token: "${{ steps.get_token.outputs.token }}"

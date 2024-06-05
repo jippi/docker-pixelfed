@@ -6,15 +6,23 @@
 #######################################################
 
 # See: https://nginx.org/
+#
+# renovate: datasource=docker depName=nginx
 ARG NGINX_VERSION="1.25.3"
 
 # See: https://github.com/ddollar/forego
+#
+# renovate: datasource=docker depName=nginxproxy/forego
 ARG FOREGO_VERSION="0.17.2"
 
 # See: https://github.com/hairyhenderson/gomplate
+#
+# renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ARG GOMPLATE_VERSION="v3.11.8"
 
 # See: https://github.com/jippi/dottie
+#
+# renovate: datasource=docker depName=jippi/dottie
 ARG DOTTIE_VERSION="v0.13.1"
 
 ###
@@ -22,6 +30,8 @@ ARG DOTTIE_VERSION="v0.13.1"
 ###
 
 # See: https://hub.docker.com/_/php/tags
+#
+# renovate: datasource=docker depName=php
 ARG PHP_VERSION="8.3"
 
 # See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants
