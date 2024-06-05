@@ -277,7 +277,7 @@ jobs:
         env:
           CI: true
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
-          DOCKER_APP_RELEASE: "branch-${{ github.ref_name }}-${{ matrix.pixelfed_branch}}"
+          DOCKER_APP_RELEASE: "${{ steps.meta.outputs.tags }}"
           DOCKER_APP_RUNTIME: ${{ matrix.target_runtime }}
           NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
