@@ -17,6 +17,10 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = false
 
+[Makefile]
+indent_style = tab
+indent_size = 4
+
 [*.{sh,envsh,env,env*}]
 indent_style = space
 indent_size = 4
