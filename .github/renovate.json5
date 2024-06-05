@@ -6,16 +6,18 @@
         "default:pinDigestsDisabled",
     ],
     schedule: [
-        "* */8 * * *", // every 8 hours (4 times a day)
+        /* every 8 hours (4 times a day) */
+        "* */8 * * *",
     ],
-    commitMessageSuffix: " in {{packageFile}}",
-    dependencyDashboardAutoclose: true,
     automerge: true,
     baseBranches: ["main"],
-    platformAutomerge: true,
+    commitMessageSuffix: " in {{packageFile}}",
+    dependencyDashboardAutoclose: true,
     labels: ["dependencies"],
-    prHourlyLimit: 10,
     osvVulnerabilityAlerts: true,
+    platformAutomerge: true,
+    postUpdateOptions: ["npmDedupe"],
+    prHourlyLimit: 10,
     vulnerabilityAlerts: {
         enabled: true,
         labels: ["security"],
