@@ -5,6 +5,9 @@
         ":separateMultipleMajorReleases",
         "default:pinDigestsDisabled",
     ],
+    schedule: [
+        "* */8 * * *", // every 8 hours (4 times a day)
+    ],
     commitMessageSuffix: " in {{packageFile}}",
     dependencyDashboardAutoclose: true,
     automerge: true,
