@@ -221,7 +221,7 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }},enable=true
           flavor: |
-            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           tags: |
             # schedule
             type=schedule,pattern=nightly

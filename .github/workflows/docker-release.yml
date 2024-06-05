@@ -174,7 +174,7 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }}
           flavor: |
-            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}
+            suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             prefix=v
           tags: |
             # semver (pixelfed + custom tag) parsed
