@@ -1,9 +1,9 @@
 {
     extends: [
-        "config:best-practices",
+        "config:recommended",
+        ":pinDevDependencies",
         ":separateMultipleMajorReleases",
         "default:pinDigestsDisabled",
-        "schedule:daily",
     ],
     commitMessageSuffix: " in {{packageFile}}",
     dependencyDashboardAutoclose: true,
