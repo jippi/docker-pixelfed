@@ -7,7 +7,7 @@
 
 # See: https://nginx.org/
 #
-# renovate: datasource=docker depName=nginx
+# renovate: datasource=github-releases depName=nginx/nginx
 ARG NGINX_VERSION="1.25.3"
 
 # See: https://github.com/ddollar/forego
