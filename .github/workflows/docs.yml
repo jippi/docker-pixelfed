@@ -47,6 +47,7 @@ jobs:
             -e 'https://hub\.docker\.com/.*' \
             -e 'https://superuser.com/.*' \
             -e 'https://www\.backblaze\.com/.*' \
+            -e 'https://www\.brevo\.com/.*' \
             --header 'Accept-Encoding:deflate, gzip' \
             --buffer-size 8192 \
             http://0.0.0.0:8080/
