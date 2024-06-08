@@ -45,6 +45,7 @@ jobs:
             -e 'https://github\.com/nginx-proxy/.*' \
             -e 'https://github\.com/pixelfed/pixelfed/blob/.*' \
             -e 'https://hub\.docker\.com/.*' \
+            -e 'https://semver\.org/.*' \
             -e 'https://superuser.com/.*' \
             -e 'https://www\.backblaze\.com/.*' \
             -e 'https://www\.brevo\.com/.*' \
