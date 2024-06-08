@@ -21,10 +21,7 @@ mkdir -p /data
 ### Clone the Pixelfed project
 
 ```bash
-git clone \
-    --branch jippi-fork \
-    https://github.com/jippi/pixelfed.git \
-    /data/pixelfed
+git clone https://github.com/jippi/docker-pixelfed.gt /data/pixelfed
 ```
 
 ### Change directory
@@ -33,9 +30,33 @@ git clone \
 cd /data/pixelfed
 ```
 
-## Configuring your site
+## Check system requirements
+
+The `scripts/` directory has a bunch of useful helper tools, and the first one we will use is one to help check if the server and software is meeting (some) of the requirements.
+
+Run the following command and follow the instructions (if any) on how to resolve issues detected.
+
+```bash
+scripts/check-requirements
+```
+
+## Configuration (Quick Start)
+
+The settings file (`.env`) is quite large (+1.000 lines) and while most of it is documentation, and not configuration, it can still be quite daunting to read through early on in your Pixelfed journey.
+
+Instead, lets run the included `setup` script that will guide us through the required (and most commonly changed) settings.
+
+```bash
+scripts/setup
+```
+
+!!! tip "You can run this script many times, it will remember your previous answers since they are read from, and written to, the `.env` configuration file"
+
+## Configuration (Manual)
 
 ### Copy the example file
+
+!!! warning "If you used the [Quick Start](#configuration-quick-start), skip this step, otherwise your changes will be lost"
 
 Pixelfed contains a default configuration file (`.env.docker`) you should use as a starter; however, before editing anything, make a copy of it and put it in the *right* place (`.env`).
 
@@ -46,6 +67,8 @@ cp .env.docker .env
 ```
 
 ### Modify config file
+
+!!! tip "If you used the [Quick Start](#configuration-quick-start), some of these steps has already been made for you"
 
 The configuration file is *quite* long, but the good news is that you can ignore *most* of it; most of the *server-specific* settings are configured for you out of the box.
 
@@ -70,7 +93,7 @@ You can skip the following sections since they are already configured/automated 
 * `Database` (except for `DB_PASSWORD`)
 * `One-time setup tasks`
 
-### Starting the service
+## Starting the service
 
 With everything in place and (hopefully) well-configured, we can now go ahead and start our services by running:
 
@@ -90,7 +113,7 @@ You can combine `--tail=100` and `--follow` like this `docker compose logs --tai
 
 If you only care about specific containers, you can add them to the end of the command like this `docker-compose logs web worker proxy.`
 
-### Done
+## Done
 
 You made it to the end of the installation tutorial and *hopefully* you have fully functional Pixelfed instance.
 

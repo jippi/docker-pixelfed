@@ -1,8 +1,8 @@
-# Container runtimes
+# Runtimes
 
 !!! info "If anything is confusing, unclear, missing, or maybe even wrong on this page, then *please* let us know [by submitting a bug report](https://github.com/jippi/docker-pixelfed/issues/new) :heart:"
 
-The Pixelfed Dockerfile support multiple target *runtimes* ([Apache](#apache) and [Nginx + FPM](#nginx-fpm).
+The Pixelfed Dockerfile support multiple target *runtimes* ([Apache](#apache) and [Nginx + FPM](#nginx-fpm).)
 
 You can consider a *runtime* target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.
 

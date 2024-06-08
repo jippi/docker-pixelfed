@@ -13,11 +13,14 @@ nav:
   - conventions.md
   - Installation:
       - installation/prerequisites.md
-      - installation/index.md
+      - installation/guide.md
   - ...
 
 extra_css:
   - stylesheets/extra.css
+
+watch:
+  - docs-customization/includes
 
 # Hooks
 hooks:
@@ -35,6 +38,7 @@ theme:
   name: material
   # custom_dir: docs-customization/overrides
   features:
+    - content.tooltips
     - content.action.edit
     - content.action.view
     - content.code.annotate
@@ -100,7 +104,9 @@ markdown_extensions:
       repo: docker-pixelfed
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      auto_append:
+        - docs-customization/includes/abbreviations.md
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
