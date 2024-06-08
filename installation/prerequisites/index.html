@@ -14,7 +14,7 @@
         <link rel="prev" href="../../conventions/">
       
       
-        <link rel="next" href="../">
+        <link rel="next" href="../guide/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -503,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -640,7 +640,28 @@
         
   
   <span class="md-ellipsis">
-    Container runtimes
+    Runtimes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customize/tags/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tags
   </span>
   
 
@@ -899,14 +920,14 @@
 <div class="admonition info">
 <p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/jippi/docker-pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
 </div>
-<p>This guide will help you install and run Pixelfed on <strong>your</strong> server using <a href="https://docs.docker.com/compose/">Docker Compose</a>.</p>
-<p>Recommendations and requirements for hardware and software needed to run Pixelfed using Docker Compose.</p>
-<p>You should have <em>some</em> experience with Linux (e.g., Ubuntu or Debian), SSH, and lightweight server administration.</p>
+<p>This guide will help you install and run Pixelfed on <strong>your</strong> server using <a href="https://docs.docker.com/compose/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose</a>.</p>
+<p>Recommendations and requirements for hardware and software needed to run Pixelfed using <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose.</p>
+<p>You should have <em>some</em> experience with Linux (e.g., Ubuntu or Debian), <abbr title="The Secure Shell (SSH) protocol is a method for securely sending commands to a computer over a network. SSH uses cryptography to authenticate and encrypt connections between devices">SSH</abbr>, and lightweight server administration.</p>
 <h2 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h2>
-<p>A Virtual Private Server (VPS) or Dedicated Server (also known as <code>root server</code>) you can SSH into, for example:</p>
+<p>A Virtual Private Server (<abbr title="Virtual Private Server">VPS</abbr>) or Dedicated Server (also known as <code>root server</code>) you can <abbr title="The Secure Shell (SSH) protocol is a method for securely sending commands to a computer over a network. SSH uses cryptography to authenticate and encrypt connections between devices">SSH</abbr> into, for example:</p>
 <ul>
-<li><a href="https://www.linode.com/">linode.com VPS</a></li>
-<li><a href="https://digitalocean.com/">DigitalOcean VPS</a></li>
+<li><a href="https://www.linode.com/">linode.com <abbr title="Virtual Private Server">VPS</abbr></a></li>
+<li><a href="https://digitalocean.com/">DigitalOcean <abbr title="Virtual Private Server">VPS</abbr></a></li>
 <li><a href="https://www.hetzner.com/">Hetzner</a></li>
 </ul>
 <h3 id="hardware">Hardware<a class="headerlink" href="#hardware" title="Permanent link">&para;</a></h3>
@@ -922,28 +943,28 @@
 <p>Required software to be installed on your server</p>
 <ul>
 <li><code>git</code> can be installed with <code>apt-get install git</code> on Debian/Ubuntu</li>
-<li><code>docker</code> can be installed by <a href="https://docs.docker.com/engine/install/">following the official Docker documentation</a></li>
+<li><code>docker</code> can be installed by <a href="https://docs.docker.com/engine/install/">following the official <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> documentation</a></li>
 </ul>
 <h3 id="network">Network<a class="headerlink" href="#network" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Port <code>80</code> (HTTP) and <code>443</code> (HTTPS) ports forwarded to the server.</li>
+<li>Port <code>80</code> (<abbr title="The Hyper Text Transfer Protocol (HTTP), is the insecure (unencrypted) version of HTTPS, the foundation and primary means for requesting and receiving hypermedia (web-based) resources, for example HTML, images, text and media files, and is part of the internet protocol suite.">HTTP</abbr>) and <code>443</code> (<abbr title="Hypertext transfer protocol secure (HTTPS) is the secure (encrypted) version of HTTP, which is the primary protocol used to send data between a web browser and a website. HTTPS is encrypted in order to increase security of data transfer.">HTTPS</abbr>) ports forwarded to the server.</li>
 <li>Example for Ubuntu using <a href="https://help.ubuntu.com/community/UFW"><code>ufw</code></a> for port <code>80</code>: <code>ufw allow 80</code></li>
 <li>Example for Ubuntu using <a href="https://help.ubuntu.com/community/UFW"><code>ufw</code></a> for port <code>443</code>: <code>ufw allow 443</code></li>
 </ul>
-<h2 id="domain-and-dns">Domain and DNS<a class="headerlink" href="#domain-and-dns" title="Permanent link">&para;</a></h2>
+<h2 id="domain-and-dns">Domain and <abbr title="The Domain Name System (DNS) is the &quot;phonebook&quot; of the Internet. Humans access information online through domain names, like pixelfed.com or mastodon.com">DNS</abbr><a class="headerlink" href="#domain-and-dns" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A <strong>Domain</strong> (or subdomain) is needed for the Pixelfed server (for example, <code>pixelfed.social</code> or <code>pixelfed.mydomain.com</code>)</li>
-<li>Having the required <code>A</code>/<code>CNAME</code> DNS records for your domain (above) pointing to your server.</li>
+<li>Having the required <code>A</code>/<code>CNAME</code> <abbr title="The Domain Name System (DNS) is the &quot;phonebook&quot; of the Internet. Humans access information online through domain names, like pixelfed.com or mastodon.com">DNS</abbr> records for your domain (above) pointing to your server.</li>
 <li>Typically, an <code>A</code> record for the root (sometimes shown as <code>@</code>) record for <code>mydomain.com</code></li>
 <li>Possibly an <code>A</code> record for <code>www.</code> subdomain.</li>
 </ul>
-<h2 id="smtp-provider-optional">SMTP provider (Optional)<a class="headerlink" href="#smtp-provider-optional" title="Permanent link">&para;</a></h2>
+<h2 id="smtp-provider-optional"><abbr title="An SMTP (e-mail) provider is used for sending e-mails to your users, such as e-mail confirmation and notifications">SMTP</abbr> provider (Optional)<a class="headerlink" href="#smtp-provider-optional" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">What is this?</p>
-<p>An <strong>E-mail/SMTP provider</strong> is used for sending e-mails to your users, such as e-mail confirmation and notifications.</p>
+<p>An <strong>E-mail/<abbr title="An SMTP (e-mail) provider is used for sending e-mails to your users, such as e-mail confirmation and notifications">SMTP</abbr> provider</strong> is used for sending e-mails to your users, such as e-mail confirmation and notifications.</p>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">If you don't plan to use an e-mail/SMTP provider, then make sure to set <code>ENFORCE_EMAIL_VERIFICATION="false"</code> in your <code>.env</code> file!</p>
+<p class="admonition-title">If you don't plan to use an e-mail/<abbr title="An SMTP (e-mail) provider is used for sending e-mails to your users, such as e-mail confirmation and notifications">SMTP</abbr> provider, then make sure to set <code>ENFORCE_EMAIL_VERIFICATION="false"</code> in your <code>.env</code> file!</p>
 </div>
 <p>There are <em>many</em> providers out there with wildly different pricing structures, features, and reliability.</p>
 <p>It's beyond the scope of this document to detail which provider to pick or how to correctly configure them. Still, some providers that are known to be working well - with generous free tiers and affordable packages - are included for your convince (<em>in no particular order</em>) below:</p>
@@ -1027,7 +1048,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tooltips", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>

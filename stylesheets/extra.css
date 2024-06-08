@@ -1,3 +1,11 @@
+.md-tooltip {
+    top: inherit;
+    left: inherit;
+    position: absolute;
+    margin-left: 12px;
+    margin-top: 7px;
+}
+
 .md-typeset h3 .admonition {
     display: inline-flex;
     margin: 0;

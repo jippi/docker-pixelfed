@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://jippi.github.io/docker-pixelfed/customize/build-settings/">
       
       
-        <link rel="prev" href="../../installation/">
+        <link rel="prev" href="../../installation/guide/">
       
       
         <link rel="next" href="../entrypoint/">
@@ -394,7 +394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../../installation/guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -697,7 +697,28 @@
         
   
   <span class="md-ellipsis">
-    Container runtimes
+    Runtimes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tags/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tags
   </span>
   
 
@@ -1016,52 +1037,52 @@
 <div class="admonition tip">
 <p class="admonition-title">Most of these build arguments is configurable in your <code>.env</code> file when using the <code>docker-compose.yml</code> from Pixelfed!</p>
 </div>
-<p>The Pixelfed Dockerfile utilizes <a href="https://docs.docker.com/build/building/multi-stage/">Docker Multi-stage builds</a> and <a href="https://docs.docker.com/build/guide/build-args/">Build arguments</a>.</p>
-<p>Using <em>build arguments</em> allows us to create a flexible and more maintainable Dockerfile, supporting <a href="../runtimes/">multiple runtimes</a> (<a href="../runtimes/#nginx-fpm">Nginx</a> and <a href="../runtimes/#apache">Apache + mod_php</a>) and end-user flexibility without having to fork or copy the Dockerfile.</p>
+<p>The Pixelfed Dockerfile utilizes <a href="https://docs.docker.com/build/building/multi-stage/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Multi-stage builds</a> and <a href="https://docs.docker.com/build/guide/build-args/">Build arguments</a>.</p>
+<p>Using <em>build arguments</em> allows us to create a flexible and more maintainable Dockerfile, supporting <a href="../runtimes/">multiple runtimes</a> (<a href="../runtimes/#nginx-fpm"><abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr></a> and <a href="../runtimes/#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> + mod_php</a>) and end-user flexibility without having to fork or copy the Dockerfile.</p>
 <p><em>Build arguments</em> can be configured using <code>--build-arg 'name=value'</code> for <code>docker build</code>, <code>docker compose build</code> and <code>docker buildx build</code>. For <code>docker-compose.yml</code>, the <code>args</code> key for <a href="https://docs.docker.com/compose/compose-file/build/"><code>build</code></a> can be used.</p>
 <div class="admonition warning">
-<p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using Docker Compose</p>
+<p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose</p>
 </div>
 <h2 id="php_version"><code>PHP_VERSION</code><a class="headerlink" href="#php_version" title="Permanent link">&para;</a></h2>
 <p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_VERSION</code> in your <code>.env</code> file</span></span></p>
 <p>The <code>PHP</code> version to use when building the runtime container.</p>
-<p>Any valid Docker Hub PHP version is acceptable here, as long as it's <a href="https://hub.docker.com/_/php/tags">published to Docker Hub</a></p>
+<p>Any valid <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr> <abbr title="The programming language Pixelfed is written in">PHP</abbr> version is acceptable here, as long as it's <a href="https://hub.docker.com/_/php/tags">published to <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr></a></p>
 <p><strong>Example values</strong>:</p>
 <ul>
-<li><code>8</code> will use the latest version of PHP 8</li>
-<li><code>8.1</code> will use the latest version of PHP 8.1</li>
-<li><code>8.2.14</code> will use PHP 8.2.14</li>
-<li><code>latest</code> will use whatever is the latest PHP version</li>
+<li><code>8</code> will use the latest version of <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8</li>
+<li><code>8.1</code> will use the latest version of <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.1</li>
+<li><code>8.2.14</code> will use <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.2.14</li>
+<li><code>latest</code> will use whatever is the latest <abbr title="The programming language Pixelfed is written in">PHP</abbr> version</li>
 </ul>
 <p><strong>Default value</strong>: <code>8.1</code></p>
 <h2 id="php_pecl_extensions"><code>PHP_PECL_EXTENSIONS</code><a class="headerlink" href="#php_pecl_extensions" title="Permanent link">&para;</a></h2>
-<p>PECL extensions to install via <code>pecl install</code></p>
+<p><abbr title="PECL is a repository for PHP Extensions, providing a directory of all known extensions and hosting facilities for downloading and development of PHP extensions">PECL</abbr> extensions to install via <code>pecl install</code></p>
 <p>Use <a href="#php_pecl_extensions_extra">PHP_PECL_EXTENSIONS_EXTRA</a> if you want to add <em>additional</em> extenstions.</p>
 <p>Only change this setting if you want to change the baseline extensions.</p>
-<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr></a> for more information.</p>
 <p><strong>Default value</strong>: <code>imagick redis</code></p>
 <h2 id="php_pecl_extensions_extra"><code>PHP_PECL_EXTENSIONS_EXTRA</code><a class="headerlink" href="#php_pecl_extensions_extra" title="Permanent link">&para;</a></h2>
 <p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA</code> in your <code>.env</code> file</span></span></p>
-<p>Extra PECL extensions (separated by space) to install via <code>pecl install</code></p>
-<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p>Extra <abbr title="PECL is a repository for PHP Extensions, providing a directory of all known extensions and hosting facilities for downloading and development of PHP extensions">PECL</abbr> extensions (separated by space) to install via <code>pecl install</code></p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>PECL extensions</code> documentation on <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr></a> for more information.</p>
 <p><strong>Default value</strong>: <code>""</code></p>
 <h2 id="php_extensions"><code>PHP_EXTENSIONS</code><a class="headerlink" href="#php_extensions" title="Permanent link">&para;</a></h2>
-<p>PHP Extensions to install via <code>docker-php-ext-install</code>.</p>
+<p><abbr title="The programming language Pixelfed is written in">PHP</abbr> Extensions to install via <code>docker-php-ext-install</code>.</p>
 <p><strong>NOTE:</strong> use <a href="#php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code></a> if you want to add <em>additional</em> extensions; only override this if you're going to change the baseline extensions.</p>
-<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr></a> for more information</p>
 <p><strong>Default value</strong>: <code>intl bcmath zip pcntl exif curl gd</code></p>
 <h2 id="php_extensions_extra"><code>PHP_EXTENSIONS_EXTRA</code><a class="headerlink" href="#php_extensions_extra" title="Permanent link">&para;</a></h2>
 <p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_EXTENSIONS_EXTRA</code> in your <code>.env</code> file</span></span></p>
-<p>Extra PHP Extensions (separated by space) to install via <code>docker-php-ext-install</code>.</p>
-<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on Docker Hub</a> for more information.</p>
+<p>Extra <abbr title="The programming language Pixelfed is written in">PHP</abbr> Extensions (separated by space) to install via <code>docker-php-ext-install</code>.</p>
+<p>See the <a href="https://hub.docker.com/_/php"><code>How to install more PHP extensions</code> documentation on <abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr></a> for more information.</p>
 <p><strong>Default value</strong>: <code>""</code></p>
 <h2 id="php_extensions_database"><code>PHP_EXTENSIONS_DATABASE</code><a class="headerlink" href="#php_extensions_database" title="Permanent link">&para;</a></h2>
-<p>PHP database extensions to install.</p>
+<p><abbr title="The programming language Pixelfed is written in">PHP</abbr> database extensions to install.</p>
 <p>By default, we install both <code>pgsql</code> and <code>mysql</code> since they're more convenient (and add very little build time! But it can be overwritten here if desired.</p>
 <p><strong>Default value</strong>: <code>pdo_pgsql pdo_mysql pdo_sqlite</code></p>
 <h2 id="composer_version"><code>COMPOSER_VERSION</code><a class="headerlink" href="#composer_version" title="Permanent link">&para;</a></h2>
-<p>The version of Composer to install.</p>
-<p>For valid values, please see the <a href="https://hub.docker.com/_/composer">Docker Hub <code>composer</code> page</a>.</p>
+<p>The version of <abbr title="Composer is an application-level dependency manager for the PHP programming language that provides a standard format for managing dependencies of PHP software and required libraries.">Composer</abbr> to install.</p>
+<p>For valid values, please see the <a href="https://hub.docker.com/_/composer"><abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr> <code>composer</code> page</a>.</p>
 <p><strong>Default value</strong>: <code>2.6</code></p>
 <h2 id="apt_packages_extra"><code>APT_PACKAGES_EXTRA</code><a class="headerlink" href="#apt_packages_extra" title="Permanent link">&para;</a></h2>
 <p><span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_APT_PACKAGES_EXTRA</code> in your <code>.env</code> file</span></span></p>
@@ -1069,7 +1090,7 @@
 <p><strong>Default value</strong>: <code>""</code></p>
 <h2 id="nginx_version"><code>NGINX_VERSION</code><a class="headerlink" href="#nginx_version" title="Permanent link">&para;</a></h2>
 <p>The version of <code>nginx</code> to use when targeting <a href="../runtimes/#nginx-fpm"><code>nginx-runtime</code></a>.</p>
-<p>Please see the <a href="https://hub.docker.com/_/nginx">Docker Hub <code>nginx</code> page</a> for available versions.</p>
+<p>Please see the <a href="https://hub.docker.com/_/nginx"><abbr title="Docker Hub is the world's easiest way to create, manage, and deliver your team's container applications.">Docker Hub</abbr> <code>nginx</code> page</a> for available versions.</p>
 <p><strong>Default value</strong>: <code>1.25.3</code></p>
 <h2 id="forego_version"><code>FOREGO_VERSION</code><a class="headerlink" href="#forego_version" title="Permanent link">&para;</a></h2>
 <p>The version of <a href="https://github.com/ddollar/forego"><code>forego</code></a> to install.</p>
@@ -1157,7 +1178,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tooltips", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>
