@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: generate .env docs
+        run: scripts/dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
+
       - name: build
         run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
 

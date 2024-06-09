@@ -1,0 +1,31 @@
+{{- define "external_url" -}}{{- regexFind "https://(.*?)/" . | trimPrefix "https://" | trimSuffix "/" -}}{{- end -}}
+
+# .env settings
+
+{{ range .Groups -}}{{- $group := . -}}## {{ .String }}
+
+{{ range .Assignments -}}{{- $assignment := . -}}### {{ .Name }} {{ " " }} { data-toc-label="{{ .Name }}" }
+
+{{ if .Annotation "dottie/validate" | first | default "" | contains "required" }}<!-- md:flag required -->{{ end }}
+{{ if eq .Literal "" }}<!-- md:default none -->
+{{ else if eq .Literal .Interpolated }}<!-- md:default `{{ .Interpolated | trim }}` -->
+{{ else if .Literal  }}<!-- md:default computed:`{{ .Literal | trim }}` -->
+{{ else }}<!-- md:default none --> {{ end }}
+{{- with $assignment.Annotation "see" }}<!-- md:flag external-docs {{ first . | trim }} {{ template "external_url" (. | first | trim) }} -->
+{{- end }}
+
+{{- with .Documentation true }}
+
+{{ . | trim }}
+{{- end }}
+
+{{- with .Annotation "dottie/validate" }}
+
+**Validation rules:**
+
+* `{{ . | first | trim | splitList "," | join "`\n* `" }}`
+
+{{- end }}
+
+{{ end -}}
+{{ end -}}

@@ -46,9 +46,9 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, files: 
         elif type == "option":       return option(args)
         elif type == "setting":      return setting(args)
         elif type == "default":
-            if   args == "none":     return _badge_for_default_none(page, files)
-            elif args == "computed": return _badge_for_default_computed(page, files)
-            else:                    return _badge_for_default(args, page, files)
+            if   args == "none":                return _badge_for_default_none(page, files)
+            elif args.startswith("computed:"):  return _badge_for_default_computed(args.removeprefix("computed:"), page, files)
+            else:                               return _badge_for_default(args, page, files)
 
         # Otherwise, raise an error
         raise RuntimeError(f"Unknown shortcode: {type}")
@@ -65,7 +65,8 @@ def on_page_markdown(markdown: str, *, page: Page, config: MkDocsConfig, files: 
 
 # Create a flag of a specific type
 def flag(args: str, page: Page, files: Files):
-    type, *_ = args.split(" ", 1)
+    type, extra, *_ = args.split(" ", 1) + [None]
+
     if   type == "breaking-change":     return _badge_for_breaking_change(page, files)
     elif type == "attention-change":    return _badge_for_attention_change(page, files)
     elif type == "improvement-change":  return _badge_for_improvement_change(page, files)
@@ -73,6 +74,7 @@ def flag(args: str, page: Page, files: Files):
     elif type == "required":            return _badge_for_required(page, files)
     elif type == "customization":       return _badge_for_customization(page, files)
     elif type == "metadata":            return _badge_for_metadata(page, files)
+    elif type == "external-docs":       return _badge_for_external_docs(extra, page, files)
 
     raise RuntimeError(f"Unknown type: {type}")
 
@@ -126,6 +128,19 @@ def _badge_for_version(text: str, page: Page, files: Files):
         text = f"[{text}]({path})" if spec else ""
     )
 
+# Create badge for external docs
+def _badge_for_external_docs(text: str, page: Page, files: Files):
+    path, text, *_ = text.split(" ", 1) + [None]
+
+    # Return badge
+    icon = "material-open-in-new"
+    href = _resolve_path("conventions.md#external-docs", page, files)
+
+    return _badge(
+        icon = f"[:{icon}:]({href} 'External Documentation')",
+        text = f"[{text}]({path}){{ target='_blank' }}" if text else ""
+    )
+
 # Create badge for default value
 def _badge_for_default(text: str, page: Page, files: Files):
     icon = "material-water"
@@ -144,11 +159,12 @@ def _badge_for_default_none(page: Page, files: Files):
     )
 
 # Create badge for computed default value
-def _badge_for_default_computed(page: Page, files: Files):
+def _badge_for_default_computed(text: str, page: Page, files: Files):
     icon = "material-water-check"
     href = _resolve_path("conventions.md#default", page, files)
     return _badge(
-        icon = f"[:{icon}:]({href} 'Default value is computed')"
+        icon = f"[:{icon}:]({href} 'Default value is computed')",
+        text = text
     )
 
 # Create badge for metadata property flag
