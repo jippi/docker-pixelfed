@@ -147,7 +147,8 @@ def _badge_for_default(text: str, page: Page, files: Files):
     href = _resolve_path("conventions.md#default", page, files)
     return _badge(
         icon = f"[:{icon}:]({href} 'Default value')",
-        text = text
+        text = text,
+        type = "improvement",
     )
 
 # Create badge for empty default value
@@ -155,7 +156,8 @@ def _badge_for_default_none(page: Page, files: Files):
     icon = "material-water-outline"
     href = _resolve_path("conventions.md#default", page, files)
     return _badge(
-        icon = f"[:{icon}:]({href} 'Default value is empty')"
+        icon = f"[:{icon}:]({href} 'Default value is empty')",
+        type = "improvement",
     )
 
 # Create badge for computed default value
@@ -164,7 +166,8 @@ def _badge_for_default_computed(text: str, page: Page, files: Files):
     href = _resolve_path("conventions.md#default", page, files)
     return _badge(
         icon = f"[:{icon}:]({href} 'Default value is computed')",
-        text = text
+        text = text,
+        type = "improvement",
     )
 
 # Create badge for metadata property flag
@@ -180,7 +183,8 @@ def _badge_for_required(page: Page, files: Files):
     icon = "material-alert"
     href = _resolve_path("conventions.md#required", page, files)
     return _badge(
-        icon = f"[:{icon}:]({href} 'Required value')"
+        icon = f"[:{icon}:]({href} 'Required value')",
+        type = "attention",
     )
 
 # Create badge for customization flag

@@ -1,4 +1,9 @@
 {{- define "external_url" -}}{{- regexFind "https://(.*?)/" . | trimPrefix "https://" | trimSuffix "/" -}}{{- end -}}
+<style>
+    .md-content__button {
+        display: none;
+    }
+</style>
 
 # .env settings
 

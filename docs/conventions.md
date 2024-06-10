@@ -33,3 +33,7 @@ Some (very few in fact) properties or settings are required, which means the aut
 ### <!-- md:flag customization --> – Customization { #customization data-toc-label="Customization" }
 
 This symbol denotes that the thing described is a customization that must be added by the author.
+
+### <!-- md:flag external-docs https://example.com/ --> – External Documentation { #external-docs data-toc-label="External Documentation" }
+
+This symbol denotes external documentation is available

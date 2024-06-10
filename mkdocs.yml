@@ -26,6 +26,9 @@ watch:
 hooks:
   - docs-customization/overrides/hooks/shortcodes.py
 
+extra:
+  generator: false
+
 plugins:
   - awesome-pages: # pip install mkdocs-awesome-pages-plugin
       collapse_single_pages: false
