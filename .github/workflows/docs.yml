@@ -38,20 +38,15 @@ jobs:
 
       - name: check for dead links
         run: |
-          npx http-server site/ &
+          npx http-server --port 8000 site/ &
 
           docker run --rm --net=host raviqqe/muffet \
+            --verbose \
             --color=always \
-            -e 'https://cdn\.jsdelivr.net/.*' \
-            -e 'https://docs\.pixelfed\.org/.*' \
-            -e 'https://fonts\.gstatic\.com' \
-            -e 'https://github\.com/nginx-proxy/.*' \
-            -e 'https://github\.com/pixelfed/pixelfed/blob/.*' \
-            -e 'https://hub\.docker\.com/.*' \
-            -e 'https://semver\.org/.*' \
-            -e 'https://superuser.com/.*' \
-            -e 'https://www\.backblaze\.com/.*' \
-            -e 'https://www\.brevo\.com/.*' \
+            --include 'https://jippi\.github\.io/docker-pixelfed/.*' \
+            --include 'http://0\.0\.0\.0:8000/.*' \
+            --include 'https://github\.com/jippi/docker-pixelfed/.*' \
+            --exclude 'https://github\.com/jippi/docker-pixelfed/raw/main/docs/customize/settings.md' \
             --header 'Accept-Encoding:deflate, gzip' \
             --buffer-size 8192 \
-            http://0.0.0.0:8080/
+            http://0.0.0.0:8000/
