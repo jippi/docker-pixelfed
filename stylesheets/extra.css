@@ -36,6 +36,10 @@
     color: #00bfa5;
 }
 
+.mdx-badge__text code {
+    background-color: unset;
+}
+
 .md-typeset .mdx-badge__icon {
     border-top-left-radius: 0.1rem;
 }
