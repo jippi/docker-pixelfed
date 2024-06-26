@@ -849,7 +849,11 @@
 <li><a href="https://semver.org/#spec-item-6"><strong>Patch</strong> version</a> is the third part of the versioning <code>(x.y.Z)</code></li>
 </ul>
 </div>
-<p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>All <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Images are published to <a href="https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed">GitHub Package Registry</a>.</p>
+<p><strong>Example:</strong> <a href="https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed"><code>ghcr.io/jippi/docker-pixelfed:$tag</code></a></p>
+</div>
 <p>Instead, we now offer the following tags</p>
 <div class="annotate">
 <table>
@@ -938,6 +942,11 @@
 </dd>
 </dl>
 <h2 id="nightly">Nightly<a class="headerlink" href="#nightly" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>All <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Images are published to <a href="https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed">GitHub Package Registry</a>.</p>
+<p><strong>Example:</strong> <a href="https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed"><code>ghcr.io/jippi/docker-pixelfed:$tag</code></a></p>
+</div>
 <p>We will now automatically create <em>nightly</em> builds of Pixelfed from the <code>dev</code> and <code>staging</code> branches.</p>
 <dl>
 <dt><code>nightly-dev-{runtime}-{php_version}</code></dt>
