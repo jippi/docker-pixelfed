@@ -12,7 +12,11 @@
     * [**Minor** version](https://semver.org/#spec-item-7) is the second part of the versioning `(x.Y.z)`
     * [**Patch** version](https://semver.org/#spec-item-6) is the third part of the versioning `(x.y.Z)`
 
-`latest` tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.
+!!! info
+
+    All Docker Images are published to [GitHub Package Registry](https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed).
+
+    **Example:** [`ghcr.io/jippi/docker-pixelfed:$tag`](https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed)
 
 Instead, we now offer the following tags
 
@@ -64,6 +68,12 @@ Instead, we now offer the following tags
 : This tag is **immutable** across Pixelfed and `docker-pixelfed` changes.
 
 ## Nightly
+
+!!! info
+
+    All Docker Images are published to [GitHub Package Registry](https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed).
+
+    **Example:** [`ghcr.io/jippi/docker-pixelfed:$tag`](https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed)
 
 We will now automatically create *nightly* builds of Pixelfed from the `dev` and `staging` branches.
 
