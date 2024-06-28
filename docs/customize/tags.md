@@ -1,16 +1,8 @@
-# Tags & versions
+# Docker and Pixelfed versions
 
 !!! note "We do not build any `latest` tags"
 
     `latest` tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.
-
-!!! tip "About semantic versioning"
-
-    Pixelfed loosely follows [Semantic Versioning](https://semver.org/), meaning that
-
-    * [**Major** version](https://semver.org/#spec-item-4) is the first part in the versioning (`X.y.z`)
-    * [**Minor** version](https://semver.org/#spec-item-7) is the second part of the versioning `(x.Y.z)`
-    * [**Patch** version](https://semver.org/#spec-item-6) is the third part of the versioning `(x.y.Z)`
 
 !!! info
 
@@ -41,11 +33,11 @@ For example
 
 !!! info
 
-    The [`APP_PHP_VERSION`](settings.md#docker_app_php_version) setting in your `.env` file control what Pixelfed version you will be running on your server.
+    The [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) setting in your `.env` file control what Pixelfed version you will be running on your server.
 
 <div class="annotate" markdown>
 
-| [`APP_PHP_VERSION`](settings.md#docker_app_php_version) | Pixelfed Version |
+| [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) | Pixelfed Version |
 | ----------- | ---------------- |
 | `v{major}(1).{minor}(2).{patch}(3)` <br /><br />**Example**<br /> `v0.12.1` | :white_check_mark: `0.12.1` <br /> :x: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
 | `v{major}.{minor}` <br /><br />**Example**<br /> `v0.12` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `v.0.0` <br /> :x: `2.0.0` |
@@ -66,6 +58,14 @@ For example
     * `DD => 14`
 
 ### Semantic releases
+
+!!! tip "About semantic versioning"
+
+    Pixelfed loosely follows [Semantic Versioning](https://semver.org/), meaning that
+
+    * [**Major** version](https://semver.org/#spec-item-4) is the first part in the versioning (`X.y.z`)
+    * [**Minor** version](https://semver.org/#spec-item-7) is the second part of the versioning `(x.Y.z)`
+    * [**Patch** version](https://semver.org/#spec-item-6) is the third part of the versioning `(x.y.Z)`
 
 `v{major}`
 
