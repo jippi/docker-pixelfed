@@ -1,4 +1,4 @@
-# Tags
+# Tags & versions
 
 !!! note "We do not build any `latest` tags"
 
@@ -18,17 +18,40 @@
 
     **Example:** [`ghcr.io/jippi/docker-pixelfed:$tag`](https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed)
 
-Instead, we now offer the following tags
+## How it works
+
+Your `.env` file contains a couple of settings that, when combined, constructs the final Docker tag for your Pixelfed instance.
+
+* [`DOCKER_APP_RELEASE`](#pixelfed-version) for the Pixelfed version.
+* [`DOCKER_APP_RUNTIME`](#runtime) for the runtime type.
+* [`DOCKER_APP_PHP_VERSION`](#php-version) for the PHP version.
+* [`DOCKER_APP_DEBIAN_RELEASE`](#debian-release) for the Debian release.
+* [`DOCKER_APP_IMAGE`](settings.md#docker_app_image) for the Docker image name
+
+They are then combined into a final Docker image like this
+
+* `${DOCKER_APP_IMAGE}:${DOCKER_APP_RELEASE}-${DOCKER_APP_RUNTIME}-${DOCKER_APP_PHP_VERSION}-${DOCKER_APP_DEBIAN_RELEASE}`
+
+For example
+
+* `ghcr.io/jippi/docker-pixelfed:v0.12.1-docker13-apache-8.3-bookworm`
+* `ghcr.io/jippi/docker-pixelfed:nightly-20240628-staging-nginx-8.3-bookworm`
+
+## Pixelfed version
+
+!!! info
+
+    The [`APP_PHP_VERSION`](settings.md#docker_app_php_version) setting in your `.env` file control what Pixelfed version you will be running on your server.
 
 <div class="annotate" markdown>
 
-| Tag pattern | Pixelfed Version |
-| ------- | ---------------- |
-| `v{major}(1).{minor}(2).{patch}(3)-{runtime}(4)-{php_version}(5)` <br /><br />*Example*<br /> `v0.12.1-apache-8.3` | :white_check_mark: `0.12.1` <br /> :x: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
-| `v{major}.{minor}-{runtime}-{php_version}` <br /><br />*Example*<br /> `v0.12-apache-8.3` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `v.0.0` <br /> :x: `2.0.0` |
-| `v{major}-{runtime}-{php_version}` <br /><br />*Example*<br /> `v0-apache-8.3` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :white_check_mark: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
-| `nightly-{branch}(6)-{runtime}-{php_version}` <br /><br />*Example*<br /> `nightly-dev-apache-8.3` <br />`nightly-staging-apache-8.3` | :x: N/A |
-| `nightly-{YYYY-MM-DD}(7)-{branch}-{runtime}-{php_version}` <br /><br />*Example*<br /> `nightly-20240501-dev-apache-8.3` <br />`nightly-20240501-staging-apache-8.3` | :x: N/A |
+| [`APP_PHP_VERSION`](settings.md#docker_app_php_version) | Pixelfed Version |
+| ----------- | ---------------- |
+| `v{major}(1).{minor}(2).{patch}(3)` <br /><br />**Example**<br /> `v0.12.1` | :white_check_mark: `0.12.1` <br /> :x: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
+| `v{major}.{minor}` <br /><br />**Example**<br /> `v0.12` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `v.0.0` <br /> :x: `2.0.0` |
+| `v{major}` <br /><br />**Example**<br /> `v0` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :white_check_mark: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
+| `nightly-{branch}(6)` <br /><br />**Example**<br />`nightly-dev-apache-8.3`<br />`nightly-staging-apache-8.3` | :x: N/A |
+| `nightly-{YYYY-MM-DD}(7)-{branch}` <br /><br />**Example**<br />`nightly-2024-05-01-dev`<br />`nightly-2024-05-01-staging` | :x: N/A |
 </div>
 
 1. `{major}` is the first part in the versioning `(X.y.z)`.
@@ -42,32 +65,32 @@ Instead, we now offer the following tags
     * `MM => 09`
     * `DD => 14`
 
-## Semantic releases
+### Semantic releases
 
-`v{major}-{runtime}-{php_version}`
+`v{major}`
 
-: *For example `v0-apache-8.3` will always point to the *latest* `0.x` release of Pixelfed, using PHP 8.3 and Apache.
+: *For example `v0` will always point to the *latest* `0.x` release of Pixelfed, using PHP 8.3 and Apache.
 : This tag is **mutable** when any new `0.x.y` release is created from Pixelfed (e.g. `0.15.4`).
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for any `0.x.y` Pixelfed release.
 
-`v{major}.{minor}-{runtime}-{php_version}`
+`v{major}.{minor}`
 
-: *For example `v0.12-apache-8.3` will always point to the *latest* `0.12.x` release of Pixelfed, using PHP 8.3 and Apache.
+: *For example `v0.12` will always point to the *latest* `0.12.x` release of Pixelfed, using PHP 8.3 and Apache.
 : This tag is **mutable** when any new `0.12.x` release is created from Pixelfed (e.g. `0.12.4`).
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for any `0.12.x` Pixelfed release.
 
-`v{major}.{minor}.{patch}-{runtime}-{php_version}`
+`v{major}.{minor}.{patch}`
 
-: For example `v0.12.1-apache-8.3`  will always point to the *latest* `0.12.1` release of Pixelfed, using PHP 8.3 and Apache.
+: For example `v0.12.1`  will always point to the *latest* `0.12.1` release of Pixelfed, using PHP 8.3 and Apache.
 : This tag is **immutable** to any Pixelfed code changes.
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for this Pixelfed release.
 
 `v{tag}`
 
-: For example `v0.12.1-docker1-apache-8.3` will always point to exactly the `0.12.1` release of Pixelfed with `docker1` (this projects changes).
+: For example `v0.12.1-docker1` will always point to exactly the `0.12.1` release of Pixelfed with `docker1` (this projects changes).
 : This tag is **immutable** across Pixelfed and `docker-pixelfed` changes.
 
-## Nightly
+### Nightly releases
 
 !!! info
 
@@ -77,22 +100,48 @@ Instead, we now offer the following tags
 
 We will now automatically create *nightly* builds of Pixelfed from the `dev` and `staging` branches.
 
-`nightly-dev-{runtime}-{php_version}`
+`nightly-dev`
 
 : Always points to the latest Pixelfed commit on `staging` at the time of building the image (~8am UTC).
-: For example `nightly-dev-apache-8.3` will always point to the latest commit on `dev` branch on the most recent build date.
+: For example `nightly-dev` will always point to the latest commit on `dev` branch on the most recent build date.
 
-`nightly-staging-{runtime}-{php_version}`
+`nightly-staging`
 
 : Always points to the latest Pixelfed commit on `staging` at the time of building the image (~8am UTC).
-: For example `nightly-staging-apache-8.3` will always point to the latest commit on `staging` branch on the most recent build date.
+: For example `nightly-staging` will always point to the latest commit on `staging` branch on the most recent build date.
 
-`nightly-{YYYY-MM-DD}-dev-{runtime}-{php_version}`
-
-: Points to the latest Pixelfed commit on `staging` at the specific date, at the time of building the image (~8am UTC).
-: For example `nightly-2024-05-01-dev-apache-8.3` will always point to the latest commit on `dev` branch at `2024-05-01` (May 1st 2024)
-
-nightly-{YYYY-MM-DD}-staging-{runtime}-{php_version}`
+`nightly-{YYYY-MM-DD}-dev`
 
 : Points to the latest Pixelfed commit on `staging` at the specific date, at the time of building the image (~8am UTC).
-: For example `nightly-2024-05-01-staging-apache-8.3` will always point to the latest commit on `staging` branch at `2024-05-01` (May 1st 2024)
+: For example `nightly-2024-05-01-dev` will always point to the latest commit on `dev` branch at `2024-05-01` (May 1st 2024)
+
+`nightly-{YYYY-MM-DD}-staging`
+
+: Points to the latest Pixelfed commit on `staging` at the specific date, at the time of building the image (~8am UTC).
+: For example `nightly-2024-05-01-staging` will always point to the latest commit on `staging` branch at `2024-05-01` (May 1st 2024)
+
+## Runtime
+
+!!! info
+
+    See the [dedicated `Runtimes` documentation for more information](runtimes.md)
+
+## PHP version
+
+!!! info
+
+    The [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) setting controls what version of PHP is being used
+
+We currently only support a single PHP release:
+
+* `8.3`
+
+## Debian release
+
+!!! info
+
+    The [`DOCKER_APP_DEBIAN_RELEASE`](settings.md#docker_app_debian_release) setting controls what version of Debian is being used
+
+We currently only support a single Debian release:
+
+* `bookworm`

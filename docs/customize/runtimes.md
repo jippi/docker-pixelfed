@@ -36,7 +36,7 @@ docker build \
 
     Instead you control the target runtime via your `.env` file
 
-    ```shell
+    ```python
     DOCKER_APP_BASE_TYPE="apache"
     DOCKER_APP_RUNTIME="apache"
     ```
@@ -81,7 +81,7 @@ docker build \
 
     Instead you control the target runtime via your `.env` file
 
-    ```shell
+    ```python
     DOCKER_APP_BASE_TYPE="fpm"
     DOCKER_APP_RUNTIME="nginx"
     ```

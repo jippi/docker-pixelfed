@@ -17,3 +17,5 @@
 *[Apache]: The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server
 *[HTTPS]: Hypertext transfer protocol secure (HTTPS) is the secure (encrypted) version of HTTP, which is the primary protocol used to send data between a web browser and a website. HTTPS is encrypted in order to increase security of data transfer.
 *[HTTP]: The Hyper Text Transfer Protocol (HTTP), is the insecure (unencrypted) version of HTTPS, the foundation and primary means for requesting and receiving hypermedia (web-based) resources, for example HTML, images, text and media files, and is part of the internet protocol suite.
+*[runtime]: The webserver used inside the Pixelfed container (Apache / Nginx).
+*[Debian]: Debian is a free operating system that's among the most mature versions of Linux available
