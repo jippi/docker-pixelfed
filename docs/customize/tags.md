@@ -35,6 +35,14 @@ For example
 
     The [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) setting in your `.env` file control what Pixelfed version you will be running on your server.
 
+!!! tip "About semantic versioning"
+
+    Pixelfed loosely follows [Semantic Versioning](https://semver.org/), meaning that
+
+    * [**Major** version](https://semver.org/#spec-item-4) is the first part in the versioning (`X.y.z`)
+    * [**Minor** version](https://semver.org/#spec-item-7) is the second part of the versioning `(x.Y.z)`
+    * [**Patch** version](https://semver.org/#spec-item-6) is the third part of the versioning `(x.y.Z)`
+
 <div class="annotate" markdown>
 
 | [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) | Pixelfed Version |
@@ -58,14 +66,6 @@ For example
     * `DD => 14`
 
 ### Semantic releases
-
-!!! tip "About semantic versioning"
-
-    Pixelfed loosely follows [Semantic Versioning](https://semver.org/), meaning that
-
-    * [**Major** version](https://semver.org/#spec-item-4) is the first part in the versioning (`X.y.z`)
-    * [**Minor** version](https://semver.org/#spec-item-7) is the second part of the versioning `(x.Y.z)`
-    * [**Patch** version](https://semver.org/#spec-item-6) is the third part of the versioning `(x.y.Z)`
 
 `v{major}`
 
