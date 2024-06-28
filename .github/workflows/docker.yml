@@ -115,7 +115,7 @@ jobs:
           tags: |
             # schedule
             type=schedule,pattern=nightly
-            type=schedule,pattern=nightly-{{ date 'YYYYMMDD' tz='UTC' }}
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
@@ -227,7 +227,7 @@ jobs:
           tags: |
             # schedule
             type=schedule,pattern=nightly
-            type=schedule,pattern=nightly-{{ date 'YYYYMMDD' tz='UTC' }}
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
             # default behavior
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/

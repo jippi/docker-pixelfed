@@ -28,7 +28,7 @@ Instead, we now offer the following tags
 | `v{major}.{minor}-{runtime}-{php_version}` <br /><br />*Example*<br /> `v0.12-apache-8.3` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `v.0.0` <br /> :x: `2.0.0` |
 | `v{major}-{runtime}-{php_version}` <br /><br />*Example*<br /> `v0-apache-8.3` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :white_check_mark: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
 | `nightly-{branch}(6)-{runtime}-{php_version}` <br /><br />*Example*<br /> `nightly-dev-apache-8.3` <br />`nightly-staging-apache-8.3` | :x: N/A |
-| `nightly-{YYYYMMDD}(7)-{branch}-{runtime}-{php_version}` <br /><br />*Example*<br /> `nightly-20240501-dev-apache-8.3` <br />`nightly-20240501-staging-apache-8.3` | :x: N/A |
+| `nightly-{YYYY-MM-DD}(7)-{branch}-{runtime}-{php_version}` <br /><br />*Example*<br /> `nightly-20240501-dev-apache-8.3` <br />`nightly-20240501-staging-apache-8.3` | :x: N/A |
 </div>
 
 1. `{major}` is the first part in the versioning `(X.y.z)`.
@@ -37,7 +37,7 @@ Instead, we now offer the following tags
 4. `{runtime}` can be either `apache` or `nginx`. Please see [the Runtime Documentation](runtimes.md).
 5. `{php_version}` Currently only supported `8.3` for the latest PHP 8.3 release.
 6. `{branch}` is the `staging` or `dev` branch that Pixelfed is developed from.
-7. `{YYYYMMDD}` is a date format, e.x., `20240914`, where
+7. `{YYYY-MM-DD}` is a date format, e.x., `2024-09-14`, where
     * `YYYY => 2024`
     * `MM => 09`
     * `DD => 14`
@@ -87,12 +87,12 @@ We will now automatically create *nightly* builds of Pixelfed from the `dev` and
 : Always points to the latest Pixelfed commit on `staging` at the time of building the image (~8am UTC).
 : For example `nightly-staging-apache-8.3` will always point to the latest commit on `staging` branch on the most recent build date.
 
-`nightly-{YYYYMMDD}-dev-{runtime}-{php_version}`
+`nightly-{YYYY-MM-DD}-dev-{runtime}-{php_version}`
 
 : Points to the latest Pixelfed commit on `staging` at the specific date, at the time of building the image (~8am UTC).
-: For example `nightly-20240501-dev-apache-8.3` will always point to the latest commit on `dev` branch at `2024-05-01` (May 1st 2024)
+: For example `nightly-2024-05-01-dev-apache-8.3` will always point to the latest commit on `dev` branch at `2024-05-01` (May 1st 2024)
 
-nightly-{YYYYMMDD}-staging-{runtime}-{php_version}`
+nightly-{YYYY-MM-DD}-staging-{runtime}-{php_version}`
 
 : Points to the latest Pixelfed commit on `staging` at the specific date, at the time of building the image (~8am UTC).
-: For example `nightly-20240501-staging-apache-8.3` will always point to the latest commit on `staging` branch at `2024-05-01` (May 1st 2024)
+: For example `nightly-2024-05-01-staging-apache-8.3` will always point to the latest commit on `staging` branch at `2024-05-01` (May 1st 2024)
