@@ -108,6 +108,7 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.snippets:
+      check_paths: true
       auto_append:
         - docs-customization/includes/abbreviations.md
   - pymdownx.superfences:

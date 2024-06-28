@@ -27,7 +27,7 @@ Any valid Docker Hub PHP version is acceptable here, as long as it's [published 
 * `8.2.14` will use PHP 8.2.14
 * `latest` will use whatever is the latest PHP version
 
-**Default value**: `8.1`
+**Default value**: `8.3`
 
 ## `PHP_PECL_EXTENSIONS`
 
