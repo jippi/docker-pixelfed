@@ -881,7 +881,7 @@
 <td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/274c.svg" title=":x:" /> N/A</td>
 </tr>
 <tr>
-<td><code>nightly-{YYYYMMDD}(7)-{branch}-{runtime}-{php_version}</code> <br /><br /><em>Example</em><br /> <code>nightly-20240501-dev-apache-8.3</code> <br /><code>nightly-20240501-staging-apache-8.3</code></td>
+<td><code>nightly-{YYYY-MM-DD}(7)-{branch}-{runtime}-{php_version}</code> <br /><br /><em>Example</em><br /> <code>nightly-20240501-dev-apache-8.3</code> <br /><code>nightly-20240501-staging-apache-8.3</code></td>
 <td><img alt="❌" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/274c.svg" title=":x:" /> N/A</td>
 </tr>
 </tbody>
@@ -894,7 +894,7 @@
 <li><code>{runtime}</code> can be either <code>apache</code> or <code>nginx</code>. Please see <a href="../runtimes/">the Runtime Documentation</a>.</li>
 <li><code>{php_version}</code> Currently only supported <code>8.3</code> for the latest <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.3 release.</li>
 <li><code>{branch}</code> is the <code>staging</code> or <code>dev</code> branch that Pixelfed is developed from.</li>
-<li><code>{YYYYMMDD}</code> is a date format, e.x., <code>20240914</code>, where<ul>
+<li><code>{YYYY-MM-DD}</code> is a date format, e.x., <code>2024-09-14</code>, where<ul>
 <li><code>YYYY =&gt; 2024</code></li>
 <li><code>MM =&gt; 09</code></li>
 <li><code>DD =&gt; 14</code></li>
@@ -963,19 +963,19 @@
 <dd>
 <p>For example <code>nightly-staging-apache-8.3</code> will always point to the latest commit on <code>staging</code> branch on the most recent build date.</p>
 </dd>
-<dt><code>nightly-{YYYYMMDD}-dev-{runtime}-{php_version}</code></dt>
+<dt><code>nightly-{YYYY-MM-DD}-dev-{runtime}-{php_version}</code></dt>
 <dd>
 <p>Points to the latest Pixelfed commit on <code>staging</code> at the specific date, at the time of building the image (~8am UTC).</p>
 </dd>
 <dd>
-<p>For example <code>nightly-20240501-dev-apache-8.3</code> will always point to the latest commit on <code>dev</code> branch at <code>2024-05-01</code> (May 1<sup>st</sup> 2024)</p>
+<p>For example <code>nightly-2024-05-01-dev-apache-8.3</code> will always point to the latest commit on <code>dev</code> branch at <code>2024-05-01</code> (May 1<sup>st</sup> 2024)</p>
 </dd>
-<dt>nightly-{YYYYMMDD}-staging-{runtime}-{php_version}`</dt>
+<dt>nightly-{YYYY-MM-DD}-staging-{runtime}-{php_version}`</dt>
 <dd>
 <p>Points to the latest Pixelfed commit on <code>staging</code> at the specific date, at the time of building the image (~8am UTC).</p>
 </dd>
 <dd>
-<p>For example <code>nightly-20240501-staging-apache-8.3</code> will always point to the latest commit on <code>staging</code> branch at <code>2024-05-01</code> (May 1<sup>st</sup> 2024)</p>
+<p>For example <code>nightly-2024-05-01-staging-apache-8.3</code> will always point to the latest commit on <code>staging</code> branch at <code>2024-05-01</code> (May 1<sup>st</sup> 2024)</p>
 </dd>
 </dl>
 
