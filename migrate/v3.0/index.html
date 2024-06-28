@@ -735,9 +735,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names" class="md-nav__link">
+  <a href="#breaking-change-new-docker-image-names" class="md-nav__link">
     <span class="md-ellipsis">
-      Breaking Change New Docker image names { data-toc-label="New Docker image names" }
+      New docker image names
     </span>
   </a>
   
@@ -753,7 +753,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-latest-tags" class="md-nav__link">
+  <a href="#no-latest-tags" class="md-nav__link">
     <span class="md-ellipsis">
       No 'latest' tags
     </span>
@@ -762,9 +762,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
+  <a href="#no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
     <span class="md-ellipsis">
-      Breaking Change No fpm runtime { data-toc-label="No 'fpm' runtime" }
+      No fpm runtime { data-toc-label="No FPM runtime" }
     </span>
   </a>
   
@@ -852,9 +852,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names" class="md-nav__link">
+  <a href="#breaking-change-new-docker-image-names" class="md-nav__link">
     <span class="md-ellipsis">
-      Breaking Change New Docker image names { data-toc-label="New Docker image names" }
+      New docker image names
     </span>
   </a>
   
@@ -870,7 +870,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-latest-tags" class="md-nav__link">
+  <a href="#no-latest-tags" class="md-nav__link">
     <span class="md-ellipsis">
       No 'latest' tags
     </span>
@@ -879,9 +879,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
+  <a href="#no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
     <span class="md-ellipsis">
-      Breaking Change No fpm runtime { data-toc-label="No 'fpm' runtime" }
+      No fpm runtime { data-toc-label="No FPM runtime" }
     </span>
   </a>
   
@@ -961,7 +961,7 @@
 <div class="admonition danger">
 <p class="admonition-title">These changes are breaking, removing, or changing existing behavior from <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose v1 and <em>requires</em> your attention and possibly some steps to fix.</p>
 </div>
-<h3 id="breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names { data-toc-label="New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names" }<a class="headerlink" href="#breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change-new-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names<a class="headerlink" href="#breaking-change-new-docker-image-names" title="Permanent link">&para;</a></h3>
 <p>Since <code>docker-pixelfed</code> do not exist within the <code>pixelfed</code> project itself, the URL for the container images will change.</p>
 <p>Before you might have something like the following in your <code>.env</code> file</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bullseye&quot;</span>
@@ -1005,10 +1005,10 @@
 </li>
 </ul>
 <p>This should not directly impact most users, as any custom build you did before (custom <abbr title="The programming language Pixelfed is written in">PHP</abbr> extensions, frontend, etc.) can still be done against the <a href="../../customize/runtimes/"><code>runtime</code></a> <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image.</p>
-<h3 id="breaking-change-no-latest-tags"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <code>latest</code> tags<a class="headerlink" href="#breaking-change-no-latest-tags" title="Permanent link">&para;</a></h3>
+<h3 id="no-latest-tags">No <code>latest</code> tags<a class="headerlink" href="#no-latest-tags" title="Permanent link">&para;</a></h3>
 <p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
 <p><a href="../../customize/tags/">See the dedicated <code>tags</code> documentation for more information</a></p>
-<h3 id="breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <code>fpm</code> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> { data-toc-label="No 'fpm' <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr>" }<a class="headerlink" href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" title="Permanent link">&para;</a></h3>
+<h3 id="no-fpm-runtime-data-toc-labelno-fpm-runtime">No <code>fpm</code> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> { data-toc-label="No <code>FPM runtime</code>" }<a class="headerlink" href="#no-fpm-runtime-data-toc-labelno-fpm-runtime" title="Permanent link">&para;</a></h3>
 <p>v3 only builds <code>apache</code> (with <code>mod_php</code>) and <code>nginx</code> (with <code>fpm</code>) runtimes now.</p>
 <p>The <code>fpm</code> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> was quite an edge-case, not likely to be relevant for majority of folks (reach out if you are missing this!)</p>
 <h2 id="new-or-improved-features">New or improved features<a class="headerlink" href="#new-or-improved-features" title="Permanent link">&para;</a></h2>
