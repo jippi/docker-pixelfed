@@ -22,7 +22,7 @@
     
     
       
-        <title>Tags & versions - Docker Pixelfed</title>
+        <title>Docker and Pixelfed versions - Docker Pixelfed</title>
       
     
     
@@ -59,7 +59,7 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Tags & versions - Docker Pixelfed" >
+        <meta  property="og:title"  content="Docker and Pixelfed versions - Docker Pixelfed" >
       
         <meta  property="og:description"  content="None" >
       
@@ -75,7 +75,7 @@
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Tags & versions - Docker Pixelfed" >
+        <meta  name="twitter:title"  content="Docker and Pixelfed versions - Docker Pixelfed" >
       
         <meta  name="twitter:description"  content="None" >
       
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tags-versions" class="md-skip">
+        <a href="#docker-and-pixelfed-versions" class="md-skip">
           Skip to content
         </a>
       
@@ -138,7 +138,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tags &amp; versions
+              Docker and Pixelfed versions
             
           </span>
         </div>
@@ -582,7 +582,7 @@
           
   
   <span class="md-ellipsis">
-    Tags &amp; versions
+    Docker and Pixelfed versions
   </span>
   
 
@@ -593,7 +593,7 @@
         
   
   <span class="md-ellipsis">
-    Tags &amp; versions
+    Docker and Pixelfed versions
   </span>
   
 
@@ -937,19 +937,10 @@
   
 
 
-<h1 id="tags-versions">Tags &amp; versions<a class="headerlink" href="#tags-versions" title="Permanent link">&para;</a></h1>
+<h1 id="docker-and-pixelfed-versions"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> and Pixelfed versions<a class="headerlink" href="#docker-and-pixelfed-versions" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">We do not build any <code>latest</code> tags</p>
 <p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">About semantic versioning</p>
-<p>Pixelfed loosely follows <a href="https://semver.org/">Semantic Versioning</a>, meaning that</p>
-<ul>
-<li><a href="https://semver.org/#spec-item-4"><strong>Major</strong> version</a> is the first part in the versioning (<code>X.y.z</code>)</li>
-<li><a href="https://semver.org/#spec-item-7"><strong>Minor</strong> version</a> is the second part of the versioning <code>(x.Y.z)</code></li>
-<li><a href="https://semver.org/#spec-item-6"><strong>Patch</strong> version</a> is the third part of the versioning <code>(x.y.Z)</code></li>
-</ul>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -977,13 +968,13 @@
 <h2 id="pixelfed-version">Pixelfed version<a class="headerlink" href="#pixelfed-version" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The <a href="../settings/#docker_app_php_version"><code>APP_PHP_VERSION</code></a> setting in your <code>.env</code> file control what Pixelfed version you will be running on your server.</p>
+<p>The <a href="../settings/#docker_app_php_version"><code>DOCKER_APP_PHP_VERSION</code></a> setting in your <code>.env</code> file control what Pixelfed version you will be running on your server.</p>
 </div>
 <div class="annotate">
 <table>
 <thead>
 <tr>
-<th><a href="../settings/#docker_app_php_version"><code>APP_PHP_VERSION</code></a></th>
+<th><a href="../settings/#docker_app_php_version"><code>DOCKER_APP_PHP_VERSION</code></a></th>
 <th>Pixelfed Version</th>
 </tr>
 </thead>
@@ -1026,6 +1017,15 @@
 </li>
 </ol>
 <h3 id="semantic-releases">Semantic releases<a class="headerlink" href="#semantic-releases" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">About semantic versioning</p>
+<p>Pixelfed loosely follows <a href="https://semver.org/">Semantic Versioning</a>, meaning that</p>
+<ul>
+<li><a href="https://semver.org/#spec-item-4"><strong>Major</strong> version</a> is the first part in the versioning (<code>X.y.z</code>)</li>
+<li><a href="https://semver.org/#spec-item-7"><strong>Minor</strong> version</a> is the second part of the versioning <code>(x.Y.z)</code></li>
+<li><a href="https://semver.org/#spec-item-6"><strong>Patch</strong> version</a> is the third part of the versioning <code>(x.y.Z)</code></li>
+</ul>
+</div>
 <dl>
 <dt><code>v{major}</code></dt>
 <dd>
