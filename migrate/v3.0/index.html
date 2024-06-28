@@ -571,7 +571,7 @@
         
   
   <span class="md-ellipsis">
-    Tags
+    Tags &amp; versions
   </span>
   
 
@@ -762,9 +762,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-fpm-runtime" class="md-nav__link">
+  <a href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
     <span class="md-ellipsis">
-      No 'fpm' runtime
+      Breaking Change No fpm runtime { data-toc-label="No 'fpm' runtime" }
     </span>
   </a>
   
@@ -879,9 +879,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-no-fpm-runtime" class="md-nav__link">
+  <a href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" class="md-nav__link">
     <span class="md-ellipsis">
-      No 'fpm' runtime
+      Breaking Change No fpm runtime { data-toc-label="No 'fpm' runtime" }
     </span>
   </a>
   
@@ -964,28 +964,28 @@
 <h3 id="breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names { data-toc-label="New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names" }<a class="headerlink" href="#breaking-change-new-docker-image-names-data-toc-labelnew-docker-image-names" title="Permanent link">&para;</a></h3>
 <p>Since <code>docker-pixelfed</code> do not exist within the <code>pixelfed</code> project itself, the URL for the container images will change.</p>
 <p>Before you might have something like the following in your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bullseye&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/pixelfed&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.2&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nv">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;jippi-fork-1&quot;</span>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bullseye&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/pixelfed&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.2&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;jippi-fork-1&quot;</span>
 </code></pre></div>
 <p>Those are now</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># [v0] for the least v0.x.y release of Pixelfed</span>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># [v0] for the least v0.x.y release of Pixelfed</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># [v0.12] for the least v0.12.x release of Pixelfed</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># [v0.12.1] for the v0.12.1 release of Pixelfed</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nv">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;v0.12.1&quot;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;v0.12.1&quot;</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># changed from ghcr.io/jippi/pixelfed</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nv">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/docker-pixelfed&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/docker-pixelfed&quot;</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># changed from &quot;bullseye&quot;</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nv">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bookworm&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bookworm&quot;</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># We only build PHP 8.3 now, so 8.2 or 8.1 is not supported</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nv">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.3&quot;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.3&quot;</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Different format</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nv">DOCKER_APP_TAG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">DOCKER_APP_RELEASE</span><span class="p">:?missing</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">DOCKER_APP_RUNTIME</span><span class="p">:?missing</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">DOCKER_APP_PHP_VERSION</span><span class="p">:?missing</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">DOCKER_APP_DEBIAN_RELEASE</span><span class="p">:?missing</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">DOCKER_APP_TAG</span><span class="o">=</span><span class="s2">&quot;${DOCKER_APP_RELEASE:?missing}-${DOCKER_APP_RUNTIME:?missing}-${DOCKER_APP_PHP_VERSION:?missing}-${DOCKER_APP_DEBIAN_RELEASE:?missing}&quot;</span>
 </code></pre></div>
 <h3 id="breaking-change-splitting-the-dockerfile"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> Splitting the <code>Dockerfile</code><a class="headerlink" href="#breaking-change-splitting-the-dockerfile" title="Permanent link">&para;</a></h3>
 <p>v3 splits the Dockerfile into two to keep them focused, and reducing build times, by having higher cache utilization.</p>
@@ -1008,9 +1008,9 @@
 <h3 id="breaking-change-no-latest-tags"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <code>latest</code> tags<a class="headerlink" href="#breaking-change-no-latest-tags" title="Permanent link">&para;</a></h3>
 <p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
 <p><a href="../../customize/tags/">See the dedicated <code>tags</code> documentation for more information</a></p>
-<h3 id="breaking-change-no-fpm-runtime"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <code>fpm</code> runtime<a class="headerlink" href="#breaking-change-no-fpm-runtime" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <code>fpm</code> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> { data-toc-label="No 'fpm' <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr>" }<a class="headerlink" href="#breaking-change-no-fpm-runtime-data-toc-labelno-fpm-runtime" title="Permanent link">&para;</a></h3>
 <p>v3 only builds <code>apache</code> (with <code>mod_php</code>) and <code>nginx</code> (with <code>fpm</code>) runtimes now.</p>
-<p>The <code>fpm</code> runtime was quite an edge-case, not likely to be relevant for majority of folks (reach out if you are missing this!)</p>
+<p>The <code>fpm</code> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> was quite an edge-case, not likely to be relevant for majority of folks (reach out if you are missing this!)</p>
 <h2 id="new-or-improved-features">New or improved features<a class="headerlink" href="#new-or-improved-features" title="Permanent link">&para;</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">All the new and exciting features and capabilities. <img alt="🚀" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f680.svg" title=":rocket:" /></p>

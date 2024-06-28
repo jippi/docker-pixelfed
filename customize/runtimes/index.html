@@ -679,7 +679,7 @@
         
   
   <span class="md-ellipsis">
-    Tags
+    Tags &amp; versions
   </span>
   
 
@@ -936,15 +936,15 @@
 <p class="admonition-title">If anything is confusing, unclear, missing, or maybe even wrong on this page, then <em>please</em> let us know <a href="https://github.com/jippi/docker-pixelfed/issues/new">by submitting a bug report</a> <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/2764.svg" title=":heart:" /></p>
 </div>
 <p>The Pixelfed Dockerfile support multiple target <em>runtimes</em> (<a href="#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr></a> and <a href="#nginx-fpm"><abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> + <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr></a>.)</p>
-<p>You can consider a <em>runtime</em> target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.</p>
+<p>You can consider a <em><abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr></em> target as individual Dockerfiles, but instead, all of them are built from the same optimized Dockerfile, sharing +90% of their configuration and packages.</p>
 <div class="admonition info">
-<p class="admonition-title">What runtime is right for me?</p>
-<p>If you are unsure of which runtime to choose, please use the <a href="#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> runtime</a>; it's the most straightforward one and also the default.</p>
+<p class="admonition-title">What <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> is right for me?</p>
+<p>If you are unsure of which <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> to choose, please use the <a href="#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr></a>; it's the most straightforward one and also the default.</p>
 </div>
 <h2 id="apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>  <Badge type="tip" text="Recommended" /><a class="headerlink" href="#apache" title="Permanent link">&para;</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">RECOMMENDED</p>
-<p>This is the default <em>and</em> recommended runtime for almost all single-server Pixelfed instances, as it has fewer moving parts, simplified operational model, and strikes a good balance between performance, features, and convenience.</p>
+<p>This is the default <em>and</em> recommended <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> for almost all single-server Pixelfed instances, as it has fewer moving parts, simplified operational model, and strikes a good balance between performance, features, and convenience.</p>
 </div>
 <p>Building a custom Pixelfed <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image using <code>Apache</code> + <code>mod_php</code> can be achieved the following way.</p>
 <h3 id="docker-build-apache">docker build (<abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>)<a class="headerlink" href="#docker-build-apache" title="Permanent link">&para;</a></h3>
@@ -958,9 +958,9 @@
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
+<p>Instead you control the target <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> via your <code>.env</code> file</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
 </code></pre></div>
 </div>
 <div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
@@ -975,8 +975,8 @@
 <h2 id="nginx-fpm"><abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> + <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr><a class="headerlink" href="#nginx-fpm" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">ADVANCED USAGE</p>
-<p><abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> + <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr> has more moving parts than the default (and recommended) <a href="#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> runtime</a>.</p>
-<p>Only select this runtime if you have valid <em>technical</em> reasons to do so.</p>
+<p><abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> + <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr> has more moving parts than the default (and recommended) <a href="#apache"><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr></a>.</p>
+<p>Only select this <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> if you have valid <em>technical</em> reasons to do so.</p>
 </div>
 <p>Building a custom Pixelfed <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image using nginx + <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr> can be achieved the following way.</p>
 <h3 id="docker-build-nginx">docker build (<abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr>)<a class="headerlink" href="#docker-build-nginx" title="Permanent link">&para;</a></h3>
@@ -991,9 +991,9 @@
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
-<p>Instead you control the target runtime via your <code>.env</code> file</p>
-<div class="language-shell highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;nginx&quot;</span>
+<p>Instead you control the target <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> via your <code>.env</code> file</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;nginx&quot;</span>
 </code></pre></div>
 </div>
 <div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>

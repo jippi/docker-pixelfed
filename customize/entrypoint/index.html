@@ -706,7 +706,7 @@
         
   
   <span class="md-ellipsis">
-    Tags
+    Tags &amp; versions
   </span>
   
 
@@ -1042,7 +1042,7 @@ It's highly recommended to give it a read from top to bottom, or trying to searc
 <li>To override <code>/a/path/inside/the/container</code>, put the source file in <code>./docker-compose-state/overrides/a/path/inside/the/container</code>.</li>
 </ol>
 <h2 id="fixing-ownership-on-startup">Fixing ownership on startup<a class="headerlink" href="#fixing-ownership-on-startup" title="Permanent link">&para;</a></h2>
-<p>You can set the environment variable <code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS</code> to a list of paths that should have their <code>$USER</code> and <code>$GROUP</code> ownership changed to the configured runtime user and group during container bootstrapping.</p>
+<p>You can set the environment variable <code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS</code> to a list of paths that should have their <code>$USER</code> and <code>$GROUP</code> ownership changed to the configured <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> user and group during container bootstrapping.</p>
 <p>The variable is a space-delimited list shown below and accepts both relative and absolute paths:</p>
 <ul>
 <li><code>DOCKER_APP_ENSURE_OWNERSHIP_PATHS="./storage ./bootstrap"</code></li>
