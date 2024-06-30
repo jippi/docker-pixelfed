@@ -160,11 +160,11 @@ services:
   cron:
     image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
     container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-cron"
-    command: gosu www-data php artisan schedule:work
+    command: gosu www-data php artisan schedule:work -vvv
     restart: unless-stopped
     stop_signal: SIGTERM
     profiles:
-      - ${DOCKER_WORKER_PROFILE:-}
+      - ${DOCKER_CRON_PROFILE:-}
     build:
       dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
