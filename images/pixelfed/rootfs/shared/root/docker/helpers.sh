@@ -33,7 +33,7 @@ docker_state_path="$(readlink -f ./storage/docker)"
 declare -g docker_locks_path="${docker_state_path}/lock"
 declare -g docker_once_path="${docker_state_path}/once"
 
-declare -g runtime_username
+declare -gx runtime_username
 runtime_username=$(id -un "${RUNTIME_UID}")
 
 # We should already be in /var/www, but just to be explicit
