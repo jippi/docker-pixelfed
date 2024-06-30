@@ -6,4 +6,4 @@ source "${ENTRYPOINT_ROOT}/helpers.sh"
 
 entrypoint-set-script-name "$0"
 
-run-as-current-user cp --force --recursive /docker/cron.d/. ./etc/cron.d
+run-as-current-user cp --force "${ENTRYPOINT_ROOT}/cron.d/www-data" "/etc/cron.d/${runtime_username}"
