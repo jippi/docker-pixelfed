@@ -17,7 +17,6 @@ declare -a packages=()
 packages+=(
     apt-utils
     ca-certificates
-    cron
     curl
     git
     gnupg1

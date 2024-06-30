@@ -160,7 +160,7 @@ services:
   cron:
     image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
     container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-cron"
-    command: [cron, -f, -L, "15"]
+    command: gosu www-data php artisan schedule:work
     restart: unless-stopped
     stop_signal: SIGTERM
     profiles:
