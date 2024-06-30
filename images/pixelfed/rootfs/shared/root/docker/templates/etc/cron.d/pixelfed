@@ -1,5 +1,5 @@
 MAILTO=""
-SHELL="/bin/bash"
+SHELL="/usr/bin/bash"
 
 # .---------------- minute (0 - 59)
 # |  .------------- hour (0 - 23)
