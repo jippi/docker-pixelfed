@@ -93,8 +93,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-        with:
-          version: latest
 
       # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
       - name: Log in to the GitHub Container registry
@@ -205,8 +203,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         id: buildx
-        with:
-          version: v0.12.0 # *or* newer, needed for annotations to work
 
         # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
       - name: Log in to the GitHub Container registry
