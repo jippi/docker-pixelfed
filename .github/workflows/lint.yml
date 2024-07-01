@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: cp .env.docker .env
+
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         env:
