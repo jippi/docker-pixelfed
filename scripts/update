@@ -10,8 +10,11 @@ source "${project_root}/scripts/lib/shared.sh"
 # shellcheck source=../.env
 source "${project_root}/.env"
 
-docker_release="$1"
-pixelfed_release="$2"
+# pixelfed/pixelfed branch/tag
+pixelfed_release="$1"
+
+# jippi/docker-pixelfed branch/tag
+docker_release="${2-main}"
 
 action_start_newline "fetching docker updates"
 git fetch origin || action_error_exit "failed"
