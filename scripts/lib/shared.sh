@@ -8,7 +8,7 @@ YELLOW='\033[0;33m'
 
 function action_start()
 {
-    echo -en "⚙️ $*: "
+    echo -en "${BLUE}⚙️ $*${NO_COLOR}: "
 }
 
 function action_start_newline()

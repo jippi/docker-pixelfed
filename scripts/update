@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -e -o errexit -o nounset -o pipefail
+
+declare project_root="${PWD}"
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+
+# shellcheck source=lib/shared.sh
+source "${project_root}/scripts/lib/shared.sh"
+
+# shellcheck source=../.env
+source "${project_root}/.env"
+
+docker_release="$1"
+pixelfed_release="$2"
+
+action_start_newline "fetching docker updates"
+git fetch origin || action_error_exit "failed"
+action_ok "OK"
+echo
+
+action_start_newline "changing to release branch"
+git checkout "${docker_release}" || action_error_exit "could not checkout branch ${docker_release}"
+action_ok "OK"
+echo
+
+action_start_newline "update .env file (via dottie)"
+scripts/dottie update || action_error_exit "could not update .env file"
+action_ok "OK"
+echo
+
+action_start_newline "Updating 'DOCKER_APP_RELEASE' in '.env' file (via dottie)"
+scripts/dottie set DOCKER_APP_RELEASE="${pixelfed_release}" || action_error_exit "could not update DOCKER_APP_RELEASE"
+action_ok "OK"
+echo
+
+action_start_newline "pulling new Docker images"
+docker compose pull || action_error_exit "could not pull docker images"
+action_ok "OK"
+echo
+
+action_start_newline "stopping docker services"
+docker compose down -v || action_error_exit "could not stop docker containers"
+action_ok "OK"
+
+action_start_newline "clearing cache"
+rm --verbose --force "${DOCKER_APP_HOST_CACHE_PATH}/*" || action_error_exit "could not clear cache"
+action_ok "OK"
+
+action_start_newline "starting docker services"
+docker compose up -d || action_error_exit "could not start docker containers"
+action_ok "OK"
