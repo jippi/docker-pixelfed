@@ -21,7 +21,7 @@ mkdir -p /data
 ### Clone the Pixelfed project
 
 ```bash
-git clone https://github.com/jippi/docker-pixelfed.gt /data/pixelfed
+git clone https://github.com/jippi/docker-pixelfed.git /data/pixelfed
 ```
 
 ### Change directory
@@ -32,9 +32,9 @@ cd /data/pixelfed
 
 ## Check system requirements
 
-The `scripts/` directory has a bunch of useful helper tools, and the first one we will use is one to help check if the server and software is meeting (some) of the requirements.
+The `scripts/` directory has a bunch of useful helper tools, and the first one we will use is one to help check if the server and software are meeting (some) of the requirements.
 
-Run the following command and follow the instructions (if any) on how to resolve issues detected.
+Run the following command and follow the instructions (if any) on how to resolve the issues detected.
 
 ```bash
 scripts/check-requirements
@@ -44,7 +44,7 @@ scripts/check-requirements
 
 The settings file (`.env`) is quite large (+1.000 lines) and while most of it is documentation, and not configuration, it can still be quite daunting to read through early on in your Pixelfed journey.
 
-Instead, lets run the included `setup` script that will guide us through the required (and most commonly changed) settings.
+Instead, let's run the included `setup` script that will guide us through the required (and most commonly changed) settings.
 
 ```bash
 scripts/setup
@@ -68,7 +68,7 @@ cp .env.docker .env
 
 ### Modify config file
 
-!!! tip "If you used the [Quick Start](#configuration-quick-start), some of these steps has already been made for you"
+!!! tip "If you used the [Quick Start](#configuration-quick-start), some of these steps have already been made for you"
 
 The configuration file is *quite* long, but the good news is that you can ignore *most* of it; most of the *server-specific* settings are configured for you out of the box.
 
