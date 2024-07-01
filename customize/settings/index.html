@@ -958,6 +958,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#instance_cur_reg" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_cur_reg_resend_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG_RESEND_LIMIT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_cur_reg_captcha" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG_CAPTCHA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#instance_cur_reg_notify_admin_on_verify_mpd" class="md-nav__link">
     <span class="md-ellipsis">
       INSTANCE_CUR_REG_NOTIFY_ADMIN_ON_VERIFY_MPD
@@ -3257,6 +3284,33 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#instance_cur_reg" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_cur_reg_resend_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG_RESEND_LIMIT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_cur_reg_captcha" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTANCE_CUR_REG_CAPTCHA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#instance_cur_reg_notify_admin_on_verify_mpd" class="md-nav__link">
     <span class="md-ellipsis">
       INSTANCE_CUR_REG_NOTIFY_ADMIN_ON_VERIFY_MPD
@@ -5299,13 +5353,34 @@ that client’s request has subsequently passed through.</p>
 <li><code>required</code></li>
 </ul>
 <h2 id="curated-onboarding">Curated Onboarding<a class="headerlink" href="#curated-onboarding" title="Permanent link">&para;</a></h2>
+<h3 id="instance_cur_reg">INSTANCE_CUR_REG<a class="headerlink" href="#instance_cur_reg" title="Permanent link">&para;</a></h3>
+<p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text"><code>false</code></span></span></p>
+<p>Enable or disable curated onboarding</p>
+<p><strong>Validation rules:</strong></p>
+<ul>
+<li><code>boolean</code></li>
+</ul>
+<h3 id="instance_cur_reg_resend_limit">INSTANCE_CUR_REG_RESEND_LIMIT<a class="headerlink" href="#instance_cur_reg_resend_limit" title="Permanent link">&para;</a></h3>
+<p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text"><code>5</code></span></span></p>
+<p>How many times user may request resending of confirmation emails</p>
+<p><strong>Validation rules:</strong></p>
+<ul>
+<li><code>number</code></li>
+</ul>
+<h3 id="instance_cur_reg_captcha">INSTANCE_CUR_REG_CAPTCHA<a class="headerlink" href="#instance_cur_reg_captcha" title="Permanent link">&para;</a></h3>
+<p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text"><code>false</code></span></span></p>
+<p>How many times user may request resending of confirmation emails</p>
+<p><strong>Validation rules:</strong></p>
+<ul>
+<li><code>boolean</code></li>
+</ul>
 <h3 id="instance_cur_reg_notify_admin_on_verify_mpd">INSTANCE_CUR_REG_NOTIFY_ADMIN_ON_VERIFY_MPD<a class="headerlink" href="#instance_cur_reg_notify_admin_on_verify_mpd" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text"><code>10</code></span></span>
 <span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#external-docs" title="External Documentation"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z"/></svg></span></a></span></span></p>
 <p>Maximum number of notifications to send per day</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
-<li><code>boolean</code></li>
+<li><code>number</code></li>
 </ul>
 <h3 id="instance_cur_reg_notify_admin_on_verify">INSTANCE_CUR_REG_NOTIFY_ADMIN_ON_VERIFY<a class="headerlink" href="#instance_cur_reg_notify_admin_on_verify" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6Z"/></svg></span></a></span><span class="mdx-badge__text"><code>false</code></span></span>
@@ -6466,7 +6541,6 @@ set already</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
-<li><code>file</code></li>
 </ul>
 <h3 id="docker_proxy_letsencrypt_host">DOCKER_PROXY_LETSENCRYPT_HOST<a class="headerlink" href="#docker_proxy_letsencrypt_host" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2 1 21Z"/></svg></span></a></span></span>
