@@ -92,14 +92,17 @@ action_start "Checking if [$(highlight "docker compose version")] minor version 
 }
 action_ok "You're using minor version ${compose_version_arr[1]}"
 
-# docker compose version is acceptable?
-action_start "Checking if [$(highlight "docker compose")] and [$(highlight "docker-compose")] are the same binary"
-docker_compose_version=$(docker-compose version --short)
-if [[ "${docker_compose_version}" != "${compose_version}" ]]; then
-    action_warn "[docker compose] (${compose_version}) and [docker-compose] (${docker_compose_version}) are NOT the same, make sure to use [docker compose] and *NOT* [docker-compose]"
-else
-    action_ok "[docker-compose] and [docker compose] are the same binary"
-fi
+# if docker-compose binary exists
+command -v docker-compose >/dev/null 2>&1 && {
+    # docker compose version is acceptable?
+    action_start "Checking if [$(highlight "docker compose")] and [$(highlight "docker-compose")] are the same binary"
+    docker_compose_version=$(docker-compose version --short || :)
+    if [[ "${docker_compose_version}" != "${compose_version}" ]]; then
+        action_warn "[docker compose] (${compose_version}) and [docker-compose] (${docker_compose_version}) are NOT the same, make sure to use [docker compose] and *NOT* [docker-compose]"
+    else
+        action_ok "[docker-compose] and [docker compose] are the same binary"
+    fi
+}
 
 # Yay, everything is fine
 echo ""
