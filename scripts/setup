@@ -17,6 +17,11 @@ if [[ ! -f "${project_root}/.env" ]]; then
     cp -v "${project_root}/.env.docker" "${project_root}/.env" || action_error_exit "copy operation failed"
     action_ok "OK"
     echo
+
+    action_start_newline "Ensuring permissions are correct (0660)"
+    chmod 0660 "${project_root}/.env" || action_error_exit "chmod operation failed"
+    action_ok "OK"
+    echo
 fi
 
 # Check if the .env file is writable
