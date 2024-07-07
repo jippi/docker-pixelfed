@@ -113,6 +113,7 @@ FROM --platform=${BUILDARCH} node:lts AS frontend-build
 ARG BUILDARCH
 ARG BUILD_FRONTEND=0
 ARG RUNTIME_UID
+ARG RUNTIME_GID
 
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
@@ -155,6 +156,8 @@ EOF
 FROM ${PHP_IMAGE} AS composer-and-src
 
 ARG PHP_VERSION
+ARG RUNTIME_UID
+ARG RUNTIME_GID
 
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files avaliable (yet)
@@ -173,8 +176,8 @@ COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/ /var/www/
 
 FROM ${PHP_IMAGE} AS shared-runtime
 
-ARG RUNTIME_GID
 ARG RUNTIME_UID
+ARG RUNTIME_GID
 
 ENV RUNTIME_UID=${RUNTIME_UID}
 ENV RUNTIME_GID=${RUNTIME_GID}
