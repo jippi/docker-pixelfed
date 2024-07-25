@@ -96,9 +96,9 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
             log-warning "Ignoring unrecognized file [${file}]"
             ;;
     esac
-done
 
-release-lock "entrypoint.sh"
+    release-lock "$(get-entrypoint-script-name "${file}")"
+done
 
 log-info "Configuration complete; ready for start up"
 
