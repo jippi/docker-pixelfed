@@ -62,8 +62,10 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
         continue
     fi
 
+    ls -al "$docker_locks_path"
+
     (
-        log-info "🔑 Trying to acquire lock: ${lock_name}: "
+        log-info "🔑 Trying to acquire lock: ${lock_name}"
 
         if ! flock -n 200; then
             # If we couldn't get it immediately, show a message, then wait for real
