@@ -20,8 +20,6 @@ declare -g script_name=
 declare -g script_name_previous=
 declare -g log_prefix=
 
-declare -Ag lock_fds=()
-
 # dot-env files to source when reading config
 declare -a dot_env_files=(
     /var/www/.env
@@ -348,7 +346,7 @@ function ensure-directory-exists()
 }
 
 # @description Find the relative path for a entrypoint script by removing the ENTRYPOINT_D_ROOT prefix
-# @arg $1 string The path to manipulate
+# @arg $1 string The path of the script
 # @stdout The relative path to the entrypoint script
 function get-entrypoint-script-name()
 {
@@ -388,20 +386,15 @@ function acquire-lock()
 {
     local name="${1:-$script_name}"
     local file="${docker_locks_path}/${name}"
-    local lock_fd
 
     ensure-directory-exists "$(dirname "${file}")"
 
-    exec {lock_fd}>"$file"
-
     log-info "🔑 Trying to acquire lock: ${file}: "
-    while ! ([[ -v lock_fds[$name] ]] || flock -n -x "$lock_fd"); do
+    while ! flock -n -x "$file"; do
         log-info "🔒 Waiting on lock ${file}"
 
         staggered-sleep
     done
-
-    [[ -v lock_fds[$name] ]] || lock_fds[$name]=$lock_fd
 
     log-info "🔐 Lock acquired [${file}]"
 
@@ -417,11 +410,8 @@ function release-lock()
 
     log-info "🔓 Releasing lock [${file}]"
 
-    [[ -v lock_fds[$name] ]] || return
-
-    # shellcheck disable=SC1083,SC2086
-    flock --unlock ${lock_fds[$name]}
-    unset 'lock_fds[$name]'
+    # release lock via file handle
+    flock --unlock "${file}"
 }
 
 # @description Helper function to append multiple actions onto the bash [trap] logic
