@@ -361,6 +361,8 @@ function only-once()
 {
     local name="${1:-$script_name}"
     local file="${docker_once_path}/${name}"
+    local lock_file="${docker_once_path}/${name}.lock"
+
     shift
 
     if [[ -e "${file}" ]]; then
@@ -371,7 +373,13 @@ function only-once()
 
     ensure-directory-exists "$(dirname "${file}")"
 
-    flock --exclusive --nonblock "${file}" "$@"
+    # NOTE: we use 'nonblock' here to ensure any commands waiting (due to lockfile) exit 1 immidately
+    #       so we don't double-run "only-once" commands. Docker Compose will restart the container on failure
+    flock --exclusive --nonblock "${lock_file}" "$@"
+
+    stream-prefix-command-output touch "${file}"
+
+    return 0
 }
 
 # @description Best effort file lock to ensure *something* is not running in multiple containers.

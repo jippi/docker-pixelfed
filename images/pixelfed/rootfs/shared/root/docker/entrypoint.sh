@@ -64,58 +64,43 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
 
     ls -al "$docker_locks_path"
 
-    (
-        log-info "🔑 Trying to acquire lock: ${lock_name}"
+    # Inspect the file extension of the file we're processing
+    case "${file}" in
+        *.envsh)
+            if ! is-executable "${file}"; then
+                # warn on shell scripts without exec bit
+                log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
+            fi
 
-        if ! flock --exclusive --nonblock 200; then
-            # If we couldn't get it immediately, show a message, then wait for real
-            log-info "🔒 Waiting on lock ${lock_name}"
+            log-info "${section_message_color}============================================================${color_clear}"
+            log-info "${section_message_color}Sourcing [${file}]${color_clear}"
+            log-info "${section_message_color}============================================================${color_clear}"
 
-            flock --exclusive 200
-        fi
+            # shellcheck disable=SC1090
+            source "${file}"
 
-        log-info "🔐 Lock acquired [${lock_name}]"
+            # the sourced file will (should) than the log prefix, so this restores our own
+            # "global" log prefix once the file is done being sourced
+            entrypoint-restore-script-name
+            ;;
 
-        # Inspect the file extension of the file we're processing
-        case "${file}" in
-            *.envsh)
-                if ! is-executable "${file}"; then
-                    # warn on shell scripts without exec bit
-                    log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
-                fi
+        *.sh)
+            if ! is-executable "${file}"; then
+                # warn on shell scripts without exec bit
+                log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
+            fi
 
-                log-info "${section_message_color}============================================================${color_clear}"
-                log-info "${section_message_color}Sourcing [${file}]${color_clear}"
-                log-info "${section_message_color}============================================================${color_clear}"
+            log-info "${section_message_color}============================================================${color_clear}"
+            log-info "${section_message_color}Executing [${file}]${color_clear}"
+            log-info "${section_message_color}============================================================${color_clear}"
 
-                # shellcheck disable=SC1090
-                source "${file}"
+            flock --exclusive "${docker_locks_path}/${lock_name}" "${file}"
+            ;;
 
-                # the sourced file will (should) than the log prefix, so this restores our own
-                # "global" log prefix once the file is done being sourced
-                entrypoint-restore-script-name
-                ;;
-
-            *.sh)
-                if ! is-executable "${file}"; then
-                    # warn on shell scripts without exec bit
-                    log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
-                fi
-
-                log-info "${section_message_color}============================================================${color_clear}"
-                log-info "${section_message_color}Executing [${file}]${color_clear}"
-                log-info "${section_message_color}============================================================${color_clear}"
-
-                "${file}"
-                ;;
-
-            *)
-                log-warning "Ignoring unrecognized file [${file}]"
-                ;;
-        esac
-
-        log-info "🔓 Releasing lock [${lock_name}]"
-    ) 200>"${docker_locks_path}/${lock_name}"
+        *)
+            log-warning "Ignoring unrecognized file [${file}]"
+            ;;
+    esac
 done
 
 log-info "Configuration complete; ready for start up"
