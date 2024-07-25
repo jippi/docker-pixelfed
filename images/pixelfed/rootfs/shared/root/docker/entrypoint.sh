@@ -28,7 +28,7 @@ entrypoint-set-script-name "entrypoint.sh"
 # Convert ENTRYPOINT_SKIP_SCRIPTS into a native bash array for easier lookup
 declare -a skip_scripts
 # shellcheck disable=SC2034
-IFS=' ' read -r -a skip_scripts <<< "$ENTRYPOINT_SKIP_SCRIPTS"
+IFS=' ' read -r -a skip_scripts <<<"$ENTRYPOINT_SKIP_SCRIPTS"
 
 # Ensure the entrypoint root folder exists
 mkdir -p "${ENTRYPOINT_D_ROOT}"
@@ -46,18 +46,23 @@ if ! directory-is-empty "${DOCKER_APP_HOST_OVERRIDES_PATH}"; then
     run-as-current-user cp --verbose --recursive "${DOCKER_APP_HOST_OVERRIDES_PATH}/." /
 fi
 
-acquire-lock "entrypoint.sh"
-
 # Start scanning for entrypoint.d files to source or run
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
+# ensure locks directory exists
+ensure-directory-exists "$docker_locks_path"
+
 find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r file; do
+    lock_name="$(get-entrypoint-script-name "${file}")"
+
     # Skip the script if it's in the skip-script list
-    if in-array "$(get-entrypoint-script-name "${file}")" skip_scripts; then
+    if in-array "${lock_name}" skip_scripts; then
         log-warning "Skipping script [${file}] since it's in the skip list (\$ENTRYPOINT_SKIP_SCRIPTS)"
 
         continue
     fi
+
+    ls -al "$docker_locks_path"
 
     # Inspect the file extension of the file we're processing
     case "${file}" in
@@ -89,7 +94,7 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
             log-info "${section_message_color}Executing [${file}]${color_clear}"
             log-info "${section_message_color}============================================================${color_clear}"
 
-            "${file}"
+            flock --exclusive "${docker_locks_path}/${lock_name}" "${file}"
             ;;
 
         *)
@@ -97,8 +102,6 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
             ;;
     esac
 done
-
-release-lock "entrypoint.sh"
 
 log-info "Configuration complete; ready for start up"
 
