@@ -371,12 +371,7 @@ function only-once()
 
     ensure-directory-exists "$(dirname "${file}")"
 
-    if ! "$@"; then
-        return 1
-    fi
-
-    stream-prefix-command-output touch "${file}"
-    return 0
+    flock --exclusive --nonblock "${file}" "$@"
 }
 
 # @description Best effort file lock to ensure *something* is not running in multiple containers.

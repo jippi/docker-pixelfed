@@ -67,11 +67,11 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
     (
         log-info "🔑 Trying to acquire lock: ${lock_name}"
 
-        if ! flock -n 200; then
+        if ! flock --exclusive --nonblock 200; then
             # If we couldn't get it immediately, show a message, then wait for real
             log-info "🔒 Waiting on lock ${lock_name}"
 
-            flock 200
+            flock --exclusive 200
         fi
 
         log-info "🔐 Lock acquired [${lock_name}]"

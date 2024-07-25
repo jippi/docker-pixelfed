@@ -26,7 +26,7 @@ await-database-ready
 
 only-once "key:generate" run-as-runtime-user php artisan key:generate
 only-once "storage:link" run-as-runtime-user php artisan storage:link
-only-once "initial:migrate" run-as-runtime-user php artisan migrate
+only-once "initial:migrate" run-as-runtime-user php artisan migrate --force
 only-once "import:cities" run-as-runtime-user php artisan import:cities
 
 if is-true "${ACTIVITY_PUB:-false}"; then
