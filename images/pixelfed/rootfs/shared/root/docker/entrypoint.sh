@@ -50,17 +50,26 @@ fi
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
 find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r file; do
-    lock_file="$(get-entrypoint-script-name "${file}")"
+    lock_name="$(get-entrypoint-script-name "${file}")"
 
     # Skip the script if it's in the skip-script list
-    if in-array "${lock_file}" skip_scripts; then
+    if in-array "${lock_name}" skip_scripts; then
         log-warning "Skipping script [${file}] since it's in the skip list (\$ENTRYPOINT_SKIP_SCRIPTS)"
 
         continue
     fi
 
     (
-        flock -x -w 30 200
+        log-info "🔑 Trying to acquire lock: ${lock_name}: "
+
+        if ! flock -n 200; then
+            # If we couldn't get it immediately, show a message, then wait for real
+            log-info "🔒 Waiting on lock ${lock_name}"
+
+            flock 200
+        fi
+
+        log-info "🔐 Lock acquired [${lock_name}]"
 
         # Inspect the file extension of the file we're processing
         case "${file}" in
@@ -99,7 +108,9 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
                 log-warning "Ignoring unrecognized file [${file}]"
                 ;;
         esac
-    ) 200>"${docker_locks_path}/${lock_file}"
+
+        log-info "🔓 Releasing lock [${lock_name}]"
+    ) 200>"${docker_locks_path}/${lock_name}"
 done
 
 log-info "Configuration complete; ready for start up"
