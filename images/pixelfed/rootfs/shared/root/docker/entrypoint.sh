@@ -50,54 +50,56 @@ fi
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
 find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r file; do
+    lock_file="$(get-entrypoint-script-name "${file}")"
+
     # Skip the script if it's in the skip-script list
-    if in-array "$(get-entrypoint-script-name "${file}")" skip_scripts; then
+    if in-array "${lock_file}" skip_scripts; then
         log-warning "Skipping script [${file}] since it's in the skip list (\$ENTRYPOINT_SKIP_SCRIPTS)"
 
         continue
     fi
 
-    acquire-lock "$(get-entrypoint-script-name "${file}")"
+    (
+        flock -x -w 30 200
 
-    # Inspect the file extension of the file we're processing
-    case "${file}" in
-        *.envsh)
-            if ! is-executable "${file}"; then
-                # warn on shell scripts without exec bit
-                log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
-            fi
+        # Inspect the file extension of the file we're processing
+        case "${file}" in
+            *.envsh)
+                if ! is-executable "${file}"; then
+                    # warn on shell scripts without exec bit
+                    log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
+                fi
 
-            log-info "${section_message_color}============================================================${color_clear}"
-            log-info "${section_message_color}Sourcing [${file}]${color_clear}"
-            log-info "${section_message_color}============================================================${color_clear}"
+                log-info "${section_message_color}============================================================${color_clear}"
+                log-info "${section_message_color}Sourcing [${file}]${color_clear}"
+                log-info "${section_message_color}============================================================${color_clear}"
 
-            # shellcheck disable=SC1090
-            source "${file}"
+                # shellcheck disable=SC1090
+                source "${file}"
 
-            # the sourced file will (should) than the log prefix, so this restores our own
-            # "global" log prefix once the file is done being sourced
-            entrypoint-restore-script-name
-            ;;
+                # the sourced file will (should) than the log prefix, so this restores our own
+                # "global" log prefix once the file is done being sourced
+                entrypoint-restore-script-name
+                ;;
 
-        *.sh)
-            if ! is-executable "${file}"; then
-                # warn on shell scripts without exec bit
-                log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
-            fi
+            *.sh)
+                if ! is-executable "${file}"; then
+                    # warn on shell scripts without exec bit
+                    log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
+                fi
 
-            log-info "${section_message_color}============================================================${color_clear}"
-            log-info "${section_message_color}Executing [${file}]${color_clear}"
-            log-info "${section_message_color}============================================================${color_clear}"
+                log-info "${section_message_color}============================================================${color_clear}"
+                log-info "${section_message_color}Executing [${file}]${color_clear}"
+                log-info "${section_message_color}============================================================${color_clear}"
 
-            "${file}"
-            ;;
+                "${file}"
+                ;;
 
-        *)
-            log-warning "Ignoring unrecognized file [${file}]"
-            ;;
-    esac
-
-    release-lock "$(get-entrypoint-script-name "${file}")"
+            *)
+                log-warning "Ignoring unrecognized file [${file}]"
+                ;;
+        esac
+    ) 200>"${docker_locks_path}/${lock_file}"
 done
 
 log-info "Configuration complete; ready for start up"
