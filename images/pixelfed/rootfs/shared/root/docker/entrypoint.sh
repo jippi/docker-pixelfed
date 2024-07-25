@@ -28,7 +28,7 @@ entrypoint-set-script-name "entrypoint.sh"
 # Convert ENTRYPOINT_SKIP_SCRIPTS into a native bash array for easier lookup
 declare -a skip_scripts
 # shellcheck disable=SC2034
-IFS=' ' read -r -a skip_scripts <<< "$ENTRYPOINT_SKIP_SCRIPTS"
+IFS=' ' read -r -a skip_scripts <<<"$ENTRYPOINT_SKIP_SCRIPTS"
 
 # Ensure the entrypoint root folder exists
 mkdir -p "${ENTRYPOINT_D_ROOT}"
@@ -46,8 +46,6 @@ if ! directory-is-empty "${DOCKER_APP_HOST_OVERRIDES_PATH}"; then
     run-as-current-user cp --verbose --recursive "${DOCKER_APP_HOST_OVERRIDES_PATH}/." /
 fi
 
-acquire-lock "entrypoint.sh"
-
 # Start scanning for entrypoint.d files to source or run
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
@@ -58,6 +56,8 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
 
         continue
     fi
+
+    acquire-lock "$(get-entrypoint-script-name "${file}")"
 
     # Inspect the file extension of the file we're processing
     case "${file}" in

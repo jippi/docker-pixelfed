@@ -424,8 +424,7 @@ function release-lock()
     unset 'lock_fds[$name]'
 }
 
-# @description Helper function to append multiple actions onto
-#   the bash [trap] logic
+# @description Helper function to append multiple actions onto the bash [trap] logic
 # @arg $1 string The command to run
 # @arg $@ string The list of trap signals to register
 function on-trap()
