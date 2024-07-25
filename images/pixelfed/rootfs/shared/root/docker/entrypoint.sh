@@ -49,6 +49,9 @@ fi
 # Start scanning for entrypoint.d files to source or run
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
+# ensure locks directory exists
+ensure-directory-exists "$docker_locks_path"
+
 find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r file; do
     lock_name="$(get-entrypoint-script-name "${file}")"
 
