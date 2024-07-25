@@ -389,6 +389,9 @@ function acquire-lock()
 
     ensure-directory-exists "$(dirname "${file}")"
 
+    # ensure the lock file exists
+    touch "$file"
+
     log-info "🔑 Trying to acquire lock: ${file}: "
     while ! flock -n -x "$file"; do
         log-info "🔒 Waiting on lock ${file}"
