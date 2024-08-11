@@ -292,10 +292,34 @@ jobs:
         run: docker compose config
 
       - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Show docker compose logs
+        name: Show docker compose logs (web)
+        run: |
+          docker compose logs web
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs (worker)
+        run: |
+          docker compose logs worker
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs (cron)
+        run: |
+          docker compose logs web
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs (db)
+        run: |
+          docker compose logs db
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs (redis)
+        run: |
+          docker compose logs redis
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show docker compose logs (ALL)
         run: |
           docker compose logs
-          docker compose down -v
 
       - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         uses: actions/upload-artifact@v4

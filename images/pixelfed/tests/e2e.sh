@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o pipefail
 
-echo "==> Checking environment requirements"
+echo "==> Checking system requirements"
 scripts/check-requirements
 
 echo "==> Copying .env file"
