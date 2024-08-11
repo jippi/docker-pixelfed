@@ -17,9 +17,22 @@ docker run --quiet --detach --name ngrok --env NGROK_AUTHTOKEN --net=host ngrok/
 echo "==> Following ngrok logs"
 docker logs ngrok -f &
 
-echo "==> Finding ngrok tunnel public URL"
-domain="$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
-echo "OK: ${domain}"
+while true; do
+    echo "==> Finding ngrok tunnel public URL"
+    domain="$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
+
+    case $domain in
+        "" | "null")
+            echo "===> got empty value, sleeping and retrying again"
+            sleep 1
+            ;;
+
+        *)
+            echo "OK: ${domain}"
+            break
+            ;;
+    esac
+done
 
 echo "==> Finding ngrok tunnel public host (domain without https://)"
 app_domain=${domain#https://*}
