@@ -17,13 +17,14 @@ docker run --quiet --detach --name ngrok --env NGROK_AUTHTOKEN --net=host ngrok/
 echo "==> Following ngrok logs"
 docker logs ngrok -f &
 
-while true; do
+for _ in {1..10}; do
     echo "==> Finding ngrok tunnel public URL"
     domain="$(curl --retry-all-errors --fail --retry 60 --retry-max-time 60 http://127.0.0.1:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
 
     case $domain in
         "" | "null")
             echo "===> got empty value, sleeping and retrying again"
+
             sleep 1
             ;;
 
