@@ -102,7 +102,4 @@ release-lock "entrypoint.sh"
 
 log-info "Configuration complete; ready for start up"
 
-# Reload config files before running the process (in case of the files being changed during startup)
-load-config-files
-
 exec "$@"
