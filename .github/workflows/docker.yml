@@ -292,6 +292,10 @@ jobs:
         run: docker compose config
 
       - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+        name: Show .env file
+        run: cat .env
+
+      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose logs (web)
         run: |
           docker compose logs web --no-log-prefix --timestamps
