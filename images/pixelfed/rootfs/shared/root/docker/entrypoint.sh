@@ -28,7 +28,7 @@ entrypoint-set-script-name "entrypoint.sh"
 # Convert ENTRYPOINT_SKIP_SCRIPTS into a native bash array for easier lookup
 declare -a skip_scripts
 # shellcheck disable=SC2034
-IFS=' ' read -r -a skip_scripts <<< "$ENTRYPOINT_SKIP_SCRIPTS"
+IFS=' ' read -r -a skip_scripts <<<"$ENTRYPOINT_SKIP_SCRIPTS"
 
 # Ensure the entrypoint root folder exists
 mkdir -p "${ENTRYPOINT_D_ROOT}"
@@ -101,5 +101,8 @@ done
 release-lock "entrypoint.sh"
 
 log-info "Configuration complete; ready for start up"
+
+# Reload config files before running the process (in case of the files being changed during startup)
+load-config-files
 
 exec "$@"
