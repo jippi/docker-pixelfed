@@ -2,6 +2,9 @@
 
 set -o errexit -o nounset -o pipefail
 
+echo "==> Checking environment requirements"
+scripts/check-requirements
+
 echo "==> Copying .env file"
 cp -v .env.docker .env
 
