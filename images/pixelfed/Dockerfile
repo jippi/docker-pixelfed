@@ -8,7 +8,7 @@
 # See: https://nginx.org/
 #
 # renovate: datasource=github-tags depName=nginx/nginx versioning=semver
-ARG NGINX_VERSION="1.27.0"
+ARG NGINX_VERSION="1.27.1"
 
 # See: https://github.com/ddollar/forego
 #
