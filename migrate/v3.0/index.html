@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.32">
     
     
       
@@ -953,13 +953,13 @@
 </div>
 <div class="admonition tip">
 <p class="admonition-title">v2 to v3?!... oh no, not again!</p>
-<p><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose v2 was a <em>huge</em> change, requiring a lot of (risky) work to get migrated. v3 will be significantly smaller, and should largely be a drop-in experience, outside of some relatively simple cleanup/move-files-around tasks due to <code>docker-pixelfed</code> not being in the main source tree any more.</p>
+<p><abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> v2 was a <em>huge</em> change, requiring a lot of (risky) work to get migrated. v3 will be significantly smaller, and should largely be a drop-in experience, outside of some relatively simple cleanup/move-files-around tasks due to <code>docker-pixelfed</code> not being in the main source tree any more.</p>
 </div>
-<p>Changes made from between the <a href="../v2.0/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose v2</a> version in upstream Pixelfed and this project.</p>
-<p>This document assume you are running <a href="../v2.0/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose v2</a> already and is looking to move to v3.</p>
+<p>Changes made from between the <a href="../v2.0/"><abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> v2</a> version in upstream Pixelfed and this project.</p>
+<p>This document assume you are running <a href="../v2.0/"><abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> v2</a> already and is looking to move to v3.</p>
 <h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
-<p class="admonition-title">These changes are breaking, removing, or changing existing behavior from <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Compose v1 and <em>requires</em> your attention and possibly some steps to fix.</p>
+<p class="admonition-title">These changes are breaking, removing, or changing existing behavior from <abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> v1 and <em>requires</em> your attention and possibly some steps to fix.</p>
 </div>
 <h3 id="breaking-change-new-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names<a class="headerlink" href="#breaking-change-new-docker-image-names" title="Permanent link">&para;</a></h3>
 <p>Since <code>docker-pixelfed</code> do not exist within the <code>pixelfed</code> project itself, the URL for the container images will change.</p>
@@ -1072,7 +1072,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tooltips", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.471ce7a9.min.js"></script>
       
     
   </body>
