@@ -2,7 +2,7 @@
     "license": "MIT",
     "type": "module",
     "devDependencies": {
-        "@playwright/test": "1.46.1",
+        "@playwright/test": "1.47.0",
         "@types/node": "20.16.5",
         "http-server": "14.1.1"
     }
