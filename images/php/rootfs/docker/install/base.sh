@@ -29,6 +29,7 @@ packages+=(
     software-properties-common
     unzip
     wget
+    tzdata
     zip
 )
 
