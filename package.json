@@ -3,7 +3,7 @@
     "type": "module",
     "devDependencies": {
         "@playwright/test": "1.48.2",
-        "@types/node": "22.8.7",
+        "@types/node": "22.9.1",
         "http-server": "14.1.1"
     }
 }
