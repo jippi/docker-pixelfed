@@ -23,7 +23,7 @@ ARG GOMPLATE_VERSION="v3.11.8"
 # See: https://github.com/jippi/dottie
 #
 # renovate: datasource=docker depName=jippi/dottie
-ARG DOTTIE_VERSION="v0.14.2"
+ARG DOTTIE_VERSION="v0.14.3"
 
 ###
 # PHP base configuration
