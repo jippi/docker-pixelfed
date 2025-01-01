@@ -12,7 +12,10 @@ source "${project_root}/scripts/lib/shared.sh"
 # Configuration
 #
 
-declare -r min_docker_compose_version_arr=(2 17)
+declare -r min_docker_compose_version_arr=(
+    2
+    20 # required by depends_on.required (https://docs.docker.com/compose/compose-file/05-services/#depends_on)
+)
 min_docker_compose_version=$(
     IFS=.
     echo "${min_docker_compose_version[*]}"

@@ -107,9 +107,14 @@ services:
       com.github.nginx-proxy.nginx-proxy.http3.enable: true
     ports:
       - "${DOCKER_WEB_PORT_EXTERNAL_HTTP}:80"
+    # https://docs.docker.com/compose/compose-file/05-services/#depends_on
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+        required: false
+      redis:
+        condition: service_healthy
+        required: false
     healthcheck:
       test: 'curl --header "Host: ${APP_DOMAIN}" --fail http://localhost/api/service/health-check'
       interval: "${DOCKER_WEB_HEALTHCHECK_INTERVAL}"
@@ -148,9 +153,14 @@ services:
       - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
       - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
       - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
+    # https://docs.docker.com/compose/compose-file/05-services/#depends_on
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+        required: false
+      redis:
+        condition: service_healthy
+        required: false
     healthcheck:
       test: gosu www-data php artisan horizon:status | grep running
       interval: "${DOCKER_WORKER_HEALTHCHECK_INTERVAL:?error}"
@@ -188,9 +198,14 @@ services:
       - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/conf.d:/shared/proxy/conf.d"
       - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
       - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
+    # https://docs.docker.com/compose/compose-file/05-services/#depends_on
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+        required: false
+      redis:
+        condition: service_healthy
+        required: false
 
   db:
     image: ${DOCKER_DB_IMAGE:?error}
