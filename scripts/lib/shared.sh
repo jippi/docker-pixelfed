@@ -88,7 +88,8 @@ function __feature()
 function as-boolean()
 {
     local input="${1:-}"
-    local var="$(echo "$input" | tr '[:upper:]' '[:lower:]')"
+    local var
+    var="$(echo "$input" | tr '[:upper:]' '[:lower:]')"
 
     case "$var" in
         1 | true)
