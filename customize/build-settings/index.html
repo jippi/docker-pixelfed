@@ -1064,6 +1064,13 @@
 <div class="admonition warning">
 <p class="admonition-title">Most settings have two names in the title. The first one is the build arg name (<code>--build-arg</code>) and the second is the name in your <code>.env</code> file when using <abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr></p>
 </div>
+<div class="admonition notice">
+<p class="admonition-title">A custom build requires the Pixelfed source code locally</p>
+</div>
+<p>The Dockerfile build system requires that you have <code>pixelfed/pixelfed</code> source code in <code>./src</code>, in the root of the project, next to the <abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> file.</p>
+<p>You can run <code>git clone https://github.com/pixelfed/pixelfed.git ./src</code> to get the Pixelfed source code from GitHub, from there, you can check out the desired branch or tag you want to include in your local build.</p>
+<p>This, of course, also works with any Pixelfed fork, as long as the <abbr title="The programming language Pixelfed is written in">PHP</abbr> source code for Pixelfed (or a fork of Pixelfed) exists in <code>./src</code>
+```</p>
 <h2 id="php_version"><code>PHP_VERSION</code><a class="headerlink" href="#php_version" title="Permanent link">&para;</a></h2>
 <p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6"/></svg></span></a></span><span class="mdx-badge__text">Named <code>DOCKER_APP_PHP_VERSION</code> in your <code>.env</code> file</span></span></p>
 <p>The <code>PHP</code> version to use when building the <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> container.</p>
