@@ -88,7 +88,7 @@ function __feature()
 function as-boolean()
 {
     local input="${1:-}"
-    local var="${input,,}" # convert input to lower-case
+    local var="$(echo "$input" | tr '[:upper:]' '[:lower:]')"
 
     case "$var" in
         1 | true)
