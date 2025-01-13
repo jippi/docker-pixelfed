@@ -12,6 +12,15 @@ Using *build arguments* allows us to create a flexible and more maintainable Doc
 
 !!! warning "Most settings have two names in the title. The first one is the build arg name (`--build-arg`) and the second is the name in your `.env` file when using Docker Compose"
 
+!!! notice "A custom build requires the Pixelfed source code locally"
+
+The Dockerfile build system requires that you have `pixelfed/pixelfed` source code in `./src`, in the root of the project, next to the Docker Compose file.
+
+You can run `git clone https://github.com/pixelfed/pixelfed.git ./src` to get the Pixelfed source code from GitHub, from there, you can check out the desired branch or tag you want to include in your local build.
+
+This, of course, also works with any Pixelfed fork, as long as the PHP source code for Pixelfed (or a fork of Pixelfed) exists in `./src`
+```
+
 ## `PHP_VERSION`
 
 <!-- md:default Named `DOCKER_APP_PHP_VERSION` in your `.env` file -->
