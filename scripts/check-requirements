@@ -13,10 +13,6 @@ source "${project_root}/scripts/lib/shared.sh"
 #
 
 declare -r min_docker_compose_version_arr=(2 17)
-min_docker_compose_version=$(
-    IFS=.
-    echo "${min_docker_compose_version[*]}"
-)
 
 #
 # Help text
