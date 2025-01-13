@@ -75,7 +75,7 @@ services:
       dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
-        - "type=registry,ref=${DOCKER_APP_IMAGE}-cache:${DOCKER_APP_TAG}"
+        - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
       args:
         APT_PACKAGES_EXTRA: "${DOCKER_APP_APT_PACKAGES_EXTRA:-}"
         BUILD_FRONTEND: "${DOCKER_APP_BUILD_FRONTEND:-0}"
@@ -128,7 +128,7 @@ services:
       dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
-        - "type=registry,ref=${DOCKER_APP_IMAGE}-cache:${DOCKER_APP_TAG}"
+        - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
       args:
         APT_PACKAGES_EXTRA: "${DOCKER_APP_APT_PACKAGES_EXTRA:-}"
         BUILD_FRONTEND: "${DOCKER_APP_BUILD_FRONTEND:-0}"
@@ -169,7 +169,7 @@ services:
       dockerfile: images/pixelfed/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
-        - "type=registry,ref=${DOCKER_APP_IMAGE}-cache:${DOCKER_APP_TAG}"
+        - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
       args:
         APT_PACKAGES_EXTRA: "${DOCKER_APP_APT_PACKAGES_EXTRA:-}"
         BUILD_FRONTEND: "${DOCKER_APP_BUILD_FRONTEND:-0}"
