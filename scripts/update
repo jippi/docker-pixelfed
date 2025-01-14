@@ -21,8 +21,13 @@ git fetch origin || action_error_exit "failed"
 action_ok "OK"
 echo
 
-action_start_newline "changing to release branch"
+action_start_newline "changing to release branch [${docker_release}]"
 git checkout "${docker_release}" || action_error_exit "could not checkout branch ${docker_release}"
+action_ok "OK"
+echo
+
+action_start_newline "pulling updates from remote branch [${docker_release}]"
+git pull || action_error_exit "could not update branch ${docker_release}"
 action_ok "OK"
 echo
 
