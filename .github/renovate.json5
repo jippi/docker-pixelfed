@@ -43,7 +43,7 @@
                 "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s",
             ],
             versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            extractVersionTemplate: "^v(?<version>\\d+\\.\\d+\\.\\d+)",
+            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
         },
         {
             customType: "regex",
@@ -52,7 +52,7 @@
                 "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: (?<currentValue>.*)\\s",
             ],
             versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            extractVersionTemplate: "^v(?<version>\\d+\\.\\d+\\.\\d+)",
+            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
         },
     ],
 }
