@@ -21,7 +21,7 @@ ARG COMPOSER_VERSION="2.8.4"
 
 # See: https://hub.docker.com/_/php/tags
 #
-# renovate: datasource=docker depName=php
+# renovate: datasource=docker depName=php versioning=semver-coerced
 ARG PHP_VERSION="8.3"
 
 # See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants
