@@ -402,15 +402,15 @@ function acquire-lock()
     # poll for lock file up to ${timeout_in_seconds}s
     while ! (
         set -o noclobber
-        echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
+        echo -e "[${DOCKER_SERVICE_NAME:-}] since [$(date)]" >"${file}"
     ) 2>/dev/null; do
         if [ $(($(date '+%s') - time_beg)) -gt "${timeout_in_seconds}" ]; then
-            log-error "🔐 Waited too long for lock file [${file}]" 1>&2
+            log-error "🔐 Waited too long for lock file [${file}]. Current lock is held by [$(cat "${file}")]" 1>&2
 
             return 1
         fi
 
-        log-info "🔐 Waiting for lock file [${file}] ..."
+        log-info "🔐 Waiting for lock file [${file}], currently held by [$(cat "${file}")]"
 
         sleep 1
     done
