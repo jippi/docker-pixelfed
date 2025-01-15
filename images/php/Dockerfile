@@ -8,12 +8,12 @@
 # See: https://github.com/mlocati/docker-php-extension-installer
 #
 # renovate: datasource=github-releases depName=mlocati/docker-php-extension-installer
-ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.2.14"
+ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.7.13"
 
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
-ARG COMPOSER_VERSION="2.7.6"
+ARG COMPOSER_VERSION="2.8.4"
 
 ###
 # PHP base configuration
@@ -42,7 +42,7 @@ ARG PHP_PECL_EXTENSIONS="redis https://codeload.github.com/Imagick/imagick/tar.g
 ARG PHP_PECL_EXTENSIONS_EXTRA=
 
 # Extensions installed via [docker-php-ext-install]
-ARG PHP_EXTENSIONS="intl bcmath zip pcntl exif curl gd"
+ARG PHP_EXTENSIONS="intl bcmath zip pcntl exif curl gd yaml"
 ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pdo_pgsql pdo_mysql pdo_sqlite"
 
