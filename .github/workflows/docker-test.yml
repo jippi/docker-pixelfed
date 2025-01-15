@@ -11,12 +11,13 @@ on:
       - reopened
       - synchronize
       - ready_for_review
+    branches:
+      - "main"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
     branches:
-      - "*"
-      - "**"
+      - "main"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   # pull_request:
