@@ -41,10 +41,12 @@ runtime_username=$(id -un "${RUNTIME_UID}")
 # @arg $1 string The name (or path) of the entrypoint script being run
 function entrypoint-set-script-name()
 {
-    script_name_previous="${script_name}"
-    script_name="${1}"
+    local -r new_script_name=$(get-entrypoint-script-name "$1")
 
-    log_prefix="[entrypoint / $(get-entrypoint-script-name "$1")] - "
+    script_name_previous="${script_name}"
+    script_name="${new_script_name}"
+
+    log_prefix="[entrypoint / ${new_script_name}] - "
 }
 
 # @description Restore the log prefix to the previous value that was captured in [entrypoint-set-script-name ]
