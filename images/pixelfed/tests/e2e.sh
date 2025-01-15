@@ -11,7 +11,7 @@ chmod -v 0777 .env
 app_domain="localhost"
 
 echo "==> Reconfiguring .env file for testing"
-scripts/dottie set \
+scripts/dottie set --no-validate \
     APP_DOMAIN="${app_domain}" \
     APP_NAME="docker-pixelfed e2e" \
     DB_PASSWORD="helloworld" \
