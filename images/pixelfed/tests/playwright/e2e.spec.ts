@@ -10,9 +10,11 @@ test('/api/nodeinfo/2.0.json', async ({ request }) => {
     const response = await request.get('/api/nodeinfo/2.0.json')
     const json = JSON.parse(await response.text())
 
-    expect(json.nodeName).toBe("docker-pixelfed e2e")
+    console.log({ json })
+
     expect(json.software.name).toBe("pixelfed")
     expect(json.usage.users.total).toBe(0)
+    expect(json.nodeName).toBe("docker-pixelfed e2e")
 })
 
 test('/api/v1/instance', async ({ request }) => {
