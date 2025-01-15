@@ -389,19 +389,22 @@ function acquire-lock()
 {
     local name="${1:-$script_name}"
     local file="${docker_locks_path}/${name}"
-    local -ir time_max="${2:-300}" # default timeout is 5 min
+    local -ir timeout_in_seconds="${2:-300}" # default timeout is 5 min; keep in sync with
     local -ir time_beg=$(date '+%s')
 
     ensure-directory-exists "${docker_locks_path}"
 
+    # Delete any likely-to-be-expired locks (created 10min ago or older)
+    find "${docker_locks_path}" -maxdepth 1 -cmin +10 -type f -delete
+
     log-info "🔐 Trying to acquire lock file [${file}]"
 
-    # poll for lock file up to ${time_max}s
+    # poll for lock file up to ${timeout_in_seconds}s
     while ! (
         set -o noclobber
         echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
     ) 2>/dev/null; do
-        if [ $(($(date '+%s') - time_beg)) -gt "${time_max}" ]; then
+        if [ $(($(date '+%s') - time_beg)) -gt "${timeout_in_seconds}" ]; then
             log-error "🔐 Waited too long for lock file [${file}]" 1>&2
 
             return 1
