@@ -20,8 +20,6 @@ declare -g script_name=
 declare -g script_name_previous=
 declare -g log_prefix=
 
-declare -Ag lock_fds=()
-
 # dot-env files to source when reading config
 declare -a dot_env_files=(
     /var/www/.env
@@ -388,24 +386,31 @@ function acquire-lock()
 {
     local name="${1:-$script_name}"
     local file="${docker_locks_path}/${name}"
-    local lock_fd
+
+    declare -ir time_beg=$(date '+%s')
+    declare -ir time_max=120 # 120 s = 2 min
 
     ensure-directory-exists "$(dirname "${file}")"
 
-    exec {lock_fd}>"$file"
+    # poll for lock file up to ${time_max}s
+    # put debugging info in lock file in case of issues ...
+    while ! (
+        set -o noclobber
+        echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
+    ) 2>/dev/null; do
+        if [ $(($(date '+%s') - time_beg)) -gt "${time_max}" ]; then
+            echo "Error: waited too long for lock file ${file}" 1>&2
+            return 1
+        fi
 
-    log-info "🔑 Trying to acquire lock: ${file}: "
-    while ! ([[ -v lock_fds[$name] ]] || flock -n -x "$lock_fd"); do
-        log-info "🔒 Waiting on lock ${file}"
-
-        staggered-sleep
+        sleep 1
     done
-
-    [[ -v lock_fds[$name] ]] || lock_fds[$name]=$lock_fd
 
     log-info "🔐 Lock acquired [${file}]"
 
     on-trap "release-lock ${name}" EXIT INT QUIT TERM
+
+    return 0
 }
 
 # @description Release a lock aquired by [acquire-lock]
@@ -417,11 +422,7 @@ function release-lock()
 
     log-info "🔓 Releasing lock [${file}]"
 
-    [[ -v lock_fds[$name] ]] || return
-
-    # shellcheck disable=SC1083,SC2086
-    flock --unlock ${lock_fds[$name]}
-    unset 'lock_fds[$name]'
+    rm -f "${file}"
 }
 
 # @description Helper function to append multiple actions onto
