@@ -18,6 +18,8 @@ if is-false "${DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS}"; then
     exit 0
 fi
 
+acquire-lock
+
 await-database-ready
 
 # Following https://docs.pixelfed.org/running-pixelfed/installation/#one-time-setup-tasks
