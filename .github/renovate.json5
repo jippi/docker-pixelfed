@@ -54,5 +54,14 @@
             versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
             extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
         },
+        {
+            customType: "regex",
+            fileMatch: ["(^|/)env.docker$"],
+            matchStrings: [
+                "@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?=\"?(?<currentValue>.*?)\"?\\s",
+            ],
+            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
+        },
     ],
 }
