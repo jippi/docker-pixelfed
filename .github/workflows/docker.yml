@@ -135,10 +135,6 @@ jobs:
           # Cache from 'main' branch and the current branch, e.x., 'my-cool-branch'
           cache-from: |
             type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          # Cache to the branch specific cache (e.x., 'my-cool-branch')
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
@@ -243,13 +239,9 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch and the current branch name, e.x., 'my-cool-branch'
+          # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          # Cache to the branch cache version (e.x., 'my-cool-branch')
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       # goss validate the image
       #
