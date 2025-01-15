@@ -13,7 +13,7 @@ ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.7.13"
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
-ARG COMPOSER_VERSION="2.7.6"
+ARG COMPOSER_VERSION="2.8.4"
 
 ###
 # PHP base configuration
