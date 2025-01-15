@@ -389,7 +389,7 @@ function acquire-lock()
 {
     local name="${1:-$script_name}"
     local file="${docker_locks_path}/${name}"
-    local -ir time_max="${2:-180}" # default timeout is 3 min
+    local -ir time_max="${2:-300}" # default timeout is 5 min
     local -ir time_beg=$(date '+%s')
 
     ensure-directory-exists "${docker_locks_path}"
