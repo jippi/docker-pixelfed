@@ -93,6 +93,8 @@ jobs:
           # !NOTE: we don't push cache here since its tags-only workflow
           cache-from: |
             type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          cache-to: |
+            type=gha,mode=max,ignore-error=true,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
@@ -205,3 +207,5 @@ jobs:
           # !NOTE: we don't push cache here since its tags-only workflow
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          cache-to: |
+            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}

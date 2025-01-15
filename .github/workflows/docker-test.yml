@@ -1,14 +1,23 @@
-name: Docker
+name: Docker Test
 
 on:
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
 
+  # https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#pull_request
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - "main"
+
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
     branches:
-      - "*"
-      - "**"
+      - "main"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   # pull_request:
@@ -135,10 +144,6 @@ jobs:
           # Cache from 'main' branch and the current branch, e.x., 'my-cool-branch'
           cache-from: |
             type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          # Cache to the branch specific cache (e.x., 'my-cool-branch')
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
@@ -243,13 +248,9 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch and the current branch name, e.x., 'my-cool-branch'
+          # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          # Cache to the branch cache version (e.x., 'my-cool-branch')
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       # goss validate the image
       #
@@ -266,40 +267,31 @@ jobs:
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           PHP_BASE_TYPE: ${{ matrix.php_base }}
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: "Setup NodeJS"
+      - name: "Setup NodeJS"
         uses: actions/setup-node@v4
         with:
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
-      - if: matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Run E2E tests
+      - name: Run E2E tests
         run: images/pixelfed/tests/e2e.sh
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
-          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Show ngrok logs
-        run: |
-          docker logs ngrok
-          docker rm -f ngrok
-
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always()
         name: Show docker compose config
         run: docker compose config
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always()
         name: Show docker compose logs
         run: |
           docker compose logs
           docker compose down -v
 
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.target_runtime }}
+          name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
           retention-days: 30
