@@ -422,7 +422,7 @@ function acquire-lock()
     return 0
 }
 
-# @description Release a lock aquired by [acquire-lock]
+# @description Release a lock acquired by [acquire-lock]
 # @arg $1 string The lock identifier
 function release-lock()
 {
