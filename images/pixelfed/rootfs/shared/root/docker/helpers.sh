@@ -417,7 +417,7 @@ function acquire-lock()
 
     log-info "🔐 Lock acquired [${file}]"
 
-    on-trap "release-lock ${file}" EXIT INT QUIT TERM
+    on-trap "release-lock ${name}" EXIT INT QUIT TERM
 
     return 0
 }
@@ -430,6 +430,10 @@ function release-lock()
     local file="${docker_locks_path}/${name}"
 
     log-info "🔓 Releasing lock [${file}]"
+
+    if ! file-exists "$file"; then
+        log-warning "Lock file [${file}] does not exist - was a different name perhaps used in the call to [acquire-lock]?"
+    fi
 
     rm -f "${file}"
 }
