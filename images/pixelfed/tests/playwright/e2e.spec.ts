@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test'
 
 test('page should load without errors', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState()
+    await page.waitForLoadState('domcontentloaded')
+    await page.waitForLoadState('networkidle')
 
     expect(page.locator('a', { hasText: 'Sign up' })).toBeVisible()
     expect(page.locator('a', { hasText: 'Login' })).toBeVisible()
