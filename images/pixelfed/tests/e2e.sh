@@ -14,8 +14,7 @@ app_domain="localhost"
 # is *technically* a misconfiguration
 
 echo "==> Reconfiguring .env file for testing"
-scripts/dottie set --no-validate \
-    ENTRYPOINT_SKIP_SCRIPTS="02-check-config.sh" \
+scripts/dottie set \
     APP_DOMAIN="${app_domain}" \
     APP_NAME="docker-pixelfed e2e" \
     DB_PASSWORD="helloworld" \
