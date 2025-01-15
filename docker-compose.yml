@@ -188,6 +188,7 @@ services:
       - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/conf.d:/shared/proxy/conf.d"
       - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
       - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
+      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
     depends_on:
       - db
       - redis

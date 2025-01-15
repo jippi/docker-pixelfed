@@ -25,6 +25,9 @@ declare -a dot_env_files=(
     /var/www/.env
 )
 
+# We should already be in /var/www, but just to be explicit
+cd /var/www || log-error-and-exit "could not change to /var/www"
+
 declare -g docker_state_path
 docker_state_path="$(readlink -f ./storage/docker)"
 
@@ -33,9 +36,6 @@ declare -g docker_once_path="${docker_state_path}/once"
 
 declare -gx runtime_username
 runtime_username=$(id -un "${RUNTIME_UID}")
-
-# We should already be in /var/www, but just to be explicit
-cd /var/www || log-error-and-exit "could not change to /var/www"
 
 # @description Restore the log prefix to the previous value that was captured in [entrypoint-set-script-name ]
 # @arg $1 string The name (or path) of the entrypoint script being run
@@ -386,34 +386,33 @@ function only-once()
 function acquire-lock()
 {
     local name="${1:-$script_name}"
-    local -ir time_max="${2:-120}" # default timeout is 2 min
     local file="${docker_locks_path}/${name}"
+    local -ir time_max="${2:-120}" # default timeout is 2 min
     local -ir time_beg=$(date '+%s')
 
-    ensure-directory-exists "$(dirname "${file}")"
+    ensure-directory-exists "${docker_locks_path}"
 
-    log-info "🔐 Trying to acquire lock file [${name}]"
+    log-info "🔐 Trying to acquire lock file [${file}]"
 
     # poll for lock file up to ${time_max}s
-    # put debugging info in lock file in case of issues ...
     while ! (
         set -o noclobber
         echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
     ) 2>/dev/null; do
         if [ $(($(date '+%s') - time_beg)) -gt "${time_max}" ]; then
-            log-error "🔐 Waited too long for lock file [${name}]" 1>&2
+            log-error "🔐 Waited too long for lock file [${file}]" 1>&2
 
             return 1
         fi
 
-        log-info "🔐 Waiting for lock file [${name}] ..."
+        log-info "🔐 Waiting for lock file [${file}] ..."
 
         sleep 1
     done
 
-    log-info "🔐 Lock acquired [${name}]"
+    log-info "🔐 Lock acquired [${file}]"
 
-    on-trap "release-lock ${name}" EXIT INT QUIT TERM
+    on-trap "release-lock ${file}" EXIT INT QUIT TERM
 
     return 0
 }

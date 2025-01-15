@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2119
+
 : "${ENTRYPOINT_ROOT:="/docker"}"
 
 # shellcheck source=SCRIPTDIR/../helpers.sh
@@ -9,7 +11,6 @@ entrypoint-set-script-name "$0"
 # Allow automatic applying of outstanding/new migrations on startup
 : "${DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY:=0}"
 
-# shellcheck disable=SC2119
 acquire-lock
 
 # Wait for the database to be ready
@@ -39,7 +40,11 @@ if is-false "${DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY}"; then
     log-info "Automatic applying of new database migrations is disabled"
     log-info "Please set [DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY=1] in your [.env] file to enable this."
 
+    release-lock
+
     exit 0
 fi
 
 run-as-runtime-user php artisan migrate --force
+
+release-lock

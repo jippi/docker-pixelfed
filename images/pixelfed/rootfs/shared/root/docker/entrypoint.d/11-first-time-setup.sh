@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2119
+
 : "${ENTRYPOINT_ROOT:="/docker"}"
 
 # shellcheck source=SCRIPTDIR/../helpers.sh
@@ -18,7 +20,6 @@ if is-false "${DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS}"; then
     exit 0
 fi
 
-# shellcheck disable=SC2119
 acquire-lock
 
 await-database-ready
@@ -39,3 +40,5 @@ fi
 if is-true "${OAUTH_ENABLED:-false}"; then
     only-once "passport:keys" run-as-runtime-user php artisan passport:keys
 fi
+
+release-lock
