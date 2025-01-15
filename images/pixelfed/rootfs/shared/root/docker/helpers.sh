@@ -20,12 +20,13 @@ declare -g script_name=
 declare -g script_name_previous=
 declare -g log_prefix=
 
-declare -Ag lock_fds=()
-
 # dot-env files to source when reading config
 declare -a dot_env_files=(
     /var/www/.env
 )
+
+# We should already be in /var/www, but just to be explicit
+cd /var/www || log-error-and-exit "could not change to /var/www"
 
 declare -g docker_state_path
 docker_state_path="$(readlink -f ./storage/docker)"
@@ -36,17 +37,16 @@ declare -g docker_once_path="${docker_state_path}/once"
 declare -gx runtime_username
 runtime_username=$(id -un "${RUNTIME_UID}")
 
-# We should already be in /var/www, but just to be explicit
-cd /var/www || log-error-and-exit "could not change to /var/www"
-
 # @description Restore the log prefix to the previous value that was captured in [entrypoint-set-script-name ]
 # @arg $1 string The name (or path) of the entrypoint script being run
 function entrypoint-set-script-name()
 {
-    script_name_previous="${script_name}"
-    script_name="${1}"
+    local -r new_script_name=$(get-entrypoint-script-name "$1")
 
-    log_prefix="[entrypoint / $(get-entrypoint-script-name "$1")] - "
+    script_name_previous="${script_name}"
+    script_name="${new_script_name}"
+
+    log_prefix="[entrypoint / ${new_script_name}] - "
 }
 
 # @description Restore the log prefix to the previous value that was captured in [entrypoint-set-script-name ]
@@ -173,7 +173,7 @@ function log-error()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given error message to stderr and exit 1
@@ -204,7 +204,7 @@ function log-warning()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given message to stdout unless [ENTRYPOINT_QUIET_LOGS] is set
@@ -223,7 +223,7 @@ function log-info()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "${notice_message_color}${log_prefix}${color_clear}${msg}"
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${notice_message_color}${log_prefix}${color_clear}${msg}"
     fi
 }
 
@@ -243,7 +243,7 @@ function log-info-stderr()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
     fi
 }
 
@@ -363,6 +363,7 @@ function only-once()
 {
     local name="${1:-$script_name}"
     local file="${docker_once_path}/${name}"
+
     shift
 
     if [[ -e "${file}" ]]; then
@@ -388,27 +389,40 @@ function acquire-lock()
 {
     local name="${1:-$script_name}"
     local file="${docker_locks_path}/${name}"
-    local lock_fd
+    local -ir timeout_in_seconds="${2:-300}" # default timeout is 5 min; keep in sync with
+    local -ir time_beg=$(date '+%s')
 
-    ensure-directory-exists "$(dirname "${file}")"
+    ensure-directory-exists "${docker_locks_path}"
 
-    exec {lock_fd}>"$file"
+    # Delete any likely-to-be-expired locks (created 10min ago or older)
+    find "${docker_locks_path}" -maxdepth 1 -cmin +10 -type f -delete
 
-    log-info "🔑 Trying to acquire lock: ${file}: "
-    while ! ([[ -v lock_fds[$name] ]] || flock -n -x "$lock_fd"); do
-        log-info "🔒 Waiting on lock ${file}"
+    log-info "🔐 Trying to acquire lock file [${file}]"
 
-        staggered-sleep
+    # poll for lock file up to ${timeout_in_seconds}s
+    while ! (
+        set -o noclobber
+        echo -e "[${DOCKER_SERVICE_NAME:-}] since [$(date)]" >"${file}"
+    ) 2>/dev/null; do
+        if [ $(($(date '+%s') - time_beg)) -gt "${timeout_in_seconds}" ]; then
+            log-error "🔐 Waited too long for lock file [${file}]. Current lock is held by [$(cat "${file}")]" 1>&2
+
+            return 1
+        fi
+
+        log-info "🔐 Waiting for lock file [${file}], currently held by [$(cat "${file}")]"
+
+        sleep 1
     done
-
-    [[ -v lock_fds[$name] ]] || lock_fds[$name]=$lock_fd
 
     log-info "🔐 Lock acquired [${file}]"
 
     on-trap "release-lock ${name}" EXIT INT QUIT TERM
+
+    return 0
 }
 
-# @description Release a lock aquired by [acquire-lock]
+# @description Release a lock acquired by [acquire-lock]
 # @arg $1 string The lock identifier
 function release-lock()
 {
@@ -417,11 +431,11 @@ function release-lock()
 
     log-info "🔓 Releasing lock [${file}]"
 
-    [[ -v lock_fds[$name] ]] || return
+    if ! file-exists "$file"; then
+        log-warning "Lock file [${file}] does not exist - was a different name perhaps used in the call to [acquire-lock]?"
+    fi
 
-    # shellcheck disable=SC1083,SC2086
-    flock --unlock ${lock_fds[$name]}
-    unset 'lock_fds[$name]'
+    rm -f "${file}"
 }
 
 # @description Helper function to append multiple actions onto

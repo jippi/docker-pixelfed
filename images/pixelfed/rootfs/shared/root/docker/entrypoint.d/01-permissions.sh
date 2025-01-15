@@ -11,6 +11,7 @@ entrypoint-set-script-name "$0"
 run-as-current-user chown --verbose "${RUNTIME_UID}:${RUNTIME_GID}" "./.env"
 run-as-current-user chown --verbose "${RUNTIME_UID}:${RUNTIME_GID}" "./bootstrap/cache"
 run-as-current-user chown --verbose "${RUNTIME_UID}:${RUNTIME_GID}" "./storage"
+ensure-directory-exists "./storage/docker"
 run-as-current-user chown --verbose --recursive "${RUNTIME_UID}:${RUNTIME_GID}" "./storage/docker"
 
 # Optionally fix ownership of configured paths
