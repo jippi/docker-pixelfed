@@ -40,5 +40,3 @@ fi
 if is-true "${OAUTH_ENABLED:-false}"; then
     only-once "passport:keys" run-as-runtime-user php artisan passport:keys
 fi
-
-release-lock

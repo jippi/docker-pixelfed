@@ -28,8 +28,6 @@ echo "$output" | grep No && new_migrations=1
 if is-false "${new_migrations}"; then
     log-info "No new migrations detected"
 
-    release-lock
-
     exit 0
 fi
 
@@ -42,11 +40,7 @@ if is-false "${DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY}"; then
     log-info "Automatic applying of new database migrations is disabled"
     log-info "Please set [DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY=1] in your [.env] file to enable this."
 
-    release-lock
-
     exit 0
 fi
 
 run-as-runtime-user php artisan migrate --force
-
-release-lock
