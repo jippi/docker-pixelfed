@@ -31,12 +31,12 @@
             matchPackageNames: ["mariadb"],
             groupName: "MariaDB",
             automerge: false,
-        }
+        },
         {
             matchPackageNames: ["redis"],
             groupName: "Redis",
             automerge: false,
-        }
+        },
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
             automerge: false,
