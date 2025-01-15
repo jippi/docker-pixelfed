@@ -1,10 +1,14 @@
 #!/bin/bash
+# shellcheck source=SCRIPTDIR/../helpers.sh
+
 : "${ENTRYPOINT_ROOT:="/docker"}"
 
-# shellcheck source=SCRIPTDIR/../helpers.sh
 source "${ENTRYPOINT_ROOT}/helpers.sh"
 
 entrypoint-set-script-name "$0"
+
+# ! This file do not need a "lock" since it operates exclusively
+# ! within its own isolated container filesystem
 
 # Show [git diff] of templates being rendered (will help verify output)
 : "${ENTRYPOINT_SHOW_TEMPLATE_DIFF:=1}"
@@ -15,7 +19,6 @@ entrypoint-set-script-name "$0"
 
 declare template_file relative_template_file_path output_file_dir
 
-# load all dot-env config files
 load-and-export-config-files
 
 find "${ENTRYPOINT_TEMPLATE_DIR}" -follow -type f -print | while read -r template_file; do

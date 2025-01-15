@@ -20,9 +20,11 @@ if is-false "${DOCKER_APP_RUN_ONE_TIME_SETUP_TASKS}"; then
     exit 0
 fi
 
-acquire-lock
-
+# Wait for the database to be ready
 await-database-ready
+
+# Make sure only one container run the remainder of this script at a time
+acquire-lock
 
 # Following https://docs.pixelfed.org/running-pixelfed/installation/#one-time-setup-tasks
 #

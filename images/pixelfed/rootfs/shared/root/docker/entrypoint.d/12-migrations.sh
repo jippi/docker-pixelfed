@@ -11,10 +11,11 @@ entrypoint-set-script-name "$0"
 # Allow automatic applying of outstanding/new migrations on startup
 : "${DB_APPLY_NEW_MIGRATIONS_AUTOMATICALLY:=0}"
 
-acquire-lock
-
 # Wait for the database to be ready
 await-database-ready
+
+# Make sure only one container run the remainder of this script at a time
+acquire-lock
 
 # Run the migrate:status command and capture output
 output=$(run-as-runtime-user php artisan migrate:status || :)
