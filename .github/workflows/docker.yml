@@ -72,7 +72,7 @@ jobs:
           - bookworm
         php_base:
           - apache
-          # - fpm
+          - fpm
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
@@ -159,10 +159,10 @@ jobs:
           - bookworm
         php_base:
           - apache
-          # - fpm
+          - fpm
         target_runtime:
           - apache
-          # - nginx
+          - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
         # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
@@ -266,33 +266,28 @@ jobs:
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
           PHP_BASE_TYPE: ${{ matrix.php_base }}
 
-      - if: matrix.target_runtime == 'apache'
-        name: "Setup NodeJS"
+      - name: "Setup NodeJS"
         uses: actions/setup-node@v4
         with:
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
-      - if: matrix.target_runtime == 'apache'
-        name: Run E2E tests
+      - name: Run E2E tests
         run: images/pixelfed/tests/e2e.sh
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
-      - if: always() && matrix.target_runtime == 'apache'
-        name: Show docker compose config
+      - name: Show docker compose config
         run: docker compose config
 
-      - if: always() && matrix.target_runtime == 'apache'
-        name: Show docker compose logs
+      - name: Show docker compose logs
         run: |
           docker compose logs
           docker compose down -v
 
-      - if: always() && matrix.target_runtime == 'apache'
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.target_runtime }}
+          name: playwright-report-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
           retention-days: 30
