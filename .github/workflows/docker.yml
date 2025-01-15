@@ -279,13 +279,6 @@ jobs:
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
-          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
-
-      - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
-        name: Show ngrok logs
-        run: |
-          docker logs ngrok
-          docker rm -f ngrok
 
       - if: always() && matrix.target_runtime == 'apache' && matrix.pixelfed_branch == 'staging'
         name: Show docker compose config
