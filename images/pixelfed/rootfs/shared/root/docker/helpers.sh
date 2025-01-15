@@ -173,7 +173,7 @@ function log-error()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given error message to stderr and exit 1
@@ -204,7 +204,7 @@ function log-warning()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given message to stdout unless [ENTRYPOINT_QUIET_LOGS] is set
@@ -223,7 +223,7 @@ function log-info()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${notice_message_color}${log_prefix}${color_clear}${msg}"
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${notice_message_color}${log_prefix}${color_clear}${msg}"
     fi
 }
 
@@ -243,7 +243,7 @@ function log-info-stderr()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') - ${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
     fi
 }
 
