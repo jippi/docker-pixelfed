@@ -42,7 +42,7 @@
                 // ARG DEFAULT_CONFTEST_VERSION=x.x.x
                 "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s",
             ],
-            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
             extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
         },
         {
@@ -51,7 +51,7 @@
             matchStrings: [
                 "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: (?<currentValue>.*)\\s",
             ],
-            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
             extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
         },
     ],
