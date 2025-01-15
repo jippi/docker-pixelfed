@@ -171,7 +171,7 @@ function log-error()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${error_message_color}${log_prefix}ERROR -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given error message to stderr and exit 1
@@ -202,7 +202,7 @@ function log-warning()
         log-error-and-exit "[${FUNCNAME[0]}] did not receive any input arguments and STDIN is empty"
     fi
 
-    echo -e "${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${warn_message_color}${log_prefix}WARNING -${color_clear} ${msg}" >/dev/stderr
 }
 
 # @description Print the given message to stdout unless [ENTRYPOINT_QUIET_LOGS] is set
@@ -221,7 +221,7 @@ function log-info()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "${notice_message_color}${log_prefix}${color_clear}${msg}"
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${notice_message_color}${log_prefix}${color_clear}${msg}"
     fi
 }
 
@@ -241,7 +241,7 @@ function log-info-stderr()
     fi
 
     if [ -z "${ENTRYPOINT_QUIET_LOGS:-}" ]; then
-        echo -e "${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S %:z') ${notice_message_color}${log_prefix}${color_clear}${msg}" >/dev/stderr
     fi
 }
 
@@ -361,6 +361,7 @@ function only-once()
 {
     local name="${1:-$script_name}"
     local file="${docker_once_path}/${name}"
+
     shift
 
     if [[ -e "${file}" ]]; then
@@ -385,12 +386,13 @@ function only-once()
 function acquire-lock()
 {
     local name="${1:-$script_name}"
+    local -ir time_max="${2:-120}" # default timeout is 2 min
     local file="${docker_locks_path}/${name}"
-
-    declare -ir time_beg=$(date '+%s')
-    declare -ir time_max=120 # 120 s = 2 min
+    local -ir time_beg=$(date '+%s')
 
     ensure-directory-exists "$(dirname "${file}")"
+
+    log-info "🔐 Trying to acquire lock file [${file}]"
 
     # poll for lock file up to ${time_max}s
     # put debugging info in lock file in case of issues ...
@@ -399,9 +401,12 @@ function acquire-lock()
         echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
     ) 2>/dev/null; do
         if [ $(($(date '+%s') - time_beg)) -gt "${time_max}" ]; then
-            echo "Error: waited too long for lock file ${file}" 1>&2
+            log-error "🔐 Waited too long for lock file ${file}" 1>&2
+
             return 1
         fi
+
+        log-info "🔐 Waiting for lock file [${file}] ..."
 
         sleep 1
     done
