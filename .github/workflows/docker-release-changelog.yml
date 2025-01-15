@@ -7,7 +7,7 @@ on:
 jobs:
   changelog:
     name: "Generate changelog"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions: write-all
 
     steps:

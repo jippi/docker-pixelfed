@@ -28,7 +28,7 @@ on:
 jobs:
   bats:
     name: Bats Testing
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Run bats
@@ -36,7 +36,7 @@ jobs:
 
   hadolint:
     name: hadolint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -59,7 +59,7 @@ jobs:
 
   php:
     name: PHP
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -142,7 +142,7 @@ jobs:
 
   pixelfed:
     name: pixelfed
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [php]
 
     strategy:
