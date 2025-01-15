@@ -4,12 +4,12 @@ test('page should load without errors', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState()
 
-    expect(page).toHaveTitle("docker-pixelfed e2e")
-
     expect(page.locator('a', { hasText: 'Sign up' })).toBeVisible()
     expect(page.locator('a', { hasText: 'Login' })).toBeVisible()
     expect(page.locator('a', { hasText: 'Powered by Pixelfed' })).toBeVisible()
     expect(page.locator('a.admin-email', { hasText: 'github@example.com' })).toBeVisible()
+
+    expect(page).toHaveTitle("docker-pixelfed e2e")
 })
 
 test('/api/nodeinfo/2.0.json', async ({ request }) => {
