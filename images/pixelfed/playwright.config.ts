@@ -24,6 +24,6 @@ export default defineConfig({
         trace: 'on',
 
         // Whether to automatically capture a screenshot after each test. Defaults to 'off'.
-        screenshot: 'on',
+        screenshot: 'off',
     },
 })

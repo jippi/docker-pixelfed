@@ -4,6 +4,11 @@ test('page should load without errors', async ({ page }) => {
     await page.goto('/')
 
     expect(page).toHaveTitle("docker-pixelfed e2e")
+
+    expect(page.locator('a', { hasText: 'Sign up' })).toBeVisible()
+    expect(page.locator('a', { hasText: 'Login' })).toBeVisible()
+    expect(page.locator('a', { hasText: 'Powered by Pixelfed' })).toBeVisible()
+    expect(page.locator('a.admin-email', { hasText: 'github@example.com' })).toBeVisible()
 })
 
 test('/api/nodeinfo/2.0.json', async ({ request }) => {
@@ -14,7 +19,7 @@ test('/api/nodeinfo/2.0.json', async ({ request }) => {
 
     expect(json.software.name).toBe("pixelfed")
     expect(json.usage.users.total).toBe(0)
-    expect(json.nodeName).toBe("docker-pixelfed e2e")
+    expect(json.metadata.nodeName).toBe("docker-pixelfed e2e")
 })
 
 test('/api/v1/instance', async ({ request }) => {
