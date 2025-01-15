@@ -392,7 +392,7 @@ function acquire-lock()
 
     ensure-directory-exists "$(dirname "${file}")"
 
-    log-info "🔐 Trying to acquire lock file [${file}]"
+    log-info "🔐 Trying to acquire lock file [${name}]"
 
     # poll for lock file up to ${time_max}s
     # put debugging info in lock file in case of issues ...
@@ -401,17 +401,17 @@ function acquire-lock()
         echo -e "DATE:$(date)\nUSER:$(whoami)\nPID:$$\nSERVICE:${DOCKER_SERVICE_NAME:-}" >"${file}"
     ) 2>/dev/null; do
         if [ $(($(date '+%s') - time_beg)) -gt "${time_max}" ]; then
-            log-error "🔐 Waited too long for lock file ${file}" 1>&2
+            log-error "🔐 Waited too long for lock file [${name}]" 1>&2
 
             return 1
         fi
 
-        log-info "🔐 Waiting for lock file [${file}] ..."
+        log-info "🔐 Waiting for lock file [${name}] ..."
 
         sleep 1
     done
 
-    log-info "🔐 Lock acquired [${file}]"
+    log-info "🔐 Lock acquired [${name}]"
 
     on-trap "release-lock ${name}" EXIT INT QUIT TERM
 
