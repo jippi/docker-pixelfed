@@ -28,6 +28,8 @@ echo "$output" | grep No && new_migrations=1
 if is-false "${new_migrations}"; then
     log-info "No new migrations detected"
 
+    release-lock
+
     exit 0
 fi
 
