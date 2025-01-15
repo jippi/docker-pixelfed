@@ -45,7 +45,12 @@
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
             automerge: false,
-        }
+        },
+        {
+            matchPackageNames: ["ghcr.io/jippi/dottie"],
+            groupName: "Dottie",
+            automerge: false,
+        },
     ],
     customManagers: [
         {
