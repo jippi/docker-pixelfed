@@ -38,6 +38,11 @@
             automerge: false,
         },
         {
+            matchPackageNames: ["php"],
+            groupName: "PHP",
+            automerge: false,
+        },
+        {
             matchPackageNames: ["jippi/docker-pixelfed"],
             automerge: false,
         }
