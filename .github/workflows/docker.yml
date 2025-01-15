@@ -270,15 +270,18 @@ jobs:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
-      - name: Show docker compose config
+      - if: always()
+        name: Show docker compose config
         run: docker compose config
 
-      - name: Show docker compose logs
+      - if: always()
+        name: Show docker compose logs
         run: |
           docker compose logs
           docker compose down -v
 
-      - uses: actions/upload-artifact@v4
+      - if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
