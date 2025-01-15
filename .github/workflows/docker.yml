@@ -288,6 +288,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
           retention-days: 30
