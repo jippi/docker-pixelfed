@@ -8,7 +8,7 @@
 # See: https://github.com/mlocati/docker-php-extension-installer
 #
 # renovate: datasource=github-releases depName=mlocati/docker-php-extension-installer
-ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.2.14"
+ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.7.13"
 
 # See: https://github.com/composer/composer
 #
