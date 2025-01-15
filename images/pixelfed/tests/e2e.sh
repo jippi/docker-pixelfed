@@ -10,8 +10,12 @@ chmod -v 0777 .env
 
 app_domain="localhost"
 
+# We disable dottie validation since 'localhost' as APP_DOMAIN
+# is *technically* a misconfiguration
+
 echo "==> Reconfiguring .env file for testing"
 scripts/dottie set --no-validate \
+    ENTRYPOINT_SKIP_SCRIPTS="02-check-config.sh" \
     APP_DOMAIN="${app_domain}" \
     APP_NAME="docker-pixelfed e2e" \
     DB_PASSWORD="helloworld" \
