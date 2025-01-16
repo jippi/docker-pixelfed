@@ -6,11 +6,13 @@
         "default:pinDigestsDisabled",
     ],
     schedule: [
-        /* every 4 hours */
-        "* */4 * * *",
+        /* every hour */
+        "* * * * *",
     ],
     automerge: true,
+    configMigration: true,
     baseBranches: ["main"],
+    rebaseWhen: "behind-base-branch",
     dependencyDashboardAutoclose: true,
     labels: ["dependencies"],
     osvVulnerabilityAlerts: true,
