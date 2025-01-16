@@ -30,11 +30,6 @@ jobs:
 
       - name: "Setup NodeJS"
         uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: "docker/package-lock.json"
-
-      - run: npm ci
 
       - name: check for dead links
         run: |
