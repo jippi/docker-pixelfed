@@ -66,92 +66,10 @@ jobs:
           dockerfile: images/pixelfed/Dockerfile
           failure-threshold: error
 
-  php:
-    name: PHP
-    runs-on: ubuntu-24.04
-
-    strategy:
-      fail-fast: false
-
-      # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
-      matrix:
-        php_version:
-          - 8.3
-        debian_release:
-          - bookworm
-        php_base:
-          - apache
-          - fpm
-
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-      cancel-in-progress: true
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        id: buildx
-
-      # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
-      - name: Log in to the GitHub Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Docker meta
-        uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-php,enable=true
-          flavor: |
-            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
-          tags: |
-            # schedule
-            type=schedule,pattern=nightly
-            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
-            # default behavior
-            type=ref,event=branch,prefix=branch/
-            type=ref,event=pr,prefix=pr/
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./images/php
-          file: ./images/php/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
-          build-args: |
-            PHP_BASE_TYPE=${{ matrix.php_base }}
-            PHP_VERSION=${{ matrix.php_version }}
-            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          cache-from: |
-            type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
     runs-on: ubuntu-24.04
-    needs: [php]
-
     strategy:
       fail-fast: false
 
@@ -219,23 +137,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-        # Need it to compute the tag we build PHP with earlier
-      - name: Docker PHP meta
-        uses: docker/metadata-action@v5
-        id: php_meta
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-php,enable=true
-          flavor: |
-            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
-          tags: |
-            # schedule
-            type=schedule,pattern=nightly
-            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
-            # default behavior
-            type=ref,event=branch,prefix=branch/
-            type=ref,event=pr,prefix=pr/
-
       - name: Docker meta
         uses: docker/metadata-action@v5
         id: meta
@@ -267,8 +168,6 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-            PHP_IMAGE=${{ steps.php_meta.outputs.tags }}
-          # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
