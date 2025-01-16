@@ -39,13 +39,13 @@ find "${ENTRYPOINT_TEMPLATE_DIR}" -follow -type f -print | while read -r templat
     # Example: /usr/local/etc/php
     output_file_dir=$(dirname "${output_file_path}")
 
+    # Create the output directory if it doesn't exists
+    ensure-directory-exists "${output_file_dir}"
+
     # Ensure the output directory is writable
     if ! is-writable "${output_file_dir}"; then
         log-error-and-exit "${output_file_dir} is not writable"
     fi
-
-    # Create the output directory if it doesn't exists
-    ensure-directory-exists "${output_file_dir}"
 
     # Render the template
     log-info "Running [gomplate] on [${template_file}] --> [${output_file_path}]"
