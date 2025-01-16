@@ -1,5 +1,5 @@
 #!/bin/bash
-# short curcuit the entrypoint if $ENTRYPOINT_SKIP isn't set to 0
+# short circuit the entrypoint if $ENTRYPOINT_SKIP isn't set to 0
 if [[ ${ENTRYPOINT_SKIP:=0} != 0 ]]; then
     exec "$@"
 fi
@@ -40,7 +40,7 @@ if directory-is-empty "${ENTRYPOINT_D_ROOT}"; then
     exec "$@"
 fi
 
-# If the overridess directory exists, then copy all files into the container
+# If the overrides directory exists, then copy all files into the container
 if ! directory-is-empty "${DOCKER_APP_HOST_OVERRIDES_PATH}"; then
     log-info "Overrides directory is not empty, copying files"
     run-as-current-user cp --verbose --recursive "${DOCKER_APP_HOST_OVERRIDES_PATH}/." /
