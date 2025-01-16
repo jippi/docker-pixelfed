@@ -221,6 +221,22 @@ jobs:
 
       - name: Docker meta
         uses: docker/metadata-action@v5
+        id: php_meta
+        with:
+          images: |
+            name=ghcr.io/${{ github.repository }}-php,enable=true
+          flavor: |
+            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
+          tags: |
+            # schedule
+            type=schedule,pattern=nightly
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
+            # default behavior
+            type=ref,event=branch,prefix=branch/
+            type=ref,event=pr,prefix=pr/
+
+      - name: Docker meta
+        uses: docker/metadata-action@v5
         id: meta
         with:
           images: |
@@ -250,6 +266,7 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+            PHP_TAG=${{ steps.php_meta.outputs.tags }}
           # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
