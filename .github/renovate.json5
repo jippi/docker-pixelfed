@@ -10,6 +10,7 @@
         "* */4 * * *",
     ],
     automerge: true,
+    configMigration: true,
     baseBranches: ["main"],
     rebaseWhen: "behind-base-branch",
     dependencyDashboardAutoclose: true,
