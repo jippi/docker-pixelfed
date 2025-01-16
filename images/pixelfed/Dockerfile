@@ -216,6 +216,13 @@ FROM shared-runtime AS apache-runtime
 
 COPY images/pixelfed/rootfs/apache/root /
 
+# Install apache webserver
+RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
+    set -ex \
+    && apt-get update \
+    && apt-get install -y apache2
+
 RUN set -ex \
     && a2enmod rewrite remoteip proxy proxy_http \
     && a2enconf remoteip
