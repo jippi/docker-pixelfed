@@ -12,20 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Delete old test images
     steps:
-      - uses: snok/container-retention-policy@v3.0.0
+      - uses: pcasteran/ghcr-cleaning-action@v1
         with:
-          account: jippi
-          token: ${{ secrets.GITHUB_TOKEN }}
-          image-names: "docker-pixelfed"
-          image-tags: "pr-* branch-*"
-          cut-off: 2w
+          package: "docker-pixelfed"
+          password: ${{ secrets.GITHUB_TOKEN }}
           dry-run: true
 
-      - uses: snok/container-retention-policy@v3.0.0
+      - uses: pcasteran/ghcr-cleaning-action@v1
         with:
-          account: jippi
-          token: ${{ secrets.GITHUB_TOKEN }}
-          image-names: "docker-pixelfed-php"
-          image-tags: "pr-* branch-*"
-          cut-off: 2w
+          package: "docker-pixelfed-php"
+          password: ${{ secrets.GITHUB_TOKEN }}
           dry-run: true
