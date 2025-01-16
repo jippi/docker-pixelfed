@@ -16,7 +16,7 @@ Any file in the `/docker/templates/` directory will be templated and written to 
 
 Variables available for templating are sourced (in order, so *last* source takes precedence) like this:
 
-1. `env:` in your `docker-compose.yml` or `-e` in your `docker run` / `docker compose run` commands.
+1. `env:` in your `compose.yaml` or `-e` in your `docker run` / `docker compose run` commands.
 1. Any exported variables in `.envsh` files loaded *before* `05-templating.sh` (e.g., any file with `04-`, `03-`, `02-`, `01-` or `00-` prefix).
 1. All key and value pairs in `/var/www/.env.docker` (default values, you should not edit this file!)
 1. All key and value pairs in `/var/www/.env`.

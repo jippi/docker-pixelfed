@@ -46,7 +46,7 @@ To disable individual `ENTRYPOINT` scripts, you can add the filename to the spac
 
 !!! tip
 
-    With the default Pixelfed `docker-compose.yml` the `overrides` bind mount is enabled by default for both `web` and `worker` service.
+    With the default Pixelfed `compose.yaml` the `overrides` bind mount is enabled by default for both `web` and `worker` service.
 
     The `overrides` folder on the host machine is in `./docker-compose-state/overrides` and can be changed via `DOCKER_APP_HOST_OVERRIDES_PATH` in the `.env` file.
 

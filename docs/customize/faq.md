@@ -7,7 +7,7 @@
 No problem! All you have to do is:
 
 1. Change the `DOCKER_PROXY_PROFILE` key/value pair in your `.env` file to `"disabled"`.
-    * This disables the `proxy` *and* `proxy-acme` services in `docker-compose.yml`.
+    * This disables the `proxy` *and* `proxy-acme` services in `compose.yaml`.
     * The setting is near the bottom of the file.
 1. Point your proxy upstream to the exposed `web` port (**Default**: `8080`).
     * The port is controlled by the `DOCKER_WEB_PORT_EXTERNAL_HTTP` key in `.env`.
@@ -19,7 +19,7 @@ No problem! All you have to do is:
 No problem! All you have to do is:
 
 1. Change the `DOCKER_PROXY_ACME_PROFILE` key/value pair in your `.env` file to `"disabled"`.
-    * This disabled the `proxy-acme` service in `docker-compose.yml`.
+    * This disabled the `proxy-acme` service in `compose.yaml`.
     * It does *not* disable the `proxy` service.
 1. Put your certificates in `${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/certs` (e.g. `./docker-compose/config/proxy/certs`)
     * You may need to create this folder manually if it does not exist.

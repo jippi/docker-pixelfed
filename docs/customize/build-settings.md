@@ -10,13 +10,13 @@
 
     This, of course, also works with any Pixelfed fork, as long as the PHP source code for Pixelfed (or a fork of Pixelfed) exists in `./src`
 
-!!! tip "Most of these build arguments is configurable in your `.env` file when using the `docker-compose.yml` from Pixelfed!"
+!!! tip "Most of these build arguments is configurable in your `.env` file when using the `compose.yaml` from Pixelfed!"
 
 The Pixelfed Dockerfile utilizes [Docker Multi-stage builds](https://docs.docker.com/build/building/multi-stage/) and [Build arguments](https://docs.docker.com/build/guide/build-args/).
 
 Using *build arguments* allows us to create a flexible and more maintainable Dockerfile, supporting [multiple runtimes](./runtimes.md) ([Nginx](./runtimes.md#nginx-fpm) and [Apache + mod_php](./runtimes.md#apache)) and end-user flexibility without having to fork or copy the Dockerfile.
 
-*Build arguments* can be configured using `--build-arg 'name=value'` for `docker build`, `docker compose build` and `docker buildx build`. For `docker-compose.yml`, the `args` key for [`build`](https://docs.docker.com/compose/compose-file/build/) can be used.
+*Build arguments* can be configured using `--build-arg 'name=value'` for `docker build`, `docker compose build` and `docker buildx build`. For `compose.yaml`, the `args` key for [`build`](https://docs.docker.com/compose/compose-file/build/) can be used.
 
 !!! warning "Most settings have two names in the title. The first one is the build arg name (`--build-arg`) and the second is the name in your `.env` file when using Docker Compose"
 

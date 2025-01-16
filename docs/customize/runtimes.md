@@ -32,7 +32,7 @@ docker build \
 
 !!! info
 
-    This is already configured if you use the default Pixelfed `docker-compose.yml`
+    This is already configured if you use the default Pixelfed `compose.yaml`
 
     Instead you control the target runtime via your `.env` file
 
@@ -77,7 +77,7 @@ docker build \
 
 !!! info
 
-    This is already configured if you use the default Pixelfed `docker-compose.yml`
+    This is already configured if you use the default Pixelfed `compose.yaml`
 
     Instead you control the target runtime via your `.env` file
 
