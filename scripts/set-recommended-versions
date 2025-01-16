@@ -9,7 +9,7 @@ command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
 source "${project_root}/scripts/lib/shared.sh"
 
 # @renovate datasource=docker depName=mariadb versioning=semver-coerced
-DB_VERSION="11.4"
+DB_VERSION="11.7.1"
 
 # @renovate datasource=docker depName=php versioning=semver-coerced
 DOCKER_APP_PHP_VERSION="8.3"
