@@ -31,6 +31,7 @@
             matchPackageNames: ["mariadb"],
             groupName: "MariaDB",
             automerge: false,
+            allowedVersions: "<=11",
         },
         {
             matchPackageNames: ["redis"],
@@ -45,6 +46,10 @@
         },
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
+            automerge: false,
+        },
+        {
+            matchPackageNames: ["nginxproxy/nginx-proxy"],
             automerge: false,
         },
         {
