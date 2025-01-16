@@ -40,6 +40,7 @@
         {
             matchPackageNames: ["php"],
             groupName: "PHP",
+            allowedVersions: "<=8.3",
             automerge: false,
         },
         {
