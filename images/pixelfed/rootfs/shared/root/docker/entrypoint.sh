@@ -96,6 +96,8 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
     esac
 done
 
+touch /tmp/entrypoint-ran-to-completion
+
 log-info "Configuration complete; ready for start up"
 
 exec "$@"
