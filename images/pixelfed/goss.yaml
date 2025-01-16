@@ -83,6 +83,52 @@ command:
       - zlib
     stderr: []
 
+  php-info:
+    exit-status: 0
+    exec: 'php -i'
+    stdout:
+      # Make sure we don't run any debug builds
+      - Debug Build => no
+      # Make sure signal handling is enabled
+      - Zend Signal Handling => enabled
+      # Ensure mbstring is around and used
+      - Zend Multibyte Support => provided by mbstring
+      # For the modern hipsters out there
+      - IPv6 Support => enabled
+      # Security: not expose PHP information to users
+      - expose_php => Off => Off
+      # Ensure memory limit is configured correctly
+      - memory_limit => 512M => 512M
+      # Ensure post_max_size is configured correctly
+      - post_max_size => 151M => 151M
+      # EXIF is enabled
+      - EXIF Support => enabled
+      # GD is enabled and configured correctly
+      - GD Support => enabled
+      - FreeType Support => enabled
+      - FreeType Linkage => with freetype
+      - GIF Read Support => enabled
+      - GIF Create Support => enabled
+      - JPEG Support => enabled
+      - PNG Support => enabled
+      - WBMP Support => enabled
+      - XPM Support => enabled
+      - XBM Support => enabled
+      - WebP Support => enabled
+      - BMP Support => enabled
+      - AVIF Support => enabled
+      - TGA Read Support => enabled
+      # imagick is enabled and configured correctly
+      - "imagick module => enabled"
+      # PDO is enabled with the right drivers
+      - PDO support => enabled
+      - PDO drivers => sqlite, mysql, pgsql
+      # Redis is enabled
+      - Redis Support => enabled
+      # session is enabled and configured correctly
+      - Session Support => enabled
+      - Registered save handlers => files user redis rediscluster
+
   forego-version:
     exit-status: 0
     exec: 'forego version'
