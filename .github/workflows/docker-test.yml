@@ -254,6 +254,9 @@ jobs:
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
+      - name: Setup
+        run: images/pixelfed/tests/setup.sh
+
       # goss validate the image
       #
       # See: https://github.com/goss-org/goss
