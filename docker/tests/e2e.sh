@@ -28,4 +28,4 @@ echo
 echo "==> Run playwright tests"
 echo
 export E2E_URL="http://${app_domain}:8080"
-exec npx playwright test --config images/pixelfed/playwright.config.ts
+exec npx playwright test --config docker/playwright.config.ts

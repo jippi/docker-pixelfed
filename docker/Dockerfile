@@ -142,7 +142,7 @@ ARG APT_PACKAGES_EXTRA
 ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
 
 # Copy the base layer installer into the image
-COPY images/pixelfed/rootfs/shared/docker/install/base.sh /docker/install/base.sh
+COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
 
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
@@ -161,7 +161,7 @@ ARG PHP_PECL_EXTENSIONS_EXTRA
 ARG PHP_BASE_TYPE
 
 # Copy the PHP layer installer into the image
-COPY images/pixelfed/rootfs/shared/docker/install/php.sh /docker/install/php.sh
+COPY docker/rootfs/shared/docker/install/php.sh /docker/install/php.sh
 
 RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
@@ -306,7 +306,7 @@ RUN set -ex \
 #! Changing to root user
 USER root
 
-COPY images/pixelfed/rootfs/shared /
+COPY docker/rootfs/shared /
 
 ENTRYPOINT ["/docker/entrypoint.sh"]
 
@@ -320,7 +320,7 @@ ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
 ARG TARGETPLATFORM
 
-COPY images/pixelfed/rootfs/apache /
+COPY docker/rootfs/apache /
 
 # Install apache webserver
 RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt/lists \
@@ -362,7 +362,7 @@ RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE
 
 # copy docker entrypoints from the *real* nginx image directly
 COPY --link --from=nginx-image /docker-entrypoint.d /docker/entrypoint.d/
-COPY images/pixelfed/rootfs/nginx /
+COPY docker/rootfs/nginx /
 
 STOPSIGNAL SIGQUIT
 

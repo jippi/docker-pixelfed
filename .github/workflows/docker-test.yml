@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run bats
-        run: docker run -v "$PWD/images/pixelfed:/var/www" bats/bats:latest /var/www/tests/bats
+        run: docker run -v "$PWD/docker/:/var/www" bats/bats:latest /var/www/tests/bats
 
   hadolint:
     name: hadolint
@@ -57,7 +57,8 @@ jobs:
       - name: Pixelfed
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: images/pixelfed/Dockerfile
+          dockerfile: docker/Dockerfile
+          config: docker/.hadolint.yaml
           failure-threshold: error
 
   pixelfed:
@@ -150,7 +151,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: images/pixelfed/Dockerfile
+          file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
@@ -168,7 +169,7 @@ jobs:
             type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       - name: Setup
-        run: images/pixelfed/tests/setup.sh
+        run: docker/tests/setup.sh
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
@@ -181,7 +182,7 @@ jobs:
           version: "v0.4.9"
 
       - name: Execute Goss tests
-        working-directory: images/pixelfed
+        working-directory: docker/
         run: tests/goss.sh
         env:
           TAGS: "${{ steps.meta.outputs.tags }}"
@@ -192,10 +193,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: "npm"
-          cache-dependency-path: "package-lock.json"
+          cache-dependency-path: "docker/package-lock.json"
 
       - name: Run E2E tests
-        run: images/pixelfed/tests/e2e.sh
+        run: docker/tests/e2e.sh
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
