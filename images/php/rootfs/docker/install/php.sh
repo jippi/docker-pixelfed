@@ -1,6 +1,9 @@
 #!/bin/bash
 set -ex -o errexit -o nounset -o pipefail
 
+PHP_BASE_TYPE=${PHP_BASE_TYPE:?Missing PHP_BASE_TYPE - must be [fpm] or [apache]}
+COMPOSER_VERSION=${COMPOSER_VERSION:?Missing COMPOSER_VERSION}
+
 #############################################
 # Setup PHP package source
 #############################################
@@ -40,7 +43,7 @@ apt-get install -y ${php_extensions_string}
 #############################################
 
 curl -o composer-setup.php https://getcomposer.org/installer
-php composer-setup.php --version="${COMPOSER_VERSION:-2}" --filename=composer --install-dir=/usr/local/bin
+php composer-setup.php --version="${COMPOSER_VERSION}" --filename=composer --install-dir=/usr/local/bin
 rm composer-setup.php
 
 #############################################
