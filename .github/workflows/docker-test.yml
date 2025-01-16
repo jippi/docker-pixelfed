@@ -143,7 +143,7 @@ jobs:
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           # Cache from 'main' branch and the current branch, e.x., 'my-cool-branch'
           cache-from: |
-            type=gha,,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
