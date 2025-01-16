@@ -53,3 +53,6 @@ rm composer-setup.php
 declare -a pecl_extensions=()
 readarray -d ' ' -t pecl_extensions < <(echo -n "${PHP_PECL_EXTENSIONS:-}")
 readarray -d ' ' -t -O "${#pecl_extensions[@]}" pecl_extensions < <(echo -n "${PHP_PECL_EXTENSIONS_EXTRA:-}")
+
+# shellcheck disable=SC2086,SC2048
+pecl install ${pecl_extensions[*]}

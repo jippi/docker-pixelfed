@@ -29,13 +29,13 @@ ARG RUNTIME_GID=33 # often called 'www-data'
 # APT extra packages
 ARG APT_PACKAGES_EXTRA=
 
-# Extensions installed via [pecl install]
-# ! NOTE: imagick is installed from [master] branch on GitHub due to 8.3 bug on ARM that haven't
-# ! been released yet (after +10 months)!
-# ! See: https://github.com/Imagick/imagick/pull/641
+# PHP extensions installed via [pecl install]
 ARG PHP_PECL_EXTENSIONS=""
 ARG PHP_PECL_EXTENSIONS_EXTRA=
 
+# PHP extensions installed via https://deb.sury.org/
+# ! NOTE: Must not include the "php8.x-" prefix for packages
+# !       so [php8.3-bcmath] should just be [bcmath] here
 ARG PHP_EXTENSIONS="intl bcmath zip curl gd yaml redis imagick"
 ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
