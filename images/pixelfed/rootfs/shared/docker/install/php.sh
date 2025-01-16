@@ -18,20 +18,21 @@ rm -f /tmp/debsuryorg-archive-keyring.deb
 # Install PHP (binary) packages
 #############################################
 
-declare -a php_extensions=(cli)
-
-if [[ $PHP_BASE_TYPE == 'fpm' ]]; then
-    php_extensions+=(fpm)
-fi
-
+declare -a php_extensions=()
 readarray -d ' ' -t php_extensions < <(echo -n "${PHP_EXTENSIONS:-}")
 readarray -d ' ' -t -O "${#php_extensions[@]}" php_extensions < <(echo -n "${PHP_EXTENSIONS_EXTRA:-}")
 readarray -d ' ' -t -O "${#php_extensions[@]}" php_extensions < <(echo -n "${PHP_EXTENSIONS_DATABASE:-}")
 
+php_extensions+=(cli)
+
+if [[ "${PHP_BASE_TYPE}" == "fpm" ]]; then
+    php_extensions+=("fpm")
+fi
+
 # join the strings and prefix them with [php${version}-], so [gd] turns into [php8.3-gd]
 php_extensions_string="${php_extensions[*]/#/php${PHP_VERSION}-}"
 
-if [[ $PHP_BASE_TYPE == 'apache' ]]; then
+if [[ "${PHP_BASE_TYPE}" == "apache" ]]; then
     php_extensions_string+=" libapache2-mod-php${PHP_VERSION}"
 fi
 
