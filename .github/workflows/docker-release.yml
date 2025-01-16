@@ -93,6 +93,7 @@ jobs:
           # !NOTE: we don't push cache here since its tags-only workflow
           cache-from: |
             type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           cache-to: |
             type=gha,mode=max,ignore-error=true,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 

@@ -12,12 +12,12 @@ on:
       - synchronize
       - ready_for_review
     branches:
-      - "main"
+      - main
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
   push:
     branches:
-      - "main"
+      - main
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
   # pull_request:
@@ -141,9 +141,11 @@ jobs:
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_VERSION=${{ matrix.php_version }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch and the current branch, e.x., 'my-cool-branch'
           cache-from: |
             type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          cache-to: |
+            type=gha,mode=max,ignore-error=true,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
