@@ -18,7 +18,7 @@ ARG FOREGO_VERSION="0.18.2"
 # See: https://github.com/hairyhenderson/gomplate
 #
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
-ARG GOMPLATE_VERSION="v3.11.8"
+ARG GOMPLATE_VERSION="3.11.8"
 
 # See: https://github.com/jippi/dottie
 #
@@ -89,7 +89,7 @@ RUN set -ex \
         --show-error \
         --location \
         --output /usr/local/bin/gomplate \
-        https://github.com/hairyhenderson/gomplate/releases/download/${GOMPLATE_VERSION}/gomplate_${TARGETOS}-${TARGETARCH} \
+        https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_${TARGETOS}-${TARGETARCH} \
     && chmod +x /usr/local/bin/gomplate \
     && /usr/local/bin/gomplate --version
 
