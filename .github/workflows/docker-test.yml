@@ -219,7 +219,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker meta
+        # Need it to compute the tag we build PHP with earlier
+      - name: Docker PHP meta
         uses: docker/metadata-action@v5
         id: php_meta
         with:
