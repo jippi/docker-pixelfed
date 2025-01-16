@@ -100,7 +100,7 @@ command:
       # Ensure memory limit is configured correctly
       - memory_limit => 128M => 128M
       # Ensure post_max_size is configured correctly
-      - post_max_size => 8M => 8M
+      - post_max_size => 61M => 61M
       # EXIF is enabled
       - EXIF Support => enabled
       # GD is enabled and configured correctly
