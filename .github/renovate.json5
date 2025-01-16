@@ -85,7 +85,7 @@
         },
         {
             customType: "regex",
-            fileMatch: ["(^|/)\\.env\\.docker$"],
+            fileMatch: ["(^|/)\\.env\\.docker$", "(^|/)scripts/set-recommended-versions$"],
             matchStrings: [
                 "@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?=\"?(?<currentValue>.*?)\"?\\s",
             ],
