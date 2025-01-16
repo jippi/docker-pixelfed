@@ -36,7 +36,7 @@ ARG PHP_PECL_EXTENSIONS_EXTRA=
 # PHP extensions installed via https://deb.sury.org/
 # ! NOTE: Must not include the "php8.x-" prefix for packages
 # !       so [php8.3-bcmath] should just be [bcmath] here
-ARG PHP_EXTENSIONS="intl bcmath zip curl gd yaml redis imagick xml"
+ARG PHP_EXTENSIONS="bcmath curl gd imagick intl mbstring redis xml yaml zip"
 ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
 

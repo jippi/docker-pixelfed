@@ -19,6 +19,8 @@
         ".env.*": "shellscript"
     },
     "cSpell.words": [
+        "envsubst",
+        "gomplate",
         "pixelfed"
     ]
 }
