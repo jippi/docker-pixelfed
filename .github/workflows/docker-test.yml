@@ -256,6 +256,9 @@ jobs:
 
       - name: Setup
         run: images/pixelfed/tests/setup.sh
+        env:
+          CI: true
+          DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
       # goss validate the image
       #
@@ -265,8 +268,8 @@ jobs:
           version: "v0.4.9"
 
       - name: Execute Goss tests
-        run: tests/goss.sh
         working-directory: images/pixelfed
+        run: tests/goss.sh
         env:
           TAGS: "${{ steps.meta.outputs.tags }}"
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
