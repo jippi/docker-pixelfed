@@ -37,10 +37,7 @@ ARG PHP_VERSION="8.3"
 # See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants
 ARG PHP_BASE_TYPE="apache"
 ARG PHP_DEBIAN_RELEASE="bookworm"
-ARG PHP_TAG
-
-# The image to use as "php" pre-build source
-ARG PHP_IMAGE="ghcr.io/jippi/docker-pixelfed-php:${PHP_TAG}"
+ARG PHP_IMAGE
 
 # GPG key for nginx apt repository
 ARG NGINX_GPGKEY="573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62"

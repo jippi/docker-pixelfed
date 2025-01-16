@@ -266,7 +266,7 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-            PHP_TAG=${{ steps.php_meta.outputs.tags }}
+            PHP_IMAGE=${{ steps.php_meta.outputs.tags }}
           # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
