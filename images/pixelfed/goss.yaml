@@ -29,15 +29,15 @@ user:
 
 command:
   php-version:
+    exec: php -v
     exit-status: 0
-    exec: 'php -v'
     stdout:
       - PHP {{ .Env.EXPECTED_PHP_VERSION }}
     stderr: []
 
   php-extensions:
+    exec: php -m
     exit-status: 0
-    exec: 'php -m'
     stdout:
       - bcmath
       - Core
@@ -84,8 +84,8 @@ command:
     stderr: []
 
   php-info:
+    exec: php -i
     exit-status: 0
-    exec: 'php -i'
     stdout:
       # Make sure we don't run any debug builds
       - Debug Build => no

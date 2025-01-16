@@ -36,7 +36,6 @@ ARG APT_PACKAGES_EXTRA=
 ARG PHP_PECL_EXTENSIONS=""
 ARG PHP_PECL_EXTENSIONS_EXTRA=
 
-# pcntl exif
 ARG PHP_EXTENSIONS="intl bcmath zip curl gd yaml redis imagick"
 ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
