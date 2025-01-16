@@ -18,7 +18,7 @@ ARG FOREGO_VERSION="0.18.2"
 # See: https://github.com/hairyhenderson/gomplate
 #
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
-ARG GOMPLATE_VERSION="3.11.8"
+ARG GOMPLATE_VERSION="4.3.0"
 
 # See: https://github.com/jippi/dottie
 #
