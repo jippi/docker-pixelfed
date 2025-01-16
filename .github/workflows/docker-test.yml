@@ -54,18 +54,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: PHP
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: images/php/Dockerfile
-          failure-threshold: error
-
       - name: Pixelfed
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: images/pixelfed/Dockerfile
           failure-threshold: error
-
 
   pixelfed:
     name: pixelfed
