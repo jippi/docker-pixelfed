@@ -23,6 +23,7 @@ packages+=(
     gosu
     locales
     locales-all
+    lsb-release
     moreutils
     nano
     procps

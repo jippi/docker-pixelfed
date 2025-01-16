@@ -5,11 +5,6 @@
 # Configuration
 #######################################################
 
-# See: https://github.com/mlocati/docker-php-extension-installer
-#
-# renovate: datasource=github-releases depName=mlocati/docker-php-extension-installer
-ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION="2.7.13"
-
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
@@ -38,19 +33,19 @@ ARG APT_PACKAGES_EXTRA=
 # ! NOTE: imagick is installed from [master] branch on GitHub due to 8.3 bug on ARM that haven't
 # ! been released yet (after +10 months)!
 # ! See: https://github.com/Imagick/imagick/pull/641
-ARG PHP_PECL_EXTENSIONS="redis https://codeload.github.com/Imagick/imagick/tar.gz/28f27044e435a2b203e32675e942eb8de620ee58"
+ARG PHP_PECL_EXTENSIONS=""
 ARG PHP_PECL_EXTENSIONS_EXTRA=
 
-# Extensions installed via [docker-php-ext-install]
-ARG PHP_EXTENSIONS="intl bcmath zip pcntl exif curl gd yaml"
+# pcntl exif
+ARG PHP_EXTENSIONS="intl bcmath zip curl gd yaml redis imagick"
 ARG PHP_EXTENSIONS_EXTRA=""
-ARG PHP_EXTENSIONS_DATABASE="pdo_pgsql pdo_mysql pdo_sqlite"
+ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
 
 #######################################################
 # Base image
 #######################################################
 
-FROM php:${PHP_VERSION}-${PHP_BASE_TYPE}-${PHP_DEBIAN_RELEASE}
+FROM debian:${PHP_DEBIAN_RELEASE}
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
@@ -88,15 +83,13 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
 # PHP: extensions
 #######################################################
 
-ARG DOCKER_PHP_EXTENSION_INSTALLER_VERSION
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/${DOCKER_PHP_EXTENSION_INSTALLER_VERSION}/install-php-extensions /usr/local/bin/
-
 ARG COMPOSER_VERSION
 ARG PHP_EXTENSIONS
 ARG PHP_EXTENSIONS_DATABASE
 ARG PHP_EXTENSIONS_EXTRA
 ARG PHP_PECL_EXTENSIONS
 ARG PHP_PECL_EXTENSIONS_EXTRA
+ARG PHP_BASE_TYPE
 
 RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
@@ -108,7 +101,8 @@ RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${T
     PHP_EXTENSIONS=${PHP_EXTENSIONS} \
     PHP_PECL_EXTENSIONS_EXTRA=${PHP_PECL_EXTENSIONS_EXTRA} \
     PHP_PECL_EXTENSIONS=${PHP_PECL_EXTENSIONS} \
-    /docker/install/php-extensions.sh
+    PHP_BASE_TYPE=${PHP_BASE_TYPE} \
+    /docker/install/php.sh
 
 #######################################################
 # PHP: composer
