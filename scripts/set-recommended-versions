@@ -18,7 +18,7 @@ DOCKER_APP_PHP_VERSION="8.3"
 DOCKER_APP_RELEASE="v0.14"
 
 # @renovate datasource=docker depName=nginxproxy/nginx-proxy versioning=semver-coerced
-DOCKER_PROXY_VERSION="1.4"
+DOCKER_PROXY_VERSION="1.6.4"
 
 # @renovate datasource=docker depName=redis versioning=semver-coerced
 DOCKER_REDIS_VERSION="7.2"
