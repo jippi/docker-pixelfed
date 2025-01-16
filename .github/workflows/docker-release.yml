@@ -7,100 +7,9 @@ on:
       - "**"
 
 jobs:
-  php:
-    name: PHP
-    runs-on: ubuntu-24.04
-
-    strategy:
-      fail-fast: false
-
-      # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
-      matrix:
-        php_version:
-          - 8.3
-        debian_release:
-          - bookworm
-        php_base:
-          - apache
-          - fpm
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Find Pixelfed release tag
-        env:
-          TAG_NAME: ${{ github.ref_name }}
-        id: pixelfed_release
-        run: echo "fragment=${TAG_NAME%%-*}" >> $GITHUB_OUTPUT
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        id: buildx
-
-      # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
-      - name: Log in to the GitHub Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Docker meta
-        uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-php,enable=true
-          flavor: |
-            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
-            prefix=v
-          tags: |
-            # semver (pixelfed + custom tag) parsed
-            type=semver,pattern={{ major }}
-            type=semver,pattern={{ major }}.{{ minor }}
-            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }}
-            type=semver,pattern={{ version }}
-
-            # semver (pixelfed release tag only)
-            type=semver,pattern={{ major }},value=${{ steps.pixelfed_release.outputs.fragment }}
-            type=semver,pattern={{ major }}.{{ minor }},value=${{ steps.pixelfed_release.outputs.fragment }}
-            type=semver,pattern={{ major }}.{{ minor }}.{{ patch }},value=${{ steps.pixelfed_release.outputs.fragment }}
-            type=semver,pattern={{ version }},value=${{ steps.pixelfed_release.outputs.fragment }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./images/php
-          file: ./images/php/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
-          build-args: |
-            PHP_BASE_TYPE=${{ matrix.php_base }}
-            PHP_VERSION=${{ matrix.php_version }}
-            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch
-          # !NOTE: we don't push cache here since its tags-only workflow
-          cache-from: |
-            type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-
   pixelfed:
     name: pixelfed
     runs-on: ubuntu-24.04
-    needs: [php]
 
     strategy:
       fail-fast: false
@@ -193,7 +102,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: images/pixelfed/Dockerfile
+          file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}

@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run bats
-        run: docker run -v "$PWD/images/pixelfed:/var/www" bats/bats:latest /var/www/tests/bats
+        run: docker run -v "$PWD/docker/:/var/www" bats/bats:latest /var/www/tests/bats
 
   hadolint:
     name: hadolint
@@ -54,104 +54,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: PHP
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: images/php/Dockerfile
-          failure-threshold: error
-
       - name: Pixelfed
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: images/pixelfed/Dockerfile
+          dockerfile: docker/Dockerfile
+          config: docker/.hadolint.yaml
           failure-threshold: error
-
-  php:
-    name: PHP
-    runs-on: ubuntu-24.04
-
-    strategy:
-      fail-fast: false
-
-      # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
-      matrix:
-        php_version:
-          - 8.3
-        debian_release:
-          - bookworm
-        php_base:
-          - apache
-          - fpm
-
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: php-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-      cancel-in-progress: true
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        id: buildx
-
-      # See: https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
-      - name: Log in to the GitHub Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Docker meta
-        uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}-php,enable=true
-          flavor: |
-            suffix=-${{ matrix.php_version }}-${{ matrix.php_base }}-${{ matrix.debian_release }}
-          tags: |
-            # schedule
-            type=schedule,pattern=nightly
-            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
-            # default behavior
-            type=ref,event=branch,prefix=branch/
-            type=ref,event=pr,prefix=pr/
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./images/php
-          file: ./images/php/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
-          build-args: |
-            PHP_BASE_TYPE=${{ matrix.php_base }}
-            PHP_VERSION=${{ matrix.php_version }}
-            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          cache-from: |
-            type=gha,scope=php/branch/main/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=php/branch/${{ github.ref_name }}/${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
   pixelfed:
     name: pixelfed
     runs-on: ubuntu-24.04
-    needs: [php]
-
     strategy:
       fail-fast: false
 
@@ -239,7 +151,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: images/pixelfed/Dockerfile
+          file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
           platforms: linux/amd64,linux/arm64
           builder: ${{ steps.buildx.outputs.name }}
@@ -250,20 +162,28 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          cache-to: |
+            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
+      - name: Setup
+        run: docker/tests/setup.sh
+        env:
+          CI: true
+          DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
       # goss validate the image
       #
       # See: https://github.com/goss-org/goss
       - uses: e1himself/goss-installation-action@v1
         with:
-          version: "v0.4.4"
+          version: "v0.4.9"
 
       - name: Execute Goss tests
+        working-directory: docker/
         run: tests/goss.sh
-        working-directory: images/pixelfed
         env:
           TAGS: "${{ steps.meta.outputs.tags }}"
           DOCKER_APP_PHP_VERSION: ${{ matrix.php_version }}
@@ -273,10 +193,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: "npm"
-          cache-dependency-path: "package-lock.json"
+          cache-dependency-path: "docker/package-lock.json"
 
       - name: Run E2E tests
-        run: images/pixelfed/tests/e2e.sh
+        run: docker/tests/e2e.sh
         env:
           CI: true
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
@@ -286,10 +206,32 @@ jobs:
         run: docker compose config
 
       - if: always()
-        name: Show docker compose logs
-        run: |
-          docker compose logs
-          docker compose down -v
+        name: Show docker compose logs (web)
+        run: docker compose logs web
+
+      - if: always()
+        name: Show docker compose logs (worker)
+        run: docker compose logs worker
+
+      - if: always()
+        name: Show docker compose logs (cron)
+        run: docker compose logs cron
+
+      - if: always()
+        name: Show docker compose logs (proxy)
+        run: docker compose logs proxy proxy-acme
+
+      - if: always()
+        name: Show docker compose logs (db)
+        run: docker compose logs db
+
+      - if: always()
+        name: Show docker compose logs (redis)
+        run: docker compose logs redis
+
+      - if: always()
+        name: Show docker compose logs (combined)
+        run: docker compose logs
 
       - if: always()
         uses: actions/upload-artifact@v4

@@ -72,7 +72,7 @@ services:
     profiles:
       - ${DOCKER_WEB_PROFILE:-}
     build:
-      dockerfile: images/pixelfed/Dockerfile
+      dockerfile: docker/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
         - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
@@ -125,7 +125,7 @@ services:
     profiles:
       - ${DOCKER_WORKER_PROFILE:-}
     build:
-      dockerfile: images/pixelfed/Dockerfile
+      dockerfile: docker/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
         - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
@@ -166,7 +166,7 @@ services:
     profiles:
       - ${DOCKER_CRON_PROFILE:-}
     build:
-      dockerfile: images/pixelfed/Dockerfile
+      dockerfile: docker/Dockerfile
       target: ${DOCKER_APP_RUNTIME}-runtime
       cache_from:
         - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"

@@ -30,16 +30,14 @@ jobs:
 
       - name: "Setup NodeJS"
         uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
 
-      - run: npm ci
-
-      - name: check for dead links
+      - name: Start HTTP server
         run: |
+          find site/
           npx http-server --port 8000 site/ &
 
+      - name: check for dead links
+        run : |
           docker run --rm --net=host raviqqe/muffet \
             --verbose \
             --color=always \
