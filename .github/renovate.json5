@@ -13,7 +13,6 @@
     configMigration: true,
     baseBranches: ["main"],
     rebaseWhen: "behind-base-branch",
-    dependencyDashboardAutoclose: true,
     labels: ["dependencies"],
     osvVulnerabilityAlerts: true,
     platformAutomerge: true,
