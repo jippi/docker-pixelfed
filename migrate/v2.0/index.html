@@ -1145,9 +1145,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#move-docker-composeyml-back" class="md-nav__link">
+  <a href="#move-composeyaml-back" class="md-nav__link">
     <span class="md-ellipsis">
-      Move docker-compose.yml back
+      Move compose.yaml back
     </span>
   </a>
   
@@ -1697,9 +1697,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#move-docker-composeyml-back" class="md-nav__link">
+  <a href="#move-composeyaml-back" class="md-nav__link">
     <span class="md-ellipsis">
-      Move docker-compose.yml back
+      Move compose.yaml back
     </span>
   </a>
   
@@ -1793,13 +1793,13 @@
 <p>All <a href="../../customize/runtimes/"><abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> variations</a> of Pixelfed on <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> are now build from a single <code>Dockerfile</code>, rather than the previously three.</p>
 <p>Please see the <a href="../../customize/runtimes/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Runtimes</a> and <a href="../../customize/entrypoint/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Customization</a> documentation for more information.</p>
 <h3 id="breaking-change-new-docker-compose-file"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> file<a class="headerlink" href="#breaking-change-new-docker-compose-file" title="Permanent link">&para;</a></h3>
-<p>The <code>docker-compose.yml</code> file has been rewritten from the ground up to be provide better defaults and more flexible out of the box.</p>
+<p>The <code>compose.yaml</code> file has been rewritten from the ground up to be provide better defaults and more flexible out of the box.</p>
 <p>This mean that <em>most</em> things you would likely want to tweak can be controlled from your <code>.env</code> config file, like installing additional APT Packages, <abbr title="PECL is a repository for PHP Extensions, providing a directory of all known extensions and hosting facilities for downloading and development of PHP extensions">PECL</abbr>/<abbr title="The programming language Pixelfed is written in">PHP</abbr> extensions, changing <abbr title="The programming language Pixelfed is written in">PHP</abbr> version, modifying <abbr title="The programming language Pixelfed is written in">PHP</abbr> settings (such as <code>memory_limit</code>), disabling specific services, changing where data and config files are stored, and so on.</p>
 <h3 id="breaking-change-new-env-envdocker-file"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <code>.env</code> / <code>.env.docker</code> file<a class="headerlink" href="#breaking-change-new-env-envdocker-file" title="Permanent link">&para;</a></h3>
 <p>The starter <code>.env.docker</code> file has been <em>significantly</em> expanded with most of the Pixelfed settings available, along with many <abbr title="Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience">Docker Compose</abbr> specific ones.</p>
 <p>Your Pixelfed specific settings are (of course) unchanged, but you need to configure them again after copying the new <code>.env.docker</code> file.</p>
 <h3 bind="bind" id="breaking-change-using-bind-volumes" volumes="volumes"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> Using <code>bind</code> volumes<a class="headerlink" href="#breaking-change-using-bind-volumes" title="Permanent link">&para;</a></h3>
-<p>The old <code>docker-compose.yml</code> configuration file <a href="https://github.com/pixelfed/pixelfed/blob/b1ff44ca2f75c088a11576fb03b5bad2fbed4d5c/docker-compose.yml#L72-L76">declared four anonymous <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> volumes</a> for storing Pixelfed related data within.</p>
+<p>The old <code>compose.yaml</code> configuration file <a href="https://github.com/pixelfed/pixelfed/blob/b1ff44ca2f75c088a11576fb03b5bad2fbed4d5c/docker-compose.yml#L72-L76">declared four anonymous <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> volumes</a> for storing Pixelfed related data within.</p>
 <p>These are no longer used, instead favoring a <a href="https://docs.docker.com/storage/bind-mounts/"><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> bind volume</a> approach where content is stored directly on the server disk, outside
 of a <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> volume.</p>
 <p>The consequence of this change is that <em>all</em> data stored in the - now unsupported - <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> volumes will no longer be accessible by Pixelfed.</p>
@@ -1813,7 +1813,7 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 <p class="admonition-title">Please see the <a href="#migration-steps">Migration steps</a> section for information on moving your data.</p>
 </div>
 <h3 id="breaking-change-no-docker-networks"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> No <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> networks<a class="headerlink" href="#breaking-change-no-docker-networks" title="Permanent link">&para;</a></h3>
-<p>The <code>docker-compose.yml</code> no longer include any custom networks, instead favoring the simplicity of the default <code>bridge</code> network.</p>
+<p>The <code>compose.yaml</code> no longer include any custom networks, instead favoring the simplicity of the default <code>bridge</code> network.</p>
 <p>The published ports can be configured via your <code>.env</code> file, look for the <code>DOCKER_*_HOST_PORT</code> keys.</p>
 <h2 id="changes-needing-attention">Changes needing attention<a class="headerlink" href="#changes-needing-attention" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
@@ -1836,10 +1836,10 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 <p>This is where we hope we can convince you that the breaking changes and migration work was worth it <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2764.svg" title=":heart:" /></p>
 </div>
 <h3 id="improvement-nginx-proxy-service"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.6.6 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> <abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> Proxy service<a class="headerlink" href="#improvement-nginx-proxy-service" title="Permanent link">&para;</a></h3>
-<p>The new <code>docker-compose.yml</code> includes an <em>optional</em> (but enabled by default) <abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> Proxy for SSL/TLS termination.</p>
+<p>The new <code>compose.yaml</code> includes an <em>optional</em> (but enabled by default) <abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> Proxy for SSL/TLS termination.</p>
 <p>Please see <a href="../../customize/faq/#how-do-i-use-my-own-proxy-server"><code>How do I use my own Proxy server?</code></a> and <code>DOCKER_PROXY_*</code> keys in the <code>.env</code> file for more information.</p>
 <h3 id="improvement-letsencryptacme-service"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.6.6 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> LetsEncrypt/ACME service<a class="headerlink" href="#improvement-letsencryptacme-service" title="Permanent link">&para;</a></h3>
-<p>The new <code>docker-compose.yml</code> includes an <em>optional</em> (but enabled by default) ACME/LetsEncrypt service that when combined with the new <abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> Proxy automatically creates and maintains your SSL/TLS certificates.</p>
+<p>The new <code>compose.yaml</code> includes an <em>optional</em> (but enabled by default) ACME/LetsEncrypt service that when combined with the new <abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr> Proxy automatically creates and maintains your SSL/TLS certificates.</p>
 <p>Please see <a href="../../customize/faq/#how-do-i-use-my-own-ssl-certificate"><code>How do I use my own SSL certificate?</code></a> and <code>DOCKER_PROXY_*</code> + <code>LETSENCRYPT_*</code> keys in the <code>.env</code> file for more information.</p>
 <h3 id="improvement-automatic-run-of-one-time-setup-tasks"><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/" title="Improvement"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.59 2.08-3.61 5.75-2.39 8.9.04.1.08.2.08.33 0 .22-.15.42-.35.5-.23.1-.47.04-.66-.12a.6.6 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5.14.6.41 1.2.71 1.73 1.08 1.73 2.95 2.97 4.96 3.22 2.14.27 4.43-.12 6.07-1.6 1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6-1.12.4-2.24-.16-2.9-.82 1.19-.28 1.9-1.16 2.11-2.05.17-.8-.15-1.46-.28-2.23-.12-.74-.1-1.37.17-2.06.19.38.39.76.63 1.06.77 1 1.98 1.44 2.24 2.8.04.14.06.28.06.43.03.82-.33 1.72-.93 2.27"/></svg></span></a></span><span class="mdx-badge__text">Improvement</span></span> Automatic run of "One-time setup tasks"<a class="headerlink" href="#improvement-automatic-run-of-one-time-setup-tasks" title="Permanent link">&para;</a></h3>
 <p>When you set up a new Pixelfed server, there is handful of commands you need to run once (and only once) - these are called <a href="https://docs.pixelfed.org/running-pixelfed/installation.html#one-time-setup-tasks">One-time setup tasks</a>.</p>
@@ -1902,7 +1902,7 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 <li>Make sure to back up your server (ideally <em>after</em> step 1 below has been completed, but <em>before</em> is better than not at all!)</li>
 <li>Capture the current Git version / Pixelfed release you are on (e.g., <code>git --no-pager log -1</code> outputs the commit reference as the 2<sup>nd</sup> word in the first line)</li>
 <li>Backup your <code>.env</code> file (we will do this in step 3 as well)</li>
-<li>Backup your <code>docker-compose.yml</code> file (<code>cp docker-compose.yml docker-compose.yml.old</code>)</li>
+<li>Backup your <code>compose.yaml</code> file (<code>cp compose.yaml compose.yaml.old</code>)</li>
 <li>Read through the <em>entire</em> document before starting</li>
 </ol>
 <h3 id="2-migrate-env-file">2) Migrate <code>.env</code> file<a class="headerlink" href="#2-migrate-env-file" title="Permanent link">&para;</a></h3>
@@ -1953,8 +1953,8 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Which <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> volume type am I using?</p>
-<p>If your old <code>docker-compose.yml</code> had a <code>volumes</code> configuration section like below, you used should follow <a href="#a-anonymous-volumes">Path A</a>.</p>
-<p>This is also what the v1 <code>docker-compose.yml</code> file for pixelfed/pixelfed used.</p>
+<p>If your old <code>compose.yaml</code> had a <code>volumes</code> configuration section like below, you used should follow <a href="#a-anonymous-volumes">Path A</a>.</p>
+<p>This is also what the v1 <code>compose.yaml</code> file for pixelfed/pixelfed used.</p>
 <div class="language-yaml highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">volumes</span><span class="p">:</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">db-data</span><span class="p">:</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">redis-data</span><span class="p">:</span>
@@ -2044,7 +2044,7 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 <p>If you used Bind/Host volumes, then this guide can't offer any hard step-by-step guide to move your data, but instead will let you know how things would look if you started from scratch, so you can mirror or change this behavior.</p>
 <p>In your <code>.env</code> file, the following KEY/VALUE pairs controls where your data and config files will go - please review each and make sure your files are in these paths, or adjust them to fit your current layout.</p>
 <div class="admonition tip">
-<p class="admonition-title">You can see in the <code>docker-compose.yml</code> file for each <code>service volume</code> section how they are used.</p>
+<p class="admonition-title">You can see in the <code>compose.yaml</code> file for each <code>service volume</code> section how they are used.</p>
 </div>
 <ul>
 <li><code>DOCKER_ALL_HOST_DATA_ROOT_PATH</code> - The "root" path for all service data.</li>
@@ -2140,15 +2140,15 @@ of a <abbr title="Docker is a set of platform as a service products that use OS-
 <p>Once you have found the volumes in in the list, delete each of them by running:</p>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span><span class="nv">$volume_name_in_column_two_of_the_output</span>
 </code></pre></div>
-<p>You can also delete the <code>docker-compose.yml.old</code> and <code>.env.old</code> files since they are no longer needed:</p>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>rm<span class="w"> </span>docker-compose.yml.old
+<p>You can also delete the <code>compose.yaml.old</code> and <code>.env.old</code> files since they are no longer needed:</p>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>rm<span class="w"> </span>compose.yaml.old
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>rm<span class="w"> </span>.env.old
 </code></pre></div>
 <h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">&para;</a></h2>
 <p>Oh no, something went wrong? No worries; you have backups and a quick way back!</p>
-<h3 id="move-docker-composeyml-back">Move <code>docker-compose.yml</code> back<a class="headerlink" href="#move-docker-composeyml-back" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>cp<span class="w"> </span>docker-compose.yml<span class="w"> </span>docker-compose.yml.new
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>cp<span class="w"> </span>docker-compose.yml.old<span class="w"> </span>docker-compose.yml
+<h3 id="move-composeyaml-back">Move <code>compose.yaml</code> back<a class="headerlink" href="#move-composeyaml-back" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>cp<span class="w"> </span>compose.yaml<span class="w"> </span>compose.yaml.new
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>cp<span class="w"> </span>compose.yaml.old<span class="w"> </span>compose.yaml
 </code></pre></div>
 <h3 id="move-env-file-back">Move <code>.env</code> file back<a class="headerlink" href="#move-env-file-back" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>cp<span class="w"> </span>env.old<span class="w"> </span>.env

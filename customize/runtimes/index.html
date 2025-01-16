@@ -957,7 +957,7 @@
 <h3 id="docker-compose-apache">docker compose (<abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>)<a class="headerlink" href="#docker-compose-apache" title="Permanent link">&para;</a></h3>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
+<p>This is already configured if you use the default Pixelfed <code>compose.yaml</code></p>
 <p>Instead you control the target <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> via your <code>.env</code> file</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;apache&quot;</span>
@@ -990,7 +990,7 @@
 <h3 id="docker-compose-nginx">docker compose (<abbr title="Nginx is a web server that can also be used as a reverse proxy, load balancer, and HTTP cache.">Nginx</abbr>)<a class="headerlink" href="#docker-compose-nginx" title="Permanent link">&para;</a></h3>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>This is already configured if you use the default Pixelfed <code>docker-compose.yml</code></p>
+<p>This is already configured if you use the default Pixelfed <code>compose.yaml</code></p>
 <p>Instead you control the target <abbr title="The webserver used inside the Pixelfed container (Apache / Nginx).">runtime</abbr> via your <code>.env</code> file</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">DOCKER_APP_BASE_TYPE</span><span class="o">=</span><span class="s2">&quot;fpm&quot;</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">DOCKER_APP_RUNTIME</span><span class="o">=</span><span class="s2">&quot;nginx&quot;</span>

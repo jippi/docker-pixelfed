@@ -1027,7 +1027,7 @@ It's highly recommended to give it a read from top to bottom, or trying to searc
 <h2 id="override-anything-and-everything">Override anything and everything<a class="headerlink" href="#override-anything-and-everything" title="Permanent link">&para;</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>With the default Pixelfed <code>docker-compose.yml</code> the <code>overrides</code> bind mount is enabled by default for both <code>web</code> and <code>worker</code> service.</p>
+<p>With the default Pixelfed <code>compose.yaml</code> the <code>overrides</code> bind mount is enabled by default for both <code>web</code> and <code>worker</code> service.</p>
 <p>The <code>overrides</code> folder on the host machine is in <code>./docker-compose-state/overrides</code> and can be changed via <code>DOCKER_APP_HOST_OVERRIDES_PATH</code> in the <code>.env</code> file.</p>
 </div>
 <p>If you mount a bind volume (can be read-only) in <code>/docker/overrides</code> then all files and directories within that directory will be copied on top of <code>/</code>.</p>

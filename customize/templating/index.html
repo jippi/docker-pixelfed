@@ -868,7 +868,7 @@
 <h2 id="available-variables">Available variables<a class="headerlink" href="#available-variables" title="Permanent link">&para;</a></h2>
 <p>Variables available for templating are sourced (in order, so <em>last</em> source takes precedence) like this:</p>
 <ol>
-<li><code>env:</code> in your <code>docker-compose.yml</code> or <code>-e</code> in your <code>docker run</code> / <code>docker compose run</code> commands.</li>
+<li><code>env:</code> in your <code>compose.yaml</code> or <code>-e</code> in your <code>docker run</code> / <code>docker compose run</code> commands.</li>
 <li>Any exported variables in <code>.envsh</code> files loaded <em>before</em> <code>05-templating.sh</code> (e.g., any file with <code>04-</code>, <code>03-</code>, <code>02-</code>, <code>01-</code> or <code>00-</code> prefix).</li>
 <li>All key and value pairs in <code>/var/www/.env.docker</code> (default values, you should not edit this file!)</li>
 <li>All key and value pairs in <code>/var/www/.env</code>.</li>

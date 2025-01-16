@@ -6161,7 +6161,7 @@ may consume before it is terminated and restarted.</p>
 <h3 id="docker_all_host_root_path">DOCKER_ALL_HOST_ROOT_PATH<a class="headerlink" href="#docker_all_host_root_path" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6"/></svg></span></a></span><span class="mdx-badge__text"><code>./docker-compose-state</code></span></span></p>
-<p>Path (relative to the docker-compose.yml) or absolute (/some/other/path) where containers will <em>all</em> data
+<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will <em>all</em> data
 will be stored (data, config, overrides)</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
@@ -6171,7 +6171,7 @@ will be stored (data, config, overrides)</p>
 <h3 id="docker_all_host_data_root_path">DOCKER_ALL_HOST_DATA_ROOT_PATH<a class="headerlink" href="#docker_all_host_data_root_path" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_ROOT_PATH:?error}/data</code></span></span></p>
-<p>Path (relative to the docker-compose.yml) or absolute (/some/other/path) where containers will store their data</p>
+<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will store their data</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6180,7 +6180,7 @@ will be stored (data, config, overrides)</p>
 <h3 id="docker_all_host_config_root_path">DOCKER_ALL_HOST_CONFIG_ROOT_PATH<a class="headerlink" href="#docker_all_host_config_root_path" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_ROOT_PATH:?error}/config</code></span></span></p>
-<p>Path (relative to the docker-compose.yml) or absolute (/some/other/path) where containers will store their confguration</p>
+<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will store their confguration</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6189,7 +6189,7 @@ will be stored (data, config, overrides)</p>
 <h3 id="docker_app_host_overrides_path">DOCKER_APP_HOST_OVERRIDES_PATH<a class="headerlink" href="#docker_app_host_overrides_path" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_ROOT_PATH:?error}/overrides</code></span></span></p>
-<p>Path (relative to the docker-compose.yml) or absolute (/some/other/path) where containers will store overrides</p>
+<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will store overrides</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6297,7 +6297,7 @@ the [DOCKER_APP_RUNTIME] and [PHP_DEBIAN_RELEASE] settings</p>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_DATA_ROOT_PATH:?error}/pixelfed/storage</code></span></span></p>
 <p>Path (on host system) where the [app] + [worker] container will write
 its [storage] data (e.g uploads/images/profile pictures etc.).</p>
-<p>Path is relative (./some/other/path) to the docker-compose.yml or absolute (/some/other/path)</p>
+<p>Path is relative (./some/other/path) to the compose.yaml or absolute (/some/other/path)</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6308,7 +6308,7 @@ its [storage] data (e.g uploads/images/profile pictures etc.).</p>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_DATA_ROOT_PATH:?error}/pixelfed/cache</code></span></span></p>
 <p>Path (on host system) where the [app] + [worker] container will write
 its [cache] data.</p>
-<p>Path is relative (./some/other/path) to the docker-compose.yml or absolute (/some/other/path)</p>
+<p>Path is relative (./some/other/path) to the compose.yaml or absolute (/some/other/path)</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6455,7 +6455,7 @@ child processes to be created when pm is set to dynamic</p>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_DATA_ROOT_PATH:?error}/redis</code></span></span></p>
 <p>Path (on host system) where the [redis] container will store its data</p>
-<p>Path is relative (./some/other/path) to the docker-compose.yml or absolute (/some/other/path)</p>
+<p>Path is relative (./some/other/path) to the compose.yaml or absolute (/some/other/path)</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6512,7 +6512,7 @@ child processes to be created when pm is set to dynamic</p>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_DATA_ROOT_PATH:?error}/db</code></span></span></p>
 <p>Path (on host system) where the [db] container will store its data</p>
-<p>Path is relative (./some/other/path) to the docker-compose.yml or absolute (/some/other/path)</p>
+<p>Path is relative (./some/other/path) to the compose.yaml or absolute (/some/other/path)</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>

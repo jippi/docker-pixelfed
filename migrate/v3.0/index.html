@@ -744,15 +744,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change-splitting-the-dockerfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Splitting the Dockerfile
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#no-latest-tags" class="md-nav__link">
     <span class="md-ellipsis">
       No 'latest' tags
@@ -855,15 +846,6 @@
   <a href="#breaking-change-new-docker-image-names" class="md-nav__link">
     <span class="md-ellipsis">
       New docker image names
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#breaking-change-splitting-the-dockerfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Splitting the Dockerfile
     </span>
   </a>
   
@@ -987,24 +969,6 @@
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Different format</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">DOCKER_APP_TAG</span><span class="o">=</span><span class="s2">&quot;${DOCKER_APP_RELEASE:?missing}-${DOCKER_APP_RUNTIME:?missing}-${DOCKER_APP_PHP_VERSION:?missing}-${DOCKER_APP_DEBIAN_RELEASE:?missing}&quot;</span>
 </code></pre></div>
-<h3 id="breaking-change-splitting-the-dockerfile"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> Splitting the <code>Dockerfile</code><a class="headerlink" href="#breaking-change-splitting-the-dockerfile" title="Permanent link">&para;</a></h3>
-<p>v3 splits the Dockerfile into two to keep them focused, and reducing build times, by having higher cache utilization.</p>
-<ul>
-<li>One for the "<abbr title="The programming language Pixelfed is written in">PHP</abbr>" container (<a href="https://github.com/users/jippi/packages/container/package/docker-pixelfed-php">package</a>, <a href="https://github.com/jippi/docker-pixelfed/tree/main/images/php">source</a>)<ul>
-<li>System packages</li>
-<li><abbr title="The programming language Pixelfed is written in">PHP</abbr></li>
-<li><abbr title="PECL is a repository for PHP Extensions, providing a directory of all known extensions and hosting facilities for downloading and development of PHP extensions">PECL</abbr> extensions</li>
-<li><abbr title="Composer is an application-level dependency manager for the PHP programming language that provides a standard format for managing dependencies of PHP software and required libraries.">Composer</abbr></li>
-</ul>
-</li>
-<li>One for the <a href="../../customize/runtimes/"><code>runtime</code></a> Pixelfed container (<a href="https://github.com/jippi/docker-pixelfed/pkgs/container/docker-pixelfed">package</a>, <a href="https://github.com/jippi/docker-pixelfed/tree/main/docker/">source</a>)<ul>
-<li>Pixelfed Source Code</li>
-<li><abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr> / nginx / <abbr title="FPM (FastCGI Process Manager) is a primary PHP FastCGI implementation containing some features (mostly) useful for heavy-loaded sites">FPM</abbr></li>
-<li><abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> Entrypoint (and it's scripts)</li>
-</ul>
-</li>
-</ul>
-<p>This should not directly impact most users, as any custom build you did before (custom <abbr title="The programming language Pixelfed is written in">PHP</abbr> extensions, frontend, etc.) can still be done against the <a href="../../customize/runtimes/"><code>runtime</code></a> <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image.</p>
 <h3 id="no-latest-tags">No <code>latest</code> tags<a class="headerlink" href="#no-latest-tags" title="Permanent link">&para;</a></h3>
 <p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
 <p><a href="../../customize/tags/">See the dedicated <code>tags</code> documentation for more information</a></p>
