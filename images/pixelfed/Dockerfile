@@ -214,6 +214,10 @@ ENTRYPOINT ["/docker/entrypoint.sh"]
 
 FROM shared-runtime AS apache-runtime
 
+ARG PHP_DEBIAN_RELEASE
+ARG PHP_VERSION
+ARG TARGETPLATFORM
+
 COPY images/pixelfed/rootfs/apache/root /
 
 # Install apache webserver
@@ -224,6 +228,8 @@ RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE
     && apt-get install -y apache2
 
 RUN set -ex \
+    && a2dismod mpm_event \
+    && a2enmod php${PHP_VERSION} \
     && a2enmod rewrite remoteip proxy proxy_http \
     && a2enconf remoteip
 
