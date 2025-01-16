@@ -32,7 +32,7 @@ ARG DOTTIE_VERSION="v0.14.3"
 # See: https://hub.docker.com/_/php/tags
 #
 # renovate: datasource=docker depName=php versioning=semver-coerced
-ARG PHP_VERSION="8.3"
+ARG PHP_VERSION="8.4.3"
 
 # See: https://github.com/docker-library/docs/blob/master/php/README.md#image-variants
 ARG PHP_BASE_TYPE="apache"
