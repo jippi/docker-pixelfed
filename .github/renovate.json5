@@ -6,8 +6,8 @@
         "default:pinDigestsDisabled",
     ],
     schedule: [
-        /* every 4 hours */
-        "* */4 * * *",
+        /* every hour */
+        "* * * * *",
     ],
     automerge: true,
     configMigration: true,
