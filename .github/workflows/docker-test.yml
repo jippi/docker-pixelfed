@@ -310,10 +310,32 @@ jobs:
         run: docker compose config
 
       - if: always()
-        name: Show docker compose logs
-        run: |
-          docker compose logs
-          docker compose down -v
+        name: Show docker compose logs (web)
+        run: docker compose logs web
+
+      - if: always()
+        name: Show docker compose logs (worker)
+        run: docker compose logs worker
+
+      - if: always()
+        name: Show docker compose logs (cron)
+        run: docker compose logs cron
+
+      - if: always()
+        name: Show docker compose logs (proxy)
+        run: docker compose logs proxy proxy-acme
+
+      - if: always()
+        name: Show docker compose logs (db)
+        run: docker compose logs db
+
+      - if: always()
+        name: Show docker compose logs (redis)
+        run: docker compose logs redis
+
+      - if: always()
+        name: Show docker compose logs (combined)
+        run: docker compose logs
 
       - if: always()
         uses: actions/upload-artifact@v4
