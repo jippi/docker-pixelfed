@@ -54,5 +54,10 @@ declare -a pecl_extensions=()
 readarray -d ' ' -t pecl_extensions < <(echo -n "${PHP_PECL_EXTENSIONS:-}")
 readarray -d ' ' -t -O "${#pecl_extensions[@]}" pecl_extensions < <(echo -n "${PHP_PECL_EXTENSIONS_EXTRA:-}")
 
-# shellcheck disable=SC2086,SC2048
-pecl install ${pecl_extensions[*]}
+# install dh-php and PECL extensions if any are configured
+if [ ${#pecl_extensions[@]} -gt 0 ]; then
+    apt-get install -y dh-php
+
+    # shellcheck disable=SC2086,SC2048
+    pecl install ${pecl_extensions[*]}
+fi
