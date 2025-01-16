@@ -11,7 +11,6 @@
     ],
     automerge: true,
     baseBranches: ["main"],
-    commitMessageSuffix: " in {{packageFile}}",
     dependencyDashboardAutoclose: true,
     labels: ["dependencies"],
     osvVulnerabilityAlerts: true,
