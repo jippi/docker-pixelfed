@@ -122,7 +122,7 @@ command:
       - "imagick module => enabled"
       # PDO is enabled with the right drivers
       - PDO support => enabled
-      - PDO drivers => sqlite, mysql, pgsql
+      - PDO drivers => mysql, pgsql, sqlite
       # Redis is enabled
       - Redis Support => enabled
       # session is enabled and configured correctly
