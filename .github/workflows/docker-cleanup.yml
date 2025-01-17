@@ -1,0 +1,31 @@
+name: Docker Cleanup
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - "closed"
+
+  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │  ┌───────────── hour (0 - 23)
+    #        │  │ ┌───────────── day of the month (1 - 31)
+    #        │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    - cron: "30 8 * * *" # run at 8:30 AM UTC
+
+jobs:
+  clean_registry:
+    name: Clean the container registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: pcasteran/ghcr-cleaning-action@v1
+        with:
+          password: ${{ secrets.GH_CLEANUP_PAT }}
+          package: docker-pixelfed
+          debug: true
+          dry-run: true
