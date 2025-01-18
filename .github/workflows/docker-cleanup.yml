@@ -44,17 +44,6 @@ jobs:
           older-than: 6 months
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      # - name: Delete branch images
-      #   uses: dataaxiom/ghcr-cleanup-action@v1
-      #   with:
-      #     token: ${{ secrets.GH_CLEANUP_PAT }}
-      #     package: docker-pixelfed
-      #     dry-run: true
-      #     delete-tags: "branch-*"
-      #     exclude-tags: "branch-main-*"
-      #     older-than: 1 month
-
-      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
       - name: "Delete untagged images"
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
