@@ -26,10 +26,10 @@ jobs:
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           package: docker-pixelfed
-          dry-run: true
+          # dry-run: true
           delete-tags: "pr-*,branch-*"
           exclude-tags: "branch-main-*"
-          older-than: 1 month
+          older-than: 2 weeks
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
       # - name: Delete branch images
