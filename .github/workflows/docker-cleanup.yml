@@ -2,12 +2,9 @@ name: Docker Cleanup
 
 on:
   workflow_dispatch:
-  pull_request:
-    types:
-      - "closed"
 
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-  schedule:
+  # schedule:
     #        ┌───────────── minute (0 - 59)
     #        │  ┌───────────── hour (0 - 23)
     #        │  │ ┌───────────── day of the month (1 - 31)
@@ -16,22 +13,39 @@ on:
     #        │  │ │ │ │
     #        │  │ │ │ │
     #        │  │ │ │ │
-    - cron: "30 8 * * *" # run at 8:30 AM UTC
+    # - cron: "30 8 * * *" # run at 8:30 AM UTC
 
 jobs:
   clean_registry:
     name: Clean the container registry
     runs-on: ubuntu-latest
     steps:
-      - uses: dataaxiom/ghcr-cleanup-action@v1
+      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
+      - name: Delete PR images
+        uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           package: docker-pixelfed
-          use-regex: true
-          delete-tags: "^pr-(\\d+).*"
-          delete-untagged: true
-          # delete-ghost-images: true
-          # delete-partial-images: true
-          # delete-orphaned-images: true
-          older-than: 1 week
           dry-run: true
+          delete-tags: "pr-*"
+          older-than: 1 week
+
+      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
+      - name: Delete branch images
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          token: ${{ secrets.GH_CLEANUP_PAT }}
+          package: docker-pixelfed
+          dry-run: true
+          delete-tags: "branch-*"
+          exclude-tags: "branch-main-*"
+          older-than: 1 week
+
+      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
+      - name: "Delete untagged images"
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          token: ${{ secrets.GH_CLEANUP_PAT }}
+          package: docker-pixelfed
+          dry-run: true
+          delete-untagged: true
