@@ -13,7 +13,7 @@ on:
     #        │  │ │ │ │
     #        │  │ │ │ │
     #        │  │ │ │ │
-    - cron: "30 3 * * *" # run at 03:30 AM UTC
+    - cron: "30 3 * * 1" # run at 03:30 AM UTC on mondays
 
 jobs:
   clean_registry:
