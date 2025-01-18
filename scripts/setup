@@ -24,6 +24,14 @@ if [[ ! -f "${project_root}/.env" ]]; then
     echo
 fi
 
+# Check if the [compose.override.yaml] file exist, or copy the example file
+if [[ ! -f "${project_root}/compose.override.yaml" ]]; then
+    action_start_newline "No 'compose.override.yaml' file found, copying the default one for you"
+    cp -v "${project_root}/compose.override.yaml.example" "${project_root}/compose.override.yaml" || action_error_exit "copy operation failed"
+    action_ok "OK"
+    echo
+fi
+
 # Check if the .env file is writable
 if [[ ! -w "${project_root}/.env" ]]; then
     action_error_exit ".env file is not writable by you - please fix the permissions"

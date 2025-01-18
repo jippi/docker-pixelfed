@@ -1,0 +1,52 @@
+# HTTP/HTTPS proxy
+#
+# Sits in front of the *real* webserver and manages SSL and (optionally)
+# load-balancing between multiple web servers
+#
+# You can disable this service by setting [DOCKER_PROXY_PROFILE="disabled"]
+# in your [.env] file - the setting is near the bottom of the file.
+#
+# This also disables the [proxy-acme] service, if this is not desired, change the
+# [DOCKER_PROXY_ACME_PROFILE] setting to an empty string [""]
+#
+# See: https://github.com/nginx-proxy/nginx-proxy/tree/main/docs
+
+services:
+  proxy:
+    image: nginxproxy/nginx-proxy:1.6
+    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy"
+    restart: unless-stopped
+    profiles:
+      - ${DOCKER_PROXY_PROFILE:-}
+    environment:
+      DOCKER_SERVICE_NAME: "proxy"
+    volumes:
+      - "../../${DOCKER_PROXY_HOST_DOCKER_SOCKET_PATH}:/tmp/docker.sock:ro"
+      - "../../${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/conf.d:/etc/nginx/conf.d"
+      - "../../${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/vhost.d:/etc/nginx/vhost.d"
+      - "../../${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/certs:/etc/nginx/certs"
+      - "../../${DOCKER_ALL_HOST_DATA_ROOT_PATH}/proxy/html:/usr/share/nginx/html"
+    ports:
+      - "${DOCKER_PROXY_HOST_PORT_HTTP}:80"
+      - "${DOCKER_PROXY_HOST_PORT_HTTPS}:443"
+    healthcheck:
+      test: "curl --fail https://${APP_DOMAIN}/api/service/health-check"
+      interval: "${DOCKER_PROXY_HEALTHCHECK_INTERVAL}"
+      retries: 2
+      timeout: 5s
+
+  web:
+    volumes:
+      - "../../${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/conf.d:/shared/proxy/conf.d"
+
+    environment:
+      LETSENCRYPT_HOST: "${DOCKER_PROXY_LETSENCRYPT_HOST:?error}"
+      LETSENCRYPT_EMAIL: "${DOCKER_PROXY_LETSENCRYPT_EMAIL:?error}"
+      LETSENCRYPT_TEST: "${DOCKER_PROXY_LETSENCRYPT_TEST:-}"
+      VIRTUAL_HOST: "${APP_DOMAIN}"
+      VIRTUAL_PORT: "80"
+
+    labels:
+      com.github.nginx-proxy.nginx-proxy.keepalive: 30
+      com.github.nginx-proxy.nginx-proxy.http2.enable: true
+      com.github.nginx-proxy.nginx-proxy.http3.enable: true

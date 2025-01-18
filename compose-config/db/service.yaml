@@ -1,0 +1,50 @@
+services:
+  db:
+    image: ${DOCKER_DB_IMAGE:?error}
+    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-db"
+    command: ${DOCKER_DB_COMMAND:-}
+    restart: unless-stopped
+    profiles:
+      - ${DOCKER_DB_PROFILE:-}
+    environment:
+      TZ: "${TZ:?error}"
+      # MySQL (Oracle) - "Environment Variables" at https://hub.docker.com/_/mysql
+      MYSQL_ROOT_PASSWORD: "${DOCKER_DB_ROOT_PASSWORD:?error}"
+      MYSQL_USER: "${DB_USERNAME:?error}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:?error}"
+      MYSQL_DATABASE: "${DB_DATABASE:?error}"
+      # MySQL (MariaDB) - "Start a mariadb server instance with user, password and database" at https://hub.docker.com/_/mariadb
+      MARIADB_ROOT_PASSWORD: "${DOCKER_DB_ROOT_PASSWORD:?error}"
+      MARIADB_USER: "${DB_USERNAME:?error}"
+      MARIADB_PASSWORD: "${DB_PASSWORD:?error}"
+      MARIADB_DATABASE: "${DB_DATABASE:?error}"
+      # PostgreSQL - "Environment Variables" at https://hub.docker.com/_/postgres
+      POSTGRES_USER: "${DB_USERNAME:?error}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?error}"
+      POSTGRES_DB: "${DB_DATABASE:?error}"
+    volumes:
+      - "../../${DOCKER_DB_HOST_DATA_PATH:?error}:${DOCKER_DB_CONTAINER_DATA_PATH:?error}"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized",
+        ]
+      interval: "${DOCKER_DB_HEALTHCHECK_INTERVAL:?error}"
+      retries: 2
+      timeout: 5s
+
+  cron:
+    # https://docs.docker.com/reference/compose-file/services/#depends_on
+    depends_on: &depends_on
+      db:
+        condition: "service_healthy"
+
+  worker:
+    depends_on: *depends_on
+
+  web:
+    depends_on: *depends_on

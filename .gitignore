@@ -9,3 +9,4 @@
 /node_modules
 /site
 /src
+/compose.override.yaml

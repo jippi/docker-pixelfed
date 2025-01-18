@@ -1,0 +1,28 @@
+# Proxy companion for managing LetsEncrypt SSL certificates
+#
+# You can disable this service by setting [DOCKER_PROXY_ACME_PROFILE="disabled"]
+# in your [.env] file - the setting is near the bottom of the file.
+#
+# See: https://github.com/nginx-proxy/acme-companion/tree/main/docs
+
+services:
+  proxy-acme:
+    image: nginxproxy/acme-companion:2.5
+    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy-acme"
+    restart: unless-stopped
+    profiles:
+      - ${DOCKER_PROXY_ACME_PROFILE:-}
+    environment:
+      DEBUG: 0
+      DEFAULT_EMAIL: "${DOCKER_PROXY_LETSENCRYPT_EMAIL:?error}"
+      NGINX_PROXY_CONTAINER: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy"
+    depends_on:
+      proxy:
+        condition: "service_healthy"
+    volumes:
+      - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy-acme:/etc/acme.sh"
+      - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/certs:/etc/nginx/certs"
+      - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/conf.d:/etc/nginx/conf.d"
+      - "${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/proxy/vhost.d:/etc/nginx/vhost.d"
+      - "${DOCKER_ALL_HOST_DATA_ROOT_PATH}/proxy/html:/usr/share/nginx/html"
+      - "${DOCKER_PROXY_HOST_DOCKER_SOCKET_PATH}:/var/run/docker.sock:ro"

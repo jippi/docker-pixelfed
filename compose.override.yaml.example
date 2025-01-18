@@ -1,0 +1,45 @@
+---
+# Copy this file to [compose.override.yaml] and comment/uncomment lines
+# for the features you want.
+#
+#   cp compose.override.yaml.example compose.override.yaml
+#
+# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/
+#
+# > By default, Compose reads two files, a [compose.yaml] and an optional [compose.override.yaml] file.
+# > By convention, the [compose.yaml] contains your base configuration.
+# > The override file can contain configuration overrides for existing services or entirely new services.
+
+include:
+  - path:
+      # Uncomment to add support for [docker compose build] for local images.
+      # - compose-config/build.yaml
+
+      # Uncomment to add nginx proxy in front of the [web] container.
+      # - compose-config/proxy/service.yaml
+
+      # Uncomment to add nginx acme (LetsEncrypt) support to [proxy] container.
+      # - compose-config/proxy/acme.yaml
+
+      # Comment to stop exposing the [web] container to the host directly.
+      - compose-config/web/expose.yaml
+
+      # Comment to disable the included [redis] service.
+      - compose-config/redis/service.yaml
+
+      # Comment to stop exposing the [redis] server to the host directly.
+      - compose-config/redis/expose.yaml
+
+      # Comment to disable the included [db] service.
+      - compose-config/db/service.yaml
+
+      # Comment to stop exposing the [db] server to the host directly.
+      - compose-config/db/expose.yaml
+
+# !
+# ! You can also define your own overrides (or even new services!) directly in this file
+# !
+
+# services:
+#   web:
+#     container_name: "my-container-name"
