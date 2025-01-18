@@ -36,7 +36,7 @@ jobs:
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          dry-run: true
+          # dry-run: true
           delete-tags: "nightly-*"
           delete-untagged: false
           older-than: 6 months
@@ -48,3 +48,5 @@ jobs:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           dry-run: true
           delete-untagged: true
+          # delete-ghost-images: true
+          # delete-orphaned-images: true
