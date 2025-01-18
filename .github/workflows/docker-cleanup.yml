@@ -21,31 +21,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: Delete PR images
+      - name: Delete PR + Branch images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           package: docker-pixelfed
           dry-run: true
-          delete-tags: "pr-*"
-          older-than: 1 week
-
-      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: Delete branch images
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          token: ${{ secrets.GH_CLEANUP_PAT }}
-          package: docker-pixelfed
-          dry-run: true
-          delete-tags: "branch-*"
+          delete-tags: "pr-*,branch-*"
           exclude-tags: "branch-main-*"
-          older-than: 1 week
+          older-than: 1 month
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: "Delete untagged images"
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          token: ${{ secrets.GH_CLEANUP_PAT }}
-          package: docker-pixelfed
-          dry-run: true
-          delete-untagged: true
+      # - name: Delete branch images
+      #   uses: dataaxiom/ghcr-cleanup-action@v1
+      #   with:
+      #     token: ${{ secrets.GH_CLEANUP_PAT }}
+      #     package: docker-pixelfed
+      #     dry-run: true
+      #     delete-tags: "branch-*"
+      #     exclude-tags: "branch-main-*"
+      #     older-than: 1 month
+
+      # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
+      # - name: "Delete untagged images"
+      #   uses: dataaxiom/ghcr-cleanup-action@v1
+      #   with:
+      #     token: ${{ secrets.GH_CLEANUP_PAT }}
+      #     package: docker-pixelfed
+      #     dry-run: true
+      #     delete-untagged: true
