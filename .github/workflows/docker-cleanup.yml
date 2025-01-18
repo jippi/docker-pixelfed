@@ -25,7 +25,6 @@ jobs:
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          package: docker-pixelfed
           # dry-run: true
           delete-tags: "pr-*,branch-*"
           delete-untagged: false
@@ -37,9 +36,8 @@ jobs:
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          package: docker-pixelfed
           dry-run: true
-          delete-tags: "nightly-"
+          delete-tags: "nightly-*"
           delete-untagged: false
           older-than: 6 months
 
@@ -48,6 +46,5 @@ jobs:
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          package: docker-pixelfed
           dry-run: true
           delete-untagged: true
