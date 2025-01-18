@@ -42,11 +42,13 @@ jobs:
           older-than: 6 months
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: "Delete all ghost/orphaned images"
+      - name: "Delete all untagged images"
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           dry-run: true
-          #delete-untagged: true
-          delete-ghost-images: true
-          delete-orphaned-images: true
+          delete-untagged: true
+          keep-n-tagged: 9000
+          older-than: 7 months
+          # delete-ghost-images: true
+          # delete-orphaned-images: true
