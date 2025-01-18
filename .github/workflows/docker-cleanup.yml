@@ -23,9 +23,15 @@ jobs:
     name: Clean the container registry
     runs-on: ubuntu-latest
     steps:
-      - uses: pcasteran/ghcr-cleaning-action@v1
+      - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
-          password: ${{ secrets.GH_CLEANUP_PAT }}
+          token: ${{ secrets.GH_CLEANUP_PAT }}
           package: docker-pixelfed
-          debug: true
+          use-regex: true
+          delete-tags: "^pr-(\\d+).*"
+          delete-untagged: true
+          # delete-ghost-images: true
+          # delete-partial-images: true
+          # delete-orphaned-images: true
+          older-than: 1 week
           dry-run: true
