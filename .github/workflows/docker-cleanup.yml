@@ -21,32 +21,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: Delete old PR + Branch images
+      - if: false
+        name: Delete old PR + Branch images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          # dry-run: true
           delete-tags: "pr-*,branch-*"
           delete-untagged: false
           exclude-tags: "branch-main-*"
           older-than: 2 weeks
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: Delete old nightly images
+      - if: false
+        name: Delete old nightly images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
-          # dry-run: true
           delete-tags: "nightly-*"
           delete-untagged: false
           older-than: 6 months
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
-      - name: "Delete all untagged images"
+      - name: "Delete all ghost/orphaned images"
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           dry-run: true
-          delete-untagged: true
-          # delete-ghost-images: true
-          # delete-orphaned-images: true
+          #delete-untagged: true
+          delete-ghost-images: true
+          delete-orphaned-images: true
