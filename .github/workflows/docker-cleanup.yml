@@ -48,7 +48,7 @@ jobs:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           # dry-run: true
           delete-untagged: true
-          keep-n-tagged: 9000
+          keep-n-untagged: 9000
           older-than: 7 months
           # delete-ghost-images: true
           # delete-orphaned-images: true
