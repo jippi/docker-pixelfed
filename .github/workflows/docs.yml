@@ -36,6 +36,9 @@ jobs:
           find site/
           npx http-server --port 8000 site/ &
 
+      - name: Wait for HTTP server to respond
+        run: curl --retry-delay 1 --retry 30 --retry-max-time 30 --retry-all-errors --fail -o /dev/null http://0.0.0.0:8000/
+
       - name: check for dead links
         run : |
           docker run --rm --net=host raviqqe/muffet \
