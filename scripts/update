@@ -51,7 +51,7 @@ docker compose down worker web cron || action_error_exit "could not stop docker 
 action_ok "OK"
 
 action_start_newline "clearing cache"
-"${project_root}/scripts/clear-cache"
+"${project_root}/scripts/clear-cache" || action_error_exit "could not clear cache"
 action_ok "OK"
 
 action_start_newline "starting docker services"
