@@ -1016,7 +1016,7 @@
 <li><code>{minor}</code> is the second part of the versioning <code>(x.Y.z)</code>.</li>
 <li><code>{patch}</code> is the third part of the versioning <code>(x.y.Z)</code>.</li>
 <li><code>{runtime}</code> can be either <code>apache</code> or <code>nginx</code>. Please see <a href="../runtimes/">the Runtime Documentation</a>.</li>
-<li><code>{php_version}</code> Currently only supported <code>8.3</code> for the latest <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.3 release.</li>
+<li><code>{php_version}</code> Currently supports <code>8.3</code> and <code>8.4</code>.</li>
 <li><code>{branch}</code> is the <code>staging</code> or <code>dev</code> branch that Pixelfed is developed from.</li>
 <li><code>{YYYY-MM-DD}</code> is a date format, e.x., <code>2024-09-14</code>, where<ul>
 <li><code>YYYY =&gt; 2024</code></li>
@@ -1029,7 +1029,7 @@
 <dl>
 <dt><code>v{major}</code></dt>
 <dd>
-<p><em>For example <code>v0</code> will always point to the *latest</em> <code>0.x</code> release of Pixelfed, using <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.3 and <abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>.</p>
+<p><em>For example <code>v0</code> will always point to the *latest</em> <code>0.x</code> release of Pixelfed.</p>
 </dd>
 <dd>
 <p>This tag is <strong><abbr title="Something that may change">mutable</abbr></strong> when any new <code>0.x.y</code> release is created from Pixelfed (e.g. <code>0.15.4</code>).</p>
@@ -1039,7 +1039,7 @@
 </dd>
 <dt><code>v{major}.{minor}</code></dt>
 <dd>
-<p><em>For example <code>v0.12</code> will always point to the *latest</em> <code>0.12.x</code> release of Pixelfed, using <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.3 and <abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>.</p>
+<p><em>For example <code>v0.12</code> will always point to the *latest</em> <code>0.12.x</code> release of Pixelfed.</p>
 </dd>
 <dd>
 <p>This tag is <strong><abbr title="Something that may change">mutable</abbr></strong> when any new <code>0.12.x</code> release is created from Pixelfed (e.g. <code>0.12.4</code>).</p>
@@ -1049,7 +1049,7 @@
 </dd>
 <dt><code>v{major}.{minor}.{patch}</code></dt>
 <dd>
-<p>For example <code>v0.12.1</code>  will always point to the <em>latest</em> <code>0.12.1</code> release of Pixelfed, using <abbr title="The programming language Pixelfed is written in">PHP</abbr> 8.3 and <abbr title="The Apache HTTP Server Project is a collaborative software development effort aimed at creating a robust, commercial-grade, featureful, and freely-available source code implementation of an HTTP (Web) server">Apache</abbr>.</p>
+<p>For example <code>v0.12.1</code>  will always point to the <em>latest</em> <code>0.12.1</code> release of Pixelfed.</p>
 </dd>
 <dd>
 <p>This tag is <strong><abbr title="Something that will never change">immutable</abbr></strong> to any Pixelfed code changes.</p>
@@ -1062,7 +1062,7 @@
 <p>For example <code>v0.12.1-docker1</code> will always point to exactly the <code>0.12.1</code> release of Pixelfed with <code>docker1</code> (this projects changes).</p>
 </dd>
 <dd>
-<p>This tag is <strong><abbr title="Something that will never change">immutable</abbr></strong> across Pixelfed and <code>docker-pixelfed</code> changes.</p>
+<p>This tag is <strong><abbr title="Something that will never change">immutable</abbr></strong> across Pixelfed and <code>jippi/docker-pixelfed</code> changes.</p>
 </dd>
 </dl>
 <h3 id="nightly-releases">Nightly releases<a class="headerlink" href="#nightly-releases" title="Permanent link">&para;</a></h3>
@@ -1112,9 +1112,10 @@
 <p class="admonition-title">Info</p>
 <p>The <a href="../settings/#docker_app_php_version"><code>DOCKER_APP_PHP_VERSION</code></a> setting controls what version of <abbr title="The programming language Pixelfed is written in">PHP</abbr> is being used</p>
 </div>
-<p>We currently only support a single <abbr title="The programming language Pixelfed is written in">PHP</abbr> release:</p>
+<p>We currently support following <abbr title="The programming language Pixelfed is written in">PHP</abbr> release:</p>
 <ul>
 <li><code>8.3</code></li>
+<li><code>8.4</code></li>
 </ul>
 <h2 id="debian-release"><abbr title="Debian is a free operating system that's among the most mature versions of Linux available">Debian</abbr> release<a class="headerlink" href="#debian-release" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
