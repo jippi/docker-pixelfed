@@ -71,6 +71,7 @@ jobs:
       matrix:
         php_version:
           - 8.3
+          - 8.4
         pixelfed_branch:
           - staging
           - dev
@@ -173,6 +174,7 @@ jobs:
         run: docker/tests/setup.sh
         env:
           CI: true
+          DOCKER_APP_PHP_VERSION: "${{ matrix.php_version }}"
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
       # goss validate the image

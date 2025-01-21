@@ -1,0 +1,2 @@
+fpm: php-fpm{{ getenv "DOCKER_APP_PHP_VERSION" }}
+nginx: nginx -g "daemon off;"

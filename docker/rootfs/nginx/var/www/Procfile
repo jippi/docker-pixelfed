@@ -1,2 +1,0 @@
-fpm: php-fpm8.3
-nginx: nginx -g "daemon off;"
