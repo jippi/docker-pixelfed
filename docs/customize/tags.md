@@ -58,7 +58,7 @@ For example
 2. `{minor}` is the second part of the versioning `(x.Y.z)`.
 3. `{patch}` is the third part of the versioning `(x.y.Z)`.
 4. `{runtime}` can be either `apache` or `nginx`. Please see [the Runtime Documentation](runtimes.md).
-5. `{php_version}` Currently only supported `8.3` for the latest PHP 8.3 release.
+5. `{php_version}` Currently supports `8.3` and `8.4`.
 6. `{branch}` is the `staging` or `dev` branch that Pixelfed is developed from.
 7. `{YYYY-MM-DD}` is a date format, e.x., `2024-09-14`, where
     * `YYYY => 2024`
@@ -69,26 +69,26 @@ For example
 
 `v{major}`
 
-: *For example `v0` will always point to the *latest* `0.x` release of Pixelfed, using PHP 8.3 and Apache.
+: *For example `v0` will always point to the *latest* `0.x` release of Pixelfed.
 : This tag is **mutable** when any new `0.x.y` release is created from Pixelfed (e.g. `0.15.4`).
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for any `0.x.y` Pixelfed release.
 
 `v{major}.{minor}`
 
-: *For example `v0.12` will always point to the *latest* `0.12.x` release of Pixelfed, using PHP 8.3 and Apache.
+: *For example `v0.12` will always point to the *latest* `0.12.x` release of Pixelfed.
 : This tag is **mutable** when any new `0.12.x` release is created from Pixelfed (e.g. `0.12.4`).
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for any `0.12.x` Pixelfed release.
 
 `v{major}.{minor}.{patch}`
 
-: For example `v0.12.1`  will always point to the *latest* `0.12.1` release of Pixelfed, using PHP 8.3 and Apache.
+: For example `v0.12.1`  will always point to the *latest* `0.12.1` release of Pixelfed.
 : This tag is **immutable** to any Pixelfed code changes.
 : This tag is **mutable** if a new `docker-pixelfed` release is cut for this Pixelfed release.
 
 `v{tag}`
 
 : For example `v0.12.1-docker1` will always point to exactly the `0.12.1` release of Pixelfed with `docker1` (this projects changes).
-: This tag is **immutable** across Pixelfed and `docker-pixelfed` changes.
+: This tag is **immutable** across Pixelfed and `jippi/docker-pixelfed` changes.
 
 ### Nightly releases
 
@@ -132,9 +132,10 @@ We will now automatically create *nightly* builds of Pixelfed from the `dev` and
 
     The [`DOCKER_APP_PHP_VERSION`](settings.md#docker_app_php_version) setting controls what version of PHP is being used
 
-We currently only support a single PHP release:
+We currently support following PHP release:
 
 * `8.3`
+* `8.4`
 
 ## Debian release
 
