@@ -114,7 +114,7 @@ RUN set -ex \
 # Base image
 #######################################################
 
-FROM debian:${PHP_DEBIAN_RELEASE} as base
+FROM debian:${PHP_DEBIAN_RELEASE} AS base
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
