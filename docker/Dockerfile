@@ -94,9 +94,9 @@ FROM ghcr.io/jippi/dottie:${DOTTIE_VERSION} AS dottie-image
 # It's in its own layer so it can be fetched in parallel with other build steps
 FROM alpine/curl AS gomplate-image
 
+ARG GOMPLATE_VERSION
 ARG TARGETARCH
 ARG TARGETOS
-ARG GOMPLATE_VERSION
 
 USER root
 
@@ -120,7 +120,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 
 ARG RUNTIME_GID
 ARG RUNTIME_UID
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 # Ensure we run all scripts through 'bash' rather than 'sh'
 SHELL ["/bin/bash", "-c"]
@@ -210,10 +210,11 @@ USER ${RUNTIME_UID}:${RUNTIME_GID}
 # (e.g.) building the ARM version of Pixelfed on AMD64.
 FROM --platform=${BUILDARCH} node:lts AS frontend-build
 
-ARG BUILDARCH
 ARG BUILD_FRONTEND=0
-ARG RUNTIME_UID
+ARG BUILDARCH
 ARG RUNTIME_GID
+ARG RUNTIME_UID
+ARG TARGETARCH
 
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
@@ -256,8 +257,9 @@ EOF
 FROM base AS composer-and-src
 
 ARG PHP_VERSION
-ARG RUNTIME_UID
 ARG RUNTIME_GID
+ARG RUNTIME_UID
+ARG TARGETARCH
 
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files available (yet)
@@ -318,7 +320,7 @@ FROM shared-runtime AS apache-runtime
 
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 COPY docker/rootfs/apache /
 
@@ -348,7 +350,7 @@ ARG NGINX_GPGKEY_PATH
 ARG NGINX_VERSION
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 # Install nginx dependencies
 RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt/lists \
