@@ -94,9 +94,9 @@ FROM ghcr.io/jippi/dottie:${DOTTIE_VERSION} AS dottie-image
 # It's in its own layer so it can be fetched in parallel with other build steps
 FROM alpine/curl AS gomplate-image
 
+ARG GOMPLATE_VERSION
 ARG TARGETARCH
 ARG TARGETOS
-ARG GOMPLATE_VERSION
 
 USER root
 
