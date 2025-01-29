@@ -56,7 +56,8 @@ packages+=(
 readarray -d ' ' -t -O "${#packages[@]}" packages < <(echo -n "${APT_PACKAGES_EXTRA:-}")
 
 apt-get update
-apt-get install -y "${packages[@]}"
+apt-get upgrade --yes
+apt-get install --yes "${packages[@]}"
 
 locale-gen
 update-locale
