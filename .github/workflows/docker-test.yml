@@ -176,7 +176,7 @@ jobs:
           cache-from: |
             type=local,src=.cache/buildx
           cache-to: |
-            type=local,src=.cache/buildx
+            type=local,dest=.cache/buildx
 
       - name: Save buildx cache
         if: github.ref == 'refs/heads/main'
