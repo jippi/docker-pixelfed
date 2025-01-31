@@ -28,7 +28,7 @@ ARG DOTTIE_VERSION="v0.14.3"
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
-ARG COMPOSER_VERSION="2.8.4"
+ARG COMPOSER_VERSION="2.8.5"
 
 ARG RUNTIME_UID=33 # often called 'www-data'
 ARG RUNTIME_GID=33 # often called 'www-data'
@@ -54,7 +54,7 @@ ARG PHP_PECL_EXTENSIONS_EXTRA=
 # PHP extensions installed via https://deb.sury.org/
 # ! NOTE: Must not include the "php8.x-" prefix for packages
 # !       so [php8.3-bcmath] should just be [bcmath] here
-ARG PHP_EXTENSIONS="bcmath curl gd imagick intl mbstring redis xml yaml zip"
+ARG PHP_EXTENSIONS="bcmath curl gd imagick intl mbstring redis vips xml yaml zip"
 ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
 
@@ -94,9 +94,9 @@ FROM ghcr.io/jippi/dottie:${DOTTIE_VERSION} AS dottie-image
 # It's in its own layer so it can be fetched in parallel with other build steps
 FROM alpine/curl AS gomplate-image
 
+ARG GOMPLATE_VERSION
 ARG TARGETARCH
 ARG TARGETOS
-ARG GOMPLATE_VERSION
 
 USER root
 
@@ -114,13 +114,13 @@ RUN set -ex \
 # Base image
 #######################################################
 
-FROM debian:${PHP_DEBIAN_RELEASE} as base
+FROM debian:${PHP_DEBIAN_RELEASE} AS base
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
 ARG RUNTIME_GID
 ARG RUNTIME_UID
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 # Ensure we run all scripts through 'bash' rather than 'sh'
 SHELL ["/bin/bash", "-c"]
@@ -144,8 +144,8 @@ ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
 # Copy the base layer installer into the image
 COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
 
-RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
     /docker/install/base.sh
 
 #######################################################
@@ -163,9 +163,9 @@ ARG PHP_BASE_TYPE
 # Copy the PHP layer installer into the image
 COPY docker/rootfs/shared/docker/install/php.sh /docker/install/php.sh
 
-RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/tmp/pear \
-    --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/tmp/pear \
+    --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
     IPE_KEEP_SYSPKG_CACHE=1 \
     COMPOSER_VERSION=${COMPOSER_VERSION} \
     PHP_EXTENSIONS_DATABASE=${PHP_EXTENSIONS_DATABASE} \
@@ -210,10 +210,11 @@ USER ${RUNTIME_UID}:${RUNTIME_GID}
 # (e.g.) building the ARM version of Pixelfed on AMD64.
 FROM --platform=${BUILDARCH} node:lts AS frontend-build
 
-ARG BUILDARCH
 ARG BUILD_FRONTEND=0
-ARG RUNTIME_UID
+ARG BUILDARCH
 ARG RUNTIME_GID
+ARG RUNTIME_UID
+ARG TARGETARCH
 
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
@@ -223,7 +224,7 @@ WORKDIR /var/www/
 SHELL [ "/usr/bin/bash", "-c" ]
 
 # Install NPM dependencies
-RUN --mount=type=cache,id=pixelfed-node-${BUILDARCH},sharing=locked,target=/tmp/cache \
+RUN --mount=type=cache,id=pixelfed-node-${TARGETARCH},sharing=locked,target=/tmp/cache \
     --mount=type=bind,source=src/package.json,target=/var/www/package.json \
     --mount=type=bind,source=src/package-lock.json,target=/var/www/package-lock.json \
 <<EOF
@@ -256,12 +257,13 @@ EOF
 FROM base AS composer-and-src
 
 ARG PHP_VERSION
-ARG RUNTIME_UID
 ARG RUNTIME_GID
+ARG RUNTIME_UID
+ARG TARGETARCH
 
 # Install composer dependencies
-# NOTE: we skip the autoloader generation here since we don't have all files avaliable (yet)
-RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION},sharing=locked,target=/cache/composer \
+# NOTE: we skip the autoloader generation here since we don't have all files available (yet)
+RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},sharing=locked,target=/cache/composer \
     --mount=type=bind,source=src/composer.json,target=/var/www/composer.json \
     --mount=type=bind,source=src/composer.lock,target=/var/www/composer.lock \
     set -ex \
@@ -318,13 +320,13 @@ FROM shared-runtime AS apache-runtime
 
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 COPY docker/rootfs/apache /
 
 # Install apache webserver
-RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt/lists \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
     set -ex \
     && apt-get update \
     && apt-get install -y apache2
@@ -348,11 +350,11 @@ ARG NGINX_GPGKEY_PATH
 ARG NGINX_VERSION
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
 # Install nginx dependencies
-RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/lib/apt/lists \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETPLATFORM},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
     set -ex \
     && gpg1 --keyserver "hkp://keyserver.ubuntu.com:80" --keyserver-options timeout=10 --recv-keys "${NGINX_GPGKEY}" \
     && gpg1 --export "$NGINX_GPGKEY" > "$NGINX_GPGKEY_PATH" \

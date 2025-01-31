@@ -71,6 +71,7 @@ jobs:
       matrix:
         php_version:
           - 8.3
+          - 8.4
         pixelfed_branch:
           - staging
           - dev
@@ -163,16 +164,15 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
           cache-from: |
             type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       - name: Setup
         run: docker/tests/setup.sh
         env:
           CI: true
+          DOCKER_APP_PHP_VERSION: "${{ matrix.php_version }}"
           DOCKER_APP_TAG: "${{ steps.meta.outputs.version }}"
 
       # goss validate the image
