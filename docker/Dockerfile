@@ -118,27 +118,14 @@ FROM debian:${PHP_DEBIAN_RELEASE} AS base
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-ARG RUNTIME_GID
-ARG RUNTIME_UID
-ARG TARGETARCH
-
 # Ensure we run all scripts through 'bash' rather than 'sh'
 SHELL ["/bin/bash", "-c"]
 
-# Set www-data to be RUNTIME_UID/RUNTIME_GID
-RUN set -ex \
-    && groupmod --gid ${RUNTIME_GID} www-data \
-    && usermod --uid ${RUNTIME_UID} --gid ${RUNTIME_GID} www-data
-
-RUN set -ex \
-    && mkdir -pv /var/www/ \
-    && chown -R ${RUNTIME_UID}:${RUNTIME_GID} /var/www
-
-WORKDIR /var/www/
-
-ARG PHP_DEBIAN_RELEASE
 ARG APT_PACKAGES_EXTRA
-ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
+ARG PHP_DEBIAN_RELEASE
+ARG RUNTIME_GID
+ARG RUNTIME_UID
+ARG TARGETARCH
 
 # Copy the base layer installer into the image
 COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
@@ -146,7 +133,12 @@ COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
 # ! NOTE: we don't include PHP in the cache here, since its not touching PHP
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
+    APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA} \
+    RUNTIME_GID=${RUNTIME_GID} \
+    RUNTIME_UID=${RUNTIME_UID} \
     /docker/install/base.sh
+
+WORKDIR /var/www/
 
 #######################################################
 # PHP: extensions
