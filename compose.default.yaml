@@ -4,14 +4,14 @@
 #
 #   cp compose.default.yaml compose.yaml
 #
-# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/
+# ? You can run [docker compose config] to see the full configuration at any time
 #
-# > By default, Compose reads two files, a [compose.yaml] and an optional [compose.override.yaml] file.
-# > By convention, the [compose.yaml] contains your base configuration.
-# > The override file can contain configuration overrides for existing services or entirely new services.
+# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/include/
+# See: https://docs.docker.com/reference/compose-file/include/
+# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/
 
 include:
-  - project_directory: ./
+  - project_directory: .
     env_file:
       - ./.env.docker
       - ./.env
@@ -31,7 +31,7 @@ include:
 
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
-      # NOTE: Uncomment this for [web] and [worker] services as well if you use those!
+      # ! NOTE: Uncomment this for [web] and [worker] services as well if you use those!
       # - compose-config/cron/build.yaml
 
     ################################################################################
@@ -51,7 +51,7 @@ include:
 
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
-      # NOTE: Uncomment this for [cron] and [worker] services as well if you use those!
+      # ! NOTE: Uncomment this for [cron] and [worker] services as well if you use those!
       # - compose-config/web/build.yaml
 
     ################################################################################
@@ -68,7 +68,7 @@ include:
 
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
-      # NOTE: Uncomment this for [cron] and [web] services as well if you use those!
+      # ! NOTE: Uncomment this for [cron] and [web] services as well if you use those!
       # - compose-config/worker/build.yaml
 
     ################################################################################
@@ -106,17 +106,17 @@ include:
 
       # Make the [cron] service depend on a healthy [redis] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [cron] service
+      # ! NOTE: disable if you do not use the [cron] service
       - compose-config/redis/dependency_cron.yaml
 
       # Make the [web] service depend on a healthy [redis] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [web] service
+      # ! NOTE: disable if you do not use the [web] service
       - compose-config/redis/dependency_web.yaml
 
       # Make the [worker] service depend on a healthy [redis] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [worker] service
+      # ! NOTE: disable if you do not use the [worker] service
       - compose-config/redis/dependency_worker.yaml
 
     ################################################################################
@@ -136,17 +136,17 @@ include:
 
       # Make the [cron] service depend on a healthy [db] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [cron] service
+      # ! NOTE: disable if you do not use the [cron] service
       - compose-config/db/dependency_cron.yaml
 
       # Make the [web] service depend on a healthy [db] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [web] service
+      # ! NOTE: disable if you do not use the [web] service
       - compose-config/db/dependency_web.yaml
 
       # Make the [worker] service depend on a healthy [db] container (via 'depends_on')
       #
-      # NOTE: disable if you do not use the [worker] service
+      # ! NOTE: disable if you do not use the [worker] service
       - compose-config/db/dependency_worker.yaml
 
 ################################################################################
