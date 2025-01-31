@@ -117,6 +117,13 @@ jobs:
           ref: "${{ matrix.pixelfed_branch }}"
           path: "src/"
 
+      - name: Restore buildx cache
+        id: buildx-file-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: _cache/buildx
+          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -148,13 +155,6 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
-      - name: Restore buildx cache
-        id: buildx-file-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: _cache/buildx
-          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
@@ -172,6 +172,8 @@ jobs:
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
+            type=local,src=_cache/buildx
+          cache-to: |
             type=local,src=_cache/buildx
 
       - name: Save buildx cache
