@@ -169,7 +169,7 @@ jobs:
             type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
-      - name: Push buildx caches
+      - name: Push buildx caches (amd64)
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
@@ -182,7 +182,9 @@ jobs:
             --annotations ${{ steps.meta.outputs.annotations }} \
             --file docker/Dockerfile \
             .
-
+      - name: Push buildx caches (arm64)
+        if: github.ref == 'refs/heads/main'
+        run: |
           docker buildx build \
             --platform linux/arm64 \
             --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
