@@ -3,9 +3,9 @@
 set -o errexit -o nounset -o pipefail
 
 echo
-echo "==> Copying compose.override.yaml file"
+echo "==> Copying compose.yaml file"
 echo
-cp -v compose.override.yaml.example compose.override.yaml
+cp -v compose.yaml.example compose.yaml
 
 echo
 echo "==> Copying .env file"
