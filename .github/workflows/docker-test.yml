@@ -175,7 +175,7 @@ jobs:
           docker buildx build \
             --platform linux/amd64 \
             --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
-            --cache-to type=gha,mode=max,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}  \
+            --cache-to type=gha,mode=max,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
