@@ -149,7 +149,6 @@ jobs:
             type=ref,event=pr,prefix=pr/
 
       - name: Build and push image (PR)
-        if: github.ref != 'refs/heads/main'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -173,7 +172,7 @@ jobs:
       - name: Push Docker build caches
         if: github.ref == 'refs/heads/main'
         run: |
-          docker buildx
+          docker buildx \
             --platform linux/amd64 \
             --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --cache-to type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
@@ -183,7 +182,7 @@ jobs:
             --file docker/Dockerfile \
             .
 
-          docker buildx
+          docker buildx \
             --platform linux/arm64 \
             --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --cache-to type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
