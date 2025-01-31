@@ -124,7 +124,7 @@ jobs:
           key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       - name: Ensure buildx cache directory exists
-        run: mkdir -pv _cache/buildx
+        run: mkdir -pv .cache/buildx
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
