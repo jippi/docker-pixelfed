@@ -26,7 +26,7 @@ include:
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
       # NOTE: Uncomment this for [web] and [worker] services as well if you use those!
-      - compose-config/cron/build.yaml
+      # - compose-config/cron/build.yaml
 
     ################################################################################
     # Pixelfed - [web] service
@@ -44,7 +44,7 @@ include:
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
       # NOTE: Uncomment this for [cron] and [worker] services as well if you use those!
-      - compose-config/web/build.yaml
+      # - compose-config/web/build.yaml
 
     ################################################################################
     # Pixelfed - [worker] service
@@ -59,7 +59,7 @@ include:
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
       # NOTE: Uncomment this for [cron] and [web] services as well if you use those!
-      - compose-config/worker/build.yaml
+      # - compose-config/worker/build.yaml
 
     ################################################################################
     # Proxy service (nginx)
