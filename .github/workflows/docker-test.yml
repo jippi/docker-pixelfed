@@ -174,7 +174,7 @@ jobs:
         run: |
           docker buildx build \
             --push \
-            --tag dummy:fake \
+            --output type=cacheonly \
             --platform linux/amd64 \
             --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
@@ -190,7 +190,7 @@ jobs:
         run: |
           docker buildx build \
             --push \
-            --tag dummy:fake \
+            --output type=cacheonly \
             --platform linux/arm64 \
             --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
