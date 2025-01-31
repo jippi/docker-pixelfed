@@ -145,7 +145,6 @@ COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
 
 # ! NOTE: we don't include PHP in the cache here, since its not touching PHP
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-lists-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     /docker/install/base.sh
 
@@ -167,7 +166,6 @@ COPY docker/rootfs/shared/docker/install/php.sh /docker/install/php.sh
 
 RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/tmp/pear \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
-    # --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     COMPOSER_VERSION=${COMPOSER_VERSION} \
     PHP_EXTENSIONS_DATABASE=${PHP_EXTENSIONS_DATABASE} \
@@ -326,7 +324,6 @@ ARG TARGETARCH
 
 # Install apache webserver
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     set -ex \
     && apt-get update \
@@ -358,7 +355,6 @@ ARG TARGETARCH
 
 # Install nginx dependencies
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     set -ex \
     && gpg1 --keyserver "hkp://keyserver.ubuntu.com:80" --keyserver-options timeout=10 --recv-keys "${NGINX_GPGKEY}" \
