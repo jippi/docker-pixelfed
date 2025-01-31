@@ -18,13 +18,13 @@ if [[ ! -f "${project_root}/.env" ]]; then
     action_ok "OK"
     echo
 
-    action_start_newline "Ensuring permissions are correct (0660)"
-    chmod 0660 "${project_root}/.env" || action_error_exit "chmod operation failed"
+    action_start_newline "Ensuring permissions are correct (0777)"
+    chmod 0777 "${project_root}/.env" || action_error_exit "chmod operation failed"
     action_ok "OK"
     echo
 fi
 
-# Check if the [compose.yaml] file exist, or copy the default file
+# Check if a [compose.yaml] file exist, or copy the default file
 if [[ ! -f "${project_root}/compose.yaml" ]]; then
     action_start_newline "No 'compose.yaml' file found, copying the default one for you"
     cp -v "${project_root}/compose.default.yaml" "${project_root}/compose.yaml" || action_error_exit "copy operation failed"
@@ -37,7 +37,7 @@ if [[ ! -w "${project_root}/.env" ]]; then
     action_error_exit ".env file is not writable by you - please fix the permissions"
 fi
 
-# Bastic site setup
+# Basic site setup
 ask_input "APP_NAME" "The name/title for your site"
 ask_input "APP_DOMAIN" "Application domain used for routing. (e.g., pixelfed.org)"
 ask_input "INSTANCE_CONTACT_EMAIL" "The public e-mail address people can use to contact you by"
