@@ -12,7 +12,9 @@
 
 include:
   - project_directory: ./
-    env_file: ./.env
+    env_file:
+      - ./.env.docker
+      - ./.env
     path:
 
     ################################################################################
