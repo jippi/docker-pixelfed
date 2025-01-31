@@ -136,7 +136,6 @@ RUN set -ex \
 
 WORKDIR /var/www/
 
-ARG PHP_VERSION
 ARG PHP_DEBIAN_RELEASE
 ARG APT_PACKAGES_EXTRA
 ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
@@ -155,6 +154,7 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_DEBIAN_RELEASE}-${TARGETARCH},targe
 #######################################################
 
 ARG COMPOSER_VERSION
+ARG PHP_VERSION
 ARG PHP_EXTENSIONS
 ARG PHP_EXTENSIONS_DATABASE
 ARG PHP_EXTENSIONS_EXTRA
@@ -167,7 +167,7 @@ COPY docker/rootfs/shared/docker/install/php.sh /docker/install/php.sh
 
 RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/tmp/pear \
     --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
+    # --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
     --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     COMPOSER_VERSION=${COMPOSER_VERSION} \
     PHP_EXTENSIONS_DATABASE=${PHP_EXTENSIONS_DATABASE} \
