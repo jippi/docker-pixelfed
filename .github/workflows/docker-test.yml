@@ -118,7 +118,6 @@ jobs:
           path: "src/"
 
       - name: Restore buildx cache
-        id: buildx-file-cache
         uses: actions/cache/restore@v4
         with:
           path: _cache/buildx
