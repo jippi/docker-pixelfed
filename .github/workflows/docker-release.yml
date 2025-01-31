@@ -77,12 +77,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Restore buildx cache
-        uses: actions/cache/restore@v4
-        with:
-          path: .cache/buildx
-          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-
       - name: Docker meta
         uses: docker/metadata-action@v5
         id: meta
