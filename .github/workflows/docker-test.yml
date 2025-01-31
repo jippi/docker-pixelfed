@@ -179,7 +179,6 @@ jobs:
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
-            --annotations ${{ steps.meta.outputs.annotations }} \
             --file docker/Dockerfile \
             .
 
@@ -193,7 +192,6 @@ jobs:
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
-            --annotations ${{ steps.meta.outputs.annotations }} \
             --file docker/Dockerfile \
             .
 
