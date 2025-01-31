@@ -173,7 +173,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
-            --push \
             --output type=cacheonly \
             --platform linux/amd64 \
             --target ${{ matrix.target_runtime }}-runtime \
@@ -189,7 +188,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
-            --push \
             --output type=cacheonly \
             --platform linux/arm64 \
             --target ${{ matrix.target_runtime }}-runtime \
