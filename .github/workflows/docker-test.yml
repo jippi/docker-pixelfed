@@ -167,30 +167,31 @@ jobs:
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
-      - name: Build and push image (main + cache)
+      - name: Push Docker build caches
         if: github.ref == 'refs/heads/main'
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/Dockerfile
-          target: ${{ matrix.target_runtime }}-runtime
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
-          provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
-          build-args: |
-            PHP_VERSION=${{ matrix.php_version }}
-            PHP_BASE_TYPE=${{ matrix.php_base }}
-            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
-          cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+        run: |
+          docker buildx
+            --platform linux/amd64 \
+            --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            --cache-to type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            --build-arg PHP_VERSION=${{ matrix.php_version }} \
+            --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
+            --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
+            --file docker/Dockerfile \
+            .
+
+          docker buildx
+            --platform linux/arm64 \
+            --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            --cache-to type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            --build-arg PHP_VERSION=${{ matrix.php_version }} \
+            --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
+            --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
+            --file docker/Dockerfile \
+            --platform linux/arm64
 
       - name: Setup
         run: docker/tests/setup.sh
