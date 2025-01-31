@@ -144,8 +144,10 @@ ENV APT_PACKAGES_EXTRA=${APT_PACKAGES_EXTRA}
 # Copy the base layer installer into the image
 COPY docker/rootfs/shared/docker/install/base.sh /docker/install/base.sh
 
-RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
+# ! NOTE: we don't include PHP in the cache here, since its not touching PHP
+RUN --mount=type=cache,id=pixelfed-apt-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-lists-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     /docker/install/base.sh
 
 #######################################################
@@ -163,10 +165,10 @@ ARG PHP_BASE_TYPE
 # Copy the PHP layer installer into the image
 COPY docker/rootfs/shared/docker/install/php.sh /docker/install/php.sh
 
-RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/tmp/pear \
-    --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
-    IPE_KEEP_SYSPKG_CACHE=1 \
+RUN --mount=type=cache,id=pixelfed-pear-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/tmp/pear \
+    --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     COMPOSER_VERSION=${COMPOSER_VERSION} \
     PHP_EXTENSIONS_DATABASE=${PHP_EXTENSIONS_DATABASE} \
     PHP_EXTENSIONS_EXTRA=${PHP_EXTENSIONS_EXTRA} \
@@ -261,11 +263,11 @@ ARG RUNTIME_GID
 ARG RUNTIME_UID
 ARG TARGETARCH
 
+COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/composer.* /var/www/
+
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files available (yet)
 RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},sharing=locked,target=/cache/composer \
-    --mount=type=bind,source=src/composer.json,target=/var/www/composer.json \
-    --mount=type=bind,source=src/composer.lock,target=/var/www/composer.lock \
     set -ex \
     && composer install --prefer-dist --no-autoloader --ignore-platform-reqs
 
@@ -286,10 +288,6 @@ ENV RUNTIME_GID=${RUNTIME_GID}
 
 USER root
 
-COPY --link --from=forego-image /usr/local/bin/forego /usr/local/bin/forego
-COPY --link --from=dottie-image /usr/local/bin/dottie /usr/local/bin/dottie
-COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplate
-
 #! Changing user to runtime user
 USER ${RUNTIME_UID}:${RUNTIME_GID}
 
@@ -304,6 +302,10 @@ RUN set -ex \
 RUN set -ex \
     && cp --recursive --link --preserve=all storage storage.skel \
     && rm -rf html && ln -s public html
+
+COPY --link --from=forego-image /usr/local/bin/forego /usr/local/bin/forego
+COPY --link --from=dottie-image /usr/local/bin/dottie /usr/local/bin/dottie
+COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplate
 
 #! Changing to root user
 USER root
@@ -322,11 +324,10 @@ ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
 ARG TARGETARCH
 
-COPY docker/rootfs/apache /
-
 # Install apache webserver
-RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt/lists \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     set -ex \
     && apt-get update \
     && apt-get install -y apache2
@@ -338,6 +339,8 @@ RUN set -ex \
     && a2enconf remoteip
 
 CMD ["apache2-foreground"]
+
+COPY docker/rootfs/apache /
 
 #######################################################
 # Runtime: nginx
@@ -353,8 +356,9 @@ ARG PHP_VERSION
 ARG TARGETARCH
 
 # Install nginx dependencies
-RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/lib/apt/lists \
-    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
+    --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt/lists \
+    --mount=type=cache,id=pixelfed-apt-cache-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/cache/apt \
     set -ex \
     && gpg1 --keyserver "hkp://keyserver.ubuntu.com:80" --keyserver-options timeout=10 --recv-keys "${NGINX_GPGKEY}" \
     && gpg1 --export "$NGINX_GPGKEY" > "$NGINX_GPGKEY_PATH" \
@@ -364,6 +368,7 @@ RUN --mount=type=cache,id=pixelfed-apt-lists-${PHP_VERSION}-${PHP_DEBIAN_RELEASE
 
 # copy docker entrypoints from the *real* nginx image directly
 COPY --link --from=nginx-image /docker-entrypoint.d /docker/entrypoint.d/
+
 COPY docker/rootfs/nginx /
 
 STOPSIGNAL SIGQUIT

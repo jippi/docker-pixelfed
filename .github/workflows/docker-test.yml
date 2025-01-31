@@ -148,7 +148,7 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
-      - name: Build and push image
+      - name: Build and push image (PR)
         if: github.ref != 'refs/heads/main'
         uses: docker/build-push-action@v6
         with:
