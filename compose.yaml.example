@@ -17,12 +17,14 @@ include:
     # Pixelfed - [cron] service
     ################################################################################
 
-      # Add the [cron] service to the compose config
+      # Add the [cron] service to your Compose config
       - compose-config/cron/service.yaml
 
-      # Comment to disable setting a static container name for the [web] service
+      # Set a static container name for the [cron] service
       - compose-config/cron/named.yaml
 
+      # Enable [docker build] if you build a custom Pixelfed Docker image
+      #
       # NOTE: Uncomment this for [web] and [worker] services as well if you use those!
       - compose-config/cron/build.yaml
 
@@ -30,14 +32,14 @@ include:
     # Pixelfed - [web] service
     ################################################################################
 
-      # Include the 'web' service in your Compose config
+      # Add the [web] service to your Compose config
       - compose-config/web/service.yaml
+
+      # Set a static container name for the [web] service
+      - compose-config/web/named.yaml
 
       # Expose the [web] container to the host directly via 'ports:'
       - compose-config/web/expose.yaml
-
-      # Give the [web] container a static container name
-      - compose-config/web/named.yaml
 
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
@@ -48,71 +50,93 @@ include:
     # Pixelfed - [worker] service
     ################################################################################
 
-      # Use the [worker] service
+      # Add the [worker] service to your Compose config
       - compose-config/worker/service.yaml
 
-      # Comment to disable setting a static container name for the [web] service
+      # Set a static container name for the [worker] service
       - compose-config/worker/named.yaml
 
       # Enable [docker build] if you build a custom Pixelfed Docker image
       #
-      # NOTE: Uncomment this for [cron] and [web] services as well
-      #       if you use those!
+      # NOTE: Uncomment this for [cron] and [web] services as well if you use those!
       - compose-config/worker/build.yaml
 
     ################################################################################
     # Proxy service (nginx)
     ################################################################################
 
-      # Use the nginx [proxy] service in front of the [web] container.
+      # Add the [proxy] service to your Compose config
       # - compose-config/proxy/service.yaml
 
-      # Uncomment to add nginx acme (LetsEncrypt) support to [proxy] container.
-      # - compose-config/proxy/acme.yaml
+      # Set a static container name for the [proxy] service
+      # - compose-config/proxy/named.yaml
+
+      # Add the [proxy-acme] LetsEncrypt side-service to your Compose config
+      # - compose-config/proxy-acme/service.yaml
+
+      # Set a static container name for the [proxy-acme] service
+      # - compose-config/proxy-acme/named.yaml
 
     ################################################################################
     # Redis service
     ################################################################################
 
-      # Use the included [redis] service.
+      # Add the [redis] service to your Compose config
       - compose-config/redis/service.yaml
+
+      # Set a static container name for the [redis] service
+      - compose-config/redis/named.yaml
 
       # Expose the [redis] service to the host directly (via 'ports').
       - compose-config/redis/expose.yaml
 
       # Make the [cron] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [cron] service
       - compose-config/redis/dependency_cron.yaml
 
       # Make the [web] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [web] service
       - compose-config/redis/dependency_web.yaml
 
       # Make the [worker] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [worker] service
       - compose-config/redis/dependency_worker.yaml
 
     ################################################################################
     # DB service
     ################################################################################
 
-      # Comment to disable the included [db] service.
+      # Add the [db] service to your Compose config
       - compose-config/db/service.yaml
 
-      # Comment to stop exposing the [db] server to the host directly.
-      - compose-config/db/expose.yaml
-
-      # Comment to disable setting a static container name for the [db] service
+      # Set a static container name for the [db] service
       - compose-config/db/named.yaml
 
+      # Expose the [db] service to the host directly (via 'ports').
+      - compose-config/db/expose.yaml
+
       # Make the [cron] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [cron] service
       - compose-config/db/dependency_cron.yaml
 
       # Make the [web] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [web] service
       - compose-config/db/dependency_web.yaml
 
       # Make the [worker] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # NOTE: disable if you do not use the [worker] service
       - compose-config/db/dependency_worker.yaml
 
 # !
 # ! You can also define your own overrides (or even new services!) directly in this file
+# !
+# ! This requires a modern version of compose (late 2024 or newer)
 # !
 
 # services:

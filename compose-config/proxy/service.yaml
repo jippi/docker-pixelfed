@@ -14,10 +14,7 @@
 services:
   proxy:
     image: nginxproxy/nginx-proxy:1.6
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy"
     restart: unless-stopped
-    profiles:
-      - ${DOCKER_PROXY_PROFILE:-}
     environment:
       DOCKER_SERVICE_NAME: "proxy"
     volumes:

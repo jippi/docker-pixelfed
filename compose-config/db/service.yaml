@@ -1,11 +1,8 @@
 services:
   db:
     image: ${DOCKER_DB_IMAGE:?missing}
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-db"
     command: ${DOCKER_DB_COMMAND:-}
     restart: unless-stopped
-    profiles:
-      - ${DOCKER_DB_PROFILE:-}
     environment:
       TZ: "${TZ:?missing}"
       # MySQL (Oracle) - "Environment Variables" at https://hub.docker.com/_/mysql

@@ -1,11 +1,8 @@
 services:
   redis:
     image: redis:${DOCKER_REDIS_VERSION}
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-redis"
     restart: unless-stopped
     command: "${DOCKER_REDIS_CONFIG_FILE:-} --requirepass '${REDIS_PASSWORD:-}'"
-    profiles:
-      - ${DOCKER_REDIS_PROFILE:-}
     environment:
       TZ: "${TZ:?missing}"
       REDISCLI_AUTH: ${REDIS_PASSWORD:-}

@@ -8,10 +8,7 @@
 services:
   proxy-acme:
     image: nginxproxy/acme-companion:2.5
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy-acme"
     restart: unless-stopped
-    profiles:
-      - ${DOCKER_PROXY_ACME_PROFILE:-}
     environment:
       DEBUG: 0
       DEFAULT_EMAIL: "${DOCKER_PROXY_LETSENCRYPT_EMAIL:?missing}"
