@@ -7,14 +7,14 @@ services:
     profiles:
       - ${DOCKER_REDIS_PROFILE:-}
     environment:
-      TZ: "${TZ:?error}"
+      TZ: "${TZ:?missing}"
       REDISCLI_AUTH: ${REDIS_PASSWORD:-}
     volumes:
       - "../../${DOCKER_ALL_HOST_CONFIG_ROOT_PATH}/redis:/etc/redis"
       - "../../${DOCKER_REDIS_HOST_DATA_PATH}:/data"
     healthcheck:
       test: ["CMD", "redis-cli", "-p", "6379", "ping"]
-      interval: "${DOCKER_REDIS_HEALTHCHECK_INTERVAL:?error}"
+      interval: "${DOCKER_REDIS_HEALTHCHECK_INTERVAL:?missing}"
       retries: 2
       timeout: 5s
 

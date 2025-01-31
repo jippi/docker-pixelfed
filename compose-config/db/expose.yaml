@@ -1,4 +1,4 @@
 services:
   db:
     ports:
-      - "${DOCKER_DB_HOST_PORT:?error}:${DOCKER_DB_CONTAINER_PORT:?error}"
+      - "${DOCKER_DB_HOST_PORT:?missing}:${DOCKER_DB_CONTAINER_PORT:?missing}"

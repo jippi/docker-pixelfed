@@ -14,7 +14,7 @@ services:
       - ${DOCKER_PROXY_ACME_PROFILE:-}
     environment:
       DEBUG: 0
-      DEFAULT_EMAIL: "${DOCKER_PROXY_LETSENCRYPT_EMAIL:?error}"
+      DEFAULT_EMAIL: "${DOCKER_PROXY_LETSENCRYPT_EMAIL:?missing}"
       NGINX_PROXY_CONTAINER: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy"
     depends_on:
       proxy:
