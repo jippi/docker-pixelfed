@@ -175,6 +175,7 @@ jobs:
           docker buildx build \
             --push \
             --platform linux/amd64 \
+            --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
@@ -189,6 +190,7 @@ jobs:
           docker buildx build \
             --push \
             --platform linux/arm64 \
+            --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
