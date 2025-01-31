@@ -117,6 +117,15 @@ jobs:
           ref: "${{ matrix.pixelfed_branch }}"
           path: "src/"
 
+      - name: Restore buildx cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/buildx
+          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
+      - name: Ensure buildx cache directory exists
+        run: mkdir -pv .cache/buildx
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -164,9 +173,17 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,src=.cache/buildx
+          cache-to: |
+            type=local,dest=.cache/buildx
+
+      - name: Save buildx cache
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/buildx
+          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       - name: Setup
         run: docker/tests/setup.sh

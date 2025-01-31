@@ -1,7 +1,13 @@
 .DS_Store
+/.cache
 /.bash_history
 /.bash_profile
 /.bashrc
+/.env
+/.env.dottie-backup
+/.git
+/.gitconfig
+/.gitignore
 /docker-compose-state/
 /src/.composer
 /src/.env
