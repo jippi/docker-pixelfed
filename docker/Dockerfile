@@ -332,6 +332,8 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
     && apt-get update \
     && apt-get install -y apache2
 
+COPY docker/rootfs/apache /
+
 RUN set -ex \
     && a2dismod mpm_event \
     && a2enmod php${PHP_VERSION} \
@@ -340,7 +342,6 @@ RUN set -ex \
 
 CMD ["apache2-foreground"]
 
-COPY docker/rootfs/apache /
 
 #######################################################
 # Runtime: nginx
