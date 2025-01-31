@@ -2,8 +2,8 @@
 # Enable [docker compose build] for building local version of Pixelfed
 
 services:
-  web:
-    build: &build
+  cron:
+    build:
       dockerfile: docker/Dockerfile
       context: ../
       target: ${DOCKER_APP_RUNTIME}-runtime
@@ -17,9 +17,3 @@ services:
         PHP_EXTENSIONS_EXTRA: "${DOCKER_APP_PHP_EXTENSIONS_EXTRA:-}"
         PHP_PECL_EXTENSIONS_EXTRA: "${DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA:-}"
         PHP_VERSION: "${DOCKER_APP_PHP_VERSION:?missing}"
-
-  worker:
-    build: *build
-
-  cron:
-    build: *build

@@ -1,66 +1,10 @@
 ---
-services:
-  web:
-    image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-web"
-    restart: unless-stopped
-    profiles:
-      - ${DOCKER_WEB_PROFILE:-}
-    environment:
-      # Used by Pixelfed Docker init script
-      DOCKER_SERVICE_NAME: "web"
-      DOCKER_APP_ENTRYPOINT_DEBUG: ${DOCKER_APP_ENTRYPOINT_DEBUG:-0}
-      ENTRYPOINT_SKIP_SCRIPTS: ${ENTRYPOINT_SKIP_SCRIPTS:-}
-    volumes:
-      - "./.env:/var/www/.env"
-      - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
-      - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
-      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
-    healthcheck:
-      test: 'curl --header "Host: ${APP_DOMAIN}" --fail http://localhost/api/service/health-check'
-      interval: "${DOCKER_WEB_HEALTHCHECK_INTERVAL}"
-      retries: 2
-      timeout: 5s
 
-  worker:
-    image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-worker"
-    command: gosu www-data php artisan horizon
-    restart: unless-stopped
-    stop_signal: SIGTERM
-    profiles:
-      - ${DOCKER_WORKER_PROFILE:-}
-    environment:
-      # Used by Pixelfed Docker init script
-      DOCKER_SERVICE_NAME: "worker"
-      DOCKER_APP_ENTRYPOINT_DEBUG: ${DOCKER_APP_ENTRYPOINT_DEBUG:-0}
-      ENTRYPOINT_SKIP_SCRIPTS: ${ENTRYPOINT_SKIP_SCRIPTS:-}
-    volumes:
-      - "./.env:/var/www/.env"
-      - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
-      - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
-      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
-    healthcheck:
-      test: gosu www-data php artisan horizon:status | grep running
-      interval: "${DOCKER_WORKER_HEALTHCHECK_INTERVAL:?error}"
-      timeout: 5s
-      retries: 2
+#
+# Why is this file empty?!
+#
+# Please see the [compose.override.yaml.example] file for instructions
+# on how to use the Compose setup and enable/disable services and features
+#
 
-  cron:
-    image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
-    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-cron"
-    command: gosu www-data php artisan schedule:work -vvv
-    restart: unless-stopped
-    stop_signal: SIGTERM
-    profiles:
-      - ${DOCKER_CRON_PROFILE:-}
-    environment:
-      # Used by Pixelfed Docker init script
-      DOCKER_SERVICE_NAME: "cron"
-      DOCKER_APP_ENTRYPOINT_DEBUG: ${DOCKER_APP_ENTRYPOINT_DEBUG:-0}
-      ENTRYPOINT_SKIP_SCRIPTS: ${ENTRYPOINT_SKIP_SCRIPTS:-}
-    volumes:
-      - "./.env:/var/www/.env"
-      - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
-      - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
-      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
+name: "" # ignore, required for the file to be considered valid compose file
