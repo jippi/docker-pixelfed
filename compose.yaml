@@ -6,5 +6,3 @@
 # Please see the [compose.override.yaml.example] file for instructions
 # on how to use the Compose setup and enable/disable services and features
 #
-
-name: "" # ignore, required for the file to be considered valid compose file
