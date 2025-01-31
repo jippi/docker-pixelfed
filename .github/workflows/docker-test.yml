@@ -148,7 +148,7 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
-      - name: Build and push image (PR)
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -169,28 +169,30 @@ jobs:
             type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
-      - name: Push Docker build caches
+      - name: Push buildx caches
         if: github.ref == 'refs/heads/main'
         run: |
-          docker buildx \
+          docker buildx build \
             --platform linux/amd64 \
             --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --cache-to type=gha,mode=max,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
+            --annotations ${{ steps.meta.outputs.annotations }} \
             --file docker/Dockerfile \
             .
 
-          docker buildx \
+          docker buildx build \
             --platform linux/arm64 \
             --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --cache-to type=gha,mode=max,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             --build-arg PHP_VERSION=${{ matrix.php_version }} \
             --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
+            --annotations ${{ steps.meta.outputs.annotations }} \
             --file docker/Dockerfile \
-            --platform linux/arm64
+            .
 
       - name: Setup
         run: docker/tests/setup.sh
