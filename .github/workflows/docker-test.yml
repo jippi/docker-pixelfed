@@ -173,7 +173,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
-            --output type=image,name=fake \
             --platform linux/amd64 \
             --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
@@ -182,13 +181,15 @@ jobs:
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
             --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
             --cache-to type=gha,mode=max,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
+            --tag ghcr.io/${{ github.repository }}-cache:amd64 \
+            --push \
             .
 
       - name: Push buildx caches (arm64)
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
-            --output type=image,name=fake \
+            --push
             --platform linux/arm64 \
             --target ${{ matrix.target_runtime }}-runtime \
             --file docker/Dockerfile \
@@ -197,6 +198,8 @@ jobs:
             --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
             --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
             --cache-to type=gha,mode=max,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
+            --tag ghcr.io/${{ github.repository }}-cache:arm64 \
+            --push \
             .
 
       - name: Setup
