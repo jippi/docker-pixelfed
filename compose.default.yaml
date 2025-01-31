@@ -18,6 +18,8 @@ include:
     ################################################################################
 
       # Add the [cron] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [cron] service
       - compose-config/cron/service.yaml
 
       # Set a static container name for the [cron] service
@@ -33,6 +35,8 @@ include:
     ################################################################################
 
       # Add the [web] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [web] service
       - compose-config/web/service.yaml
 
       # Set a static container name for the [web] service
@@ -51,6 +55,8 @@ include:
     ################################################################################
 
       # Add the [worker] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [worker] service
       - compose-config/worker/service.yaml
 
       # Set a static container name for the [worker] service
@@ -66,6 +72,8 @@ include:
     ################################################################################
 
       # Add the [proxy] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [proxy] service
       # - compose-config/proxy/service.yaml
 
       # Set a static container name for the [proxy] service
@@ -82,6 +90,8 @@ include:
     ################################################################################
 
       # Add the [redis] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [redis] service
       - compose-config/redis/service.yaml
 
       # Set a static container name for the [redis] service
@@ -110,6 +120,8 @@ include:
     ################################################################################
 
       # Add the [db] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [db] service
       - compose-config/db/service.yaml
 
       # Set a static container name for the [db] service
@@ -133,8 +145,12 @@ include:
       # NOTE: disable if you do not use the [worker] service
       - compose-config/db/dependency_worker.yaml
 
+################################################################################
+# Local configuration
+################################################################################
+
 # !
-# ! You can also define your own overrides (or even new services!) directly in this file
+# ! You can also define your own configuration (or even new services!) directly in this file
 # !
 # ! This requires a modern version of compose (late 2024 or newer)
 # !
