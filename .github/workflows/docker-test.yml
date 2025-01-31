@@ -148,6 +148,13 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
+      - name: Restore buildx cache
+        id: buildx-file-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: _cache/buildx
+          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
@@ -164,43 +171,15 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,src=_cache/buildx
 
-      - name: Push buildx caches (amd64)
+      - name: Save buildx cache
         if: github.ref == 'refs/heads/main'
-        run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            --target ${{ matrix.target_runtime }}-runtime \
-            --file docker/Dockerfile \
-            --build-arg PHP_VERSION=${{ matrix.php_version }} \
-            --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
-            --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
-            --cache-from type=gha,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
-            --cache-to type=gha,mode=max,scope=pixelfed/branch/main/amd64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
-            --tag ghcr.io/${{ github.repository }}-cache:amd64 \
-            --push \
-            .
-
-      - name: Push buildx caches (arm64)
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker buildx build \
-            --push
-            --platform linux/arm64 \
-            --target ${{ matrix.target_runtime }}-runtime \
-            --file docker/Dockerfile \
-            --build-arg PHP_VERSION=${{ matrix.php_version }} \
-            --build-arg PHP_BASE_TYPE=${{ matrix.php_base }} \
-            --build-arg PHP_DEBIAN_RELEASE=${{ matrix.debian_release }} \
-            --cache-from type=gha,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
-            --cache-to type=gha,mode=max,scope=pixelfed/branch/main/arm64-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }} \
-            --tag ghcr.io/${{ github.repository }}-cache:arm64 \
-            --push \
-            .
+        uses: actions/cache/save@v4
+        with:
+          path: _cache/buildx
+          key: buildx-cache-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
 
       - name: Setup
         run: docker/tests/setup.sh
