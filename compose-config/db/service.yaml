@@ -20,7 +20,7 @@ services:
       POSTGRES_PASSWORD: "${DB_PASSWORD:?missing}"
       POSTGRES_DB: "${DB_DATABASE:?missing}"
     volumes:
-      - "../../${DOCKER_DB_HOST_DATA_PATH:?missing}:${DOCKER_DB_CONTAINER_DATA_PATH:?missing}"
+      - "${DOCKER_DB_HOST_DATA_PATH:?missing}:${DOCKER_DB_CONTAINER_DATA_PATH:?missing}"
     healthcheck:
       test:
         [

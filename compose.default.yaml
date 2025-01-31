@@ -11,7 +11,9 @@
 # > The override file can contain configuration overrides for existing services or entirely new services.
 
 include:
-  - path:
+  - project_directory: ./
+    env_file: ./.env
+    path:
 
     ################################################################################
     # Pixelfed - [cron] service

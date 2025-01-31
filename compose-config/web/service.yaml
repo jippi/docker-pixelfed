@@ -8,10 +8,10 @@ services:
       DOCKER_APP_ENTRYPOINT_DEBUG: ${DOCKER_APP_ENTRYPOINT_DEBUG:-0}
       ENTRYPOINT_SKIP_SCRIPTS: ${ENTRYPOINT_SKIP_SCRIPTS:-}
     volumes:
-      - "../../.env:/var/www/.env"
-      - "../../${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
-      - "../../${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
-      - "../../${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
+      - ".env:/var/www/.env"
+      - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
+      - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
+      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"
     healthcheck:
       test: 'curl --header "Host: ${APP_DOMAIN}" --fail http://localhost/api/service/health-check'
       interval: "${DOCKER_WEB_HEALTHCHECK_INTERVAL}"
