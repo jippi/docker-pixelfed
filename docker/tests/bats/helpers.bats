@@ -101,3 +101,27 @@ teardown() {
 
     ! directory-is-empty test_dir
 }
+
+@test "test [trim-whitespace] - empty string" {
+    run trim-whitespace ""
+
+    [ "$output" = "" ]
+}
+
+@test "test [trim-whitespace] - only spaces" {
+    run trim-whitespace "        "
+
+    [ "$output" = "" ]
+}
+
+@test "test [trim-whitespace] - string" {
+    run trim-whitespace "    hello    "
+
+    [ "$output" = "hello" ]
+}
+
+@test "test [trim-whitespace] - multiple args" {
+    run trim-whitespace " " " hello " "    " " world"
+
+    [ "$output" = "hello        world" ]
+}

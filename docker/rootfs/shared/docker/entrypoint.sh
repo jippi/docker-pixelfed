@@ -50,8 +50,10 @@ fi
 log-info "looking for shell scripts in [${ENTRYPOINT_D_ROOT}]"
 
 find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r file; do
+    script_name=$(get-entrypoint-script-name "${file}")
+
     # Skip the script if it's in the skip-script list
-    if in-array "$(get-entrypoint-script-name "${file}")" skip_scripts; then
+    if in-array "${script_name}" skip_scripts; then
         log-warning "Skipping script [${file}] since it's in the skip list (\$ENTRYPOINT_SKIP_SCRIPTS)"
 
         continue
@@ -83,8 +85,11 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
                 log-error-and-exit "File [${file}] is not executable (please 'chmod +x' it)"
             fi
 
+            skip_value="$(trim-whitespace "$(trim-whitespace "$ENTRYPOINT_SKIP_SCRIPTS") $script_name")"
+
             log-info "${section_message_color}============================================================${color_clear}"
             log-info "${section_message_color}Executing [${file}]${color_clear}"
+            log-info "${section_message_color}You can disable this script by setting [\$ENTRYPOINT_SKIP_SCRIPTS=\"${skip_value}\"] in your .env file"
             log-info "${section_message_color}============================================================${color_clear}"
 
             "${file}"
