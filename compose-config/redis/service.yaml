@@ -17,14 +17,3 @@ services:
       interval: "${DOCKER_REDIS_HEALTHCHECK_INTERVAL:?missing}"
       retries: 2
       timeout: 5s
-
-  cron:
-    depends_on: &depends_on
-      redis:
-        condition: "service_healthy"
-
-  worker:
-    depends_on: *depends_on
-
-  web:
-    depends_on: *depends_on
