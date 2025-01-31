@@ -2,7 +2,7 @@
 # Copy this file to [compose.yaml] and comment/uncomment lines
 # for the features you want.
 #
-#   cp compose.yaml.example compose.yaml
+#   cp compose.default.yaml compose.yaml
 #
 # See: https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/
 #

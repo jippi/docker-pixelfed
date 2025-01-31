@@ -5,7 +5,7 @@ set -o errexit -o nounset -o pipefail
 echo
 echo "==> Copying compose.yaml file"
 echo
-cp -v compose.yaml.example compose.yaml
+cp -v compose.default.yaml compose.yaml
 
 echo
 echo "==> Copying .env file"
