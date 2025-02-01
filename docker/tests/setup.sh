@@ -3,6 +3,11 @@
 set -o errexit -o nounset -o pipefail
 
 echo
+echo "==> Copying compose.yaml file"
+echo
+cp -v compose.default.yaml compose.yaml
+
+echo
 echo "==> Copying .env file"
 echo
 cp -v .env.docker .env

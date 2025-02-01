@@ -1,0 +1,3 @@
+services:
+  proxy-acme:
+    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy-acme"

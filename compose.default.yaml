@@ -1,0 +1,164 @@
+---
+# Copy this file to [compose.yaml] and comment/uncomment lines
+# for the features you want.
+#
+#   cp compose.default.yaml compose.yaml
+#
+# ? You can run [docker compose config] to see the full configuration at any time
+#
+# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/include/
+# See: https://docs.docker.com/reference/compose-file/include/
+# See: https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/
+
+include:
+  - project_directory: .
+    env_file:
+      - ./.env.docker
+      - ./.env
+    path:
+
+    ################################################################################
+    # Pixelfed - [cron] service
+    ################################################################################
+
+      # Add the [cron] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [cron] service
+      - compose-config/cron/service.yaml
+
+      # Set a static container name for the [cron] service
+      - compose-config/cron/named.yaml
+
+      # Enable [docker build] if you build a custom Pixelfed Docker image
+      #
+      # ! NOTE: Uncomment this for [web] and [worker] services as well if you use those!
+      # - compose-config/cron/build.yaml
+
+    ################################################################################
+    # Pixelfed - [web] service
+    ################################################################################
+
+      # Add the [web] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [web] service
+      - compose-config/web/service.yaml
+
+      # Set a static container name for the [web] service
+      - compose-config/web/named.yaml
+
+      # Expose the [web] container to the host directly via 'ports:'
+      - compose-config/web/expose.yaml
+
+      # Enable [docker build] if you build a custom Pixelfed Docker image
+      #
+      # ! NOTE: Uncomment this for [cron] and [worker] services as well if you use those!
+      # - compose-config/web/build.yaml
+
+    ################################################################################
+    # Pixelfed - [worker] service
+    ################################################################################
+
+      # Add the [worker] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [worker] service
+      - compose-config/worker/service.yaml
+
+      # Set a static container name for the [worker] service
+      - compose-config/worker/named.yaml
+
+      # Enable [docker build] if you build a custom Pixelfed Docker image
+      #
+      # ! NOTE: Uncomment this for [cron] and [web] services as well if you use those!
+      # - compose-config/worker/build.yaml
+
+    ################################################################################
+    # Proxy service (nginx)
+    ################################################################################
+
+      # Add the [proxy] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [proxy] service
+      # - compose-config/proxy/service.yaml
+
+      # Set a static container name for the [proxy] service
+      # - compose-config/proxy/named.yaml
+
+      # Add the [proxy-acme] LetsEncrypt side-service to your Compose config
+      # - compose-config/proxy-acme/service.yaml
+
+      # Set a static container name for the [proxy-acme] service
+      # - compose-config/proxy-acme/named.yaml
+
+    ################################################################################
+    # Redis service
+    ################################################################################
+
+      # Add the [redis] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [redis] service
+      - compose-config/redis/service.yaml
+
+      # Set a static container name for the [redis] service
+      - compose-config/redis/named.yaml
+
+      # Expose the [redis] service to the host directly (via 'ports').
+      - compose-config/redis/expose.yaml
+
+      # Make the [cron] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [cron] service
+      - compose-config/redis/dependency_cron.yaml
+
+      # Make the [web] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [web] service
+      - compose-config/redis/dependency_web.yaml
+
+      # Make the [worker] service depend on a healthy [redis] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [worker] service
+      - compose-config/redis/dependency_worker.yaml
+
+    ################################################################################
+    # DB service
+    ################################################################################
+
+      # Add the [db] service to your Compose config
+      #
+      # ! NOTE: comment ALL includes in this section if you do not use the [db] service
+      - compose-config/db/service.yaml
+
+      # Set a static container name for the [db] service
+      - compose-config/db/named.yaml
+
+      # Expose the [db] service to the host directly (via 'ports').
+      - compose-config/db/expose.yaml
+
+      # Make the [cron] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [cron] service
+      - compose-config/db/dependency_cron.yaml
+
+      # Make the [web] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [web] service
+      - compose-config/db/dependency_web.yaml
+
+      # Make the [worker] service depend on a healthy [db] container (via 'depends_on')
+      #
+      # ! NOTE: disable if you do not use the [worker] service
+      - compose-config/db/dependency_worker.yaml
+
+################################################################################
+# Local configuration
+################################################################################
+
+# !
+# ! You can also define your own configuration (or even new services!) directly in this file
+# !
+# ! This requires a modern version of compose (late 2024 or newer)
+# !
+
+# services:
+#   web:
+#     container_name: "my-container-name"

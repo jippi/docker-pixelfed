@@ -1,0 +1,3 @@
+services:
+  cron:
+    container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-cron"
