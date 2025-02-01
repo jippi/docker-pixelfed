@@ -112,8 +112,9 @@ jobs:
       - name: Restore buildx cache (from 'dev' build)
         uses: actions/cache/restore@v4
         with:
-          path: .cache/buildx
           key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          path: |
+            .cache/buildx
 
       - name: Ensure buildx cache directory exists
         run: mkdir -pv .cache/buildx
@@ -182,8 +183,9 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/cache/save@v4
         with:
-          path: .cache/buildx
           key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          path: |
+            .cache/buildx
 
       - name: Setup
         run: docker/tests/setup.sh
