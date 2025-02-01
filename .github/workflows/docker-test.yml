@@ -117,7 +117,7 @@ jobs:
           ref: "${{ matrix.pixelfed_branch }}"
           path: "src/"
 
-      - name: Restore buildx cache
+      - name: Restore buildx cache (from 'dev' build)
         uses: actions/cache/restore@v4
         with:
           path: .cache/buildx
