@@ -61,7 +61,7 @@ jobs:
         id: pixelfed_release
         run: echo "fragment=${TAG_NAME%%-*}" >> $GITHUB_OUTPUT
 
-      # checkout pixelfed source code
+      # Checkout pixelfed source code
       - name: Checkout pixelfed/pixelfed
         uses: actions/checkout@v4
         with:
