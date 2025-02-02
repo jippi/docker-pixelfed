@@ -44,12 +44,8 @@
             automerge: false,
             versioning: 'semver-coerced',
             allowedVersions: '<11.7', // 11.7 is RC
-            // extractVersion: '^(?<version>\\d+\\.\\d+.\\d+)',
+            extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
-            // Wait for at least a patch release before upgrading
-            patch: {
-                matchNewValue: "/\\.0$/"
-            }
         },
         {
             matchPackageNames: [
