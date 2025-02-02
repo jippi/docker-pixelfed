@@ -43,6 +43,7 @@
             groupName: "PHP",
             automerge: false,
             extractVersion: "^(?<version>\\d+\\.\\d+)",
+            semanticCommitType: "feat"
         },
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
