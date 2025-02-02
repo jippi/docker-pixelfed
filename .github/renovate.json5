@@ -42,6 +42,7 @@
             ],
             groupName: 'MariaDB',
             automerge: false,
+            versioning: 'docker',
             // allowedVersions: '<11.7', // 11.7 is RC
             // extractVersion: '^(?<version>\\d+\\.\\d+.\\d+)',
             semanticCommitType: 'feat',
