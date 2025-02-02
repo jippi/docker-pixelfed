@@ -45,7 +45,7 @@
             allowedVersions: '<=11',
             extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
-            versioning: 'semver',
+            versioning: 'docker',
             patch: {
                 enabled: false,
             },
