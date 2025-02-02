@@ -32,18 +32,31 @@
             groupName: "MariaDB",
             automerge: false,
             allowedVersions: "<=11",
+            extractVersion: "^(?<version>\\d+\\.\\d+)",
+            semanticCommitType: "feat",
+            patch: {
+                enabled: "false",
+            },
         },
         {
             matchPackageNames: ["redis"],
             groupName: "Redis",
             automerge: false,
+            extractVersion: "^(?<version>\\d+\\.\\d+)",
+            semanticCommitType: "feat",
+            patch: {
+                enabled: "false",
+            },
         },
         {
             matchPackageNames: ["php"],
             groupName: "PHP",
             automerge: false,
             extractVersion: "^(?<version>\\d+\\.\\d+)",
-            semanticCommitType: "feat"
+            semanticCommitType: "feat",
+            patch: {
+                enabled: "false",
+            },
         },
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
