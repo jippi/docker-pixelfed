@@ -43,7 +43,9 @@
             groupName: 'MariaDB',
             automerge: false,
             allowedVersions: '<=11',
+            extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
+            versioning: 'semver',
             patch: {
                 enabled: false,
             },
