@@ -42,8 +42,8 @@
             ],
             groupName: 'MariaDB',
             automerge: false,
-            versioning: 'docker',
-            // allowedVersions: '<11.7', // 11.7 is RC
+            versioning: 'semver-coerced',
+            allowedVersions: '<11.7', // 11.7 is RC
             // extractVersion: '^(?<version>\\d+\\.\\d+.\\d+)',
             semanticCommitType: 'feat',
             // Wait for at least a patch release before upgrading
