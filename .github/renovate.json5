@@ -42,7 +42,7 @@
             ],
             groupName: 'MariaDB',
             automerge: false,
-            allowedVersions: '<=11.7', // 11.7 is RC
+            allowedVersions: '<11.7', // 11.7 is RC
             extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
             patch: {
