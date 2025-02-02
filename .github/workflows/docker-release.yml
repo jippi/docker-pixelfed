@@ -44,9 +44,16 @@ jobs:
       packages: write
 
     steps:
-      # checout this repo
+      # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Restore buildx cache
+        uses: actions/cache/restore@v4
+        with:
+          key: buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          path: |
+            .cache/buildx
 
       - name: Find Pixelfed release tag
         env:
@@ -115,9 +122,5 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Cache from 'main' branch
-          # !NOTE: we don't push cache here since its tags-only workflow
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-          cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,src=.cache/buildx

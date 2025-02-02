@@ -76,6 +76,7 @@ command:
       - sqlite3
       - standard
       - tokenizer
+      - vips
       - xml
       - xmlreader
       - xmlwriter

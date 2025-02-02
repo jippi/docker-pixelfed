@@ -27,7 +27,6 @@ packages+=(
     moreutils
     nano
     procps
-    software-properties-common
     unzip
     wget
     tzdata
@@ -56,8 +55,15 @@ packages+=(
 readarray -d ' ' -t -O "${#packages[@]}" packages < <(echo -n "${APT_PACKAGES_EXTRA:-}")
 
 apt-get update
-apt-get upgrade -y
-apt-get install -y "${packages[@]}"
+apt-get upgrade --yes
+apt-get install --yes "${packages[@]}"
 
 locale-gen
 update-locale
+
+# Set www-data to be RUNTIME_UID/RUNTIME_GID
+groupmod --gid "${RUNTIME_GID?:missing}" www-data
+usermod --uid "${RUNTIME_UID?:missing}" --gid "${RUNTIME_GID}" www-data
+
+mkdir -pv /var/www/
+chown -R "${RUNTIME_UID}:${RUNTIME_GID}" /var/www

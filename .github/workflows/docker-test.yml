@@ -105,11 +105,21 @@ jobs:
       packages: write
 
     steps:
-      # checout this repo
+      # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # checkout pixelfed source code into src/
+      - name: Restore buildx cache (from 'dev' build)
+        uses: actions/cache/restore@v4
+        with:
+          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          path: |
+            .cache/buildx
+
+      - name: Ensure buildx cache directory exists
+        run: mkdir -pv .cache/buildx
+
+      # Checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
         uses: actions/checkout@v4
         with:
@@ -165,10 +175,17 @@ jobs:
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-            type=gha,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,src=.cache/buildx
           cache-to: |
-            type=gha,mode=max,ignore-error=true,scope=pixelfed/branch/${{ github.ref_name }}/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,dest=.cache/buildx,mode=min,compression=uncompressed
+
+      - name: Save buildx cache
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          path: |
+            .cache/buildx
 
       - name: Setup
         run: docker/tests/setup.sh
