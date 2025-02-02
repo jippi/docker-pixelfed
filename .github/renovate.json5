@@ -42,6 +42,7 @@
             matchPackageNames: ["php"],
             groupName: "PHP",
             automerge: false,
+            extractVersion: "^(?<version>\\d+\\.\\d+)",
         },
         {
             matchPackageNames: ["jippi/docker-pixelfed"],
