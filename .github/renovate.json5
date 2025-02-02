@@ -55,6 +55,7 @@
             ],
             groupName: 'Redis',
             automerge: false,
+            allowedVersions: '<=7',
             extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
             patch: {
