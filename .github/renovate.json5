@@ -92,7 +92,7 @@
             matchPackageNames: [
                 'ghcr.io/jippi/dottie',
             ],
-            groupName: 'Dottie',
+            groupName: 'dottie',
             automerge: false,
         },
     ],
@@ -124,6 +124,7 @@
             customType: 'regex',
             fileMatch: [
                 '(^|/)\\.env\\.docker$',
+                '(^|/)scripts/dottie$',
                 '(^|/)scripts/set-recommended-versions$',
             ],
             matchStrings: [
