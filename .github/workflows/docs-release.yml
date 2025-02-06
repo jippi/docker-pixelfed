@@ -19,8 +19,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: install dottie
+        run: |
+          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
+          sudo apt update
+          sudo apt install dottie
+
       - name: generate .env docs
-        run: scripts/dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
+        run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
 
       - name: build
         run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
