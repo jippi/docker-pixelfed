@@ -6,7 +6,7 @@ declare project_root="${PWD}"
 
 command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
 
-# @renovate: datasource=docker depName=ghcr.io/jippi/dottie
+# @renovate datasource=docker depName=ghcr.io/jippi/dottie
 declare dottie_version="v0.14.2"
 declare user="${PF_USER:=www-data}"
 

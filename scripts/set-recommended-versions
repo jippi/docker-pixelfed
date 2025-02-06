@@ -28,7 +28,6 @@ DOCKER_DB_IMAGE=$(__dottie value DOCKER_DB_IMAGE)
 if [[ $DOCKER_DB_IMAGE == mariadb* ]]; then
     action_start_newline "Setting [DB_VERSION] to [${DB_VERSION}]"
     __dottie set --error-if-missing DB_VERSION="${DB_VERSION}" || action_error_exit "Failed"
-
 fi
 
 action_start_newline "Setting [DOCKER_APP_PHP_VERSION] to [${DOCKER_APP_PHP_VERSION}]"
