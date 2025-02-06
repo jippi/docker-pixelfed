@@ -10,5 +10,5 @@ if [[ "${1:-}" == "update" ]]; then
     dottie_flags+=(--no-validate)
 fi
 
-# run dottie within the worker container
+# run dottie within a container
 exec scripts/shell dottie "$@" "${dottie_flags[@]}"
