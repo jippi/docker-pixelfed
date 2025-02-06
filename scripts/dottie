@@ -2,7 +2,7 @@
 
 set -e -o errexit -o nounset -o pipefail
 
-# [dottie] flags
+# [dottie] command flags
 declare -a dottie_flags=()
 
 # [dottie update]
