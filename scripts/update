@@ -41,14 +41,6 @@ scripts/dottie set DOCKER_APP_RELEASE="${pixelfed_release}" || action_error_exit
 action_ok "OK"
 echo
 
-# Check if the [compose.override.yaml] file exist, or copy the example file
-if [[ ! -f "${project_root}/compose.override.yaml" ]]; then
-    action_start_newline "No 'compose.override.yaml' file found, copying the default one for you"
-    cp -v "${project_root}/compose.override.yaml.example" "${project_root}/compose.override.yaml" || action_error_exit "copy operation failed"
-    action_ok "OK"
-    echo
-fi
-
 action_start_newline "pulling new Docker images"
 docker compose pull || action_error_exit "could not pull docker images"
 action_ok "OK"
