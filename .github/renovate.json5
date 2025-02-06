@@ -131,7 +131,7 @@
                 '@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?="?(?<currentValue>.*?)"?\\s',
             ],
             versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
-            extractVersionTemplate: '^v?(?<version>\\d+\\.\\d+\\.\\d+)',
+            extractVersionTemplate: '^(?<version>v?\\d+\\.\\d+\\.\\d+)',
         },
     ],
 }
