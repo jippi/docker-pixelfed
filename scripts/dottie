@@ -5,8 +5,14 @@ set -e -o errexit -o nounset -o pipefail
 # [dottie] flags
 declare -a dottie_flags=()
 
-# [dottie] skip validation when running in the container
+# [dottie update]
 if [[ "${1:-}" == "update" ]]; then
+    dottie_flags+=(--no-validate)
+    dottie_flags+=(--backup-file /var/www/storage/docker/dot-env-file-backup)
+fi
+
+# [dottie set]
+if [[ "${1:-}" == "set" ]]; then
     dottie_flags+=(--no-validate)
 fi
 

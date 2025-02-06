@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+set -e -o errexit -o nounset -o pipefail
+
+declare project_root="${PWD}"
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+
+# shellcheck source=lib/shared.sh
+source "${project_root}/scripts/lib/shared.sh"
+
+# Check if the .env file exist, or copy the template
+if [[ ! -f "${project_root}/.env" ]]; then
+    action_error_exit "No [$(highlight .env)${RED}] file found in your project root. Please run [$(highlight "./scripts/setup")${RED}] first"
+fi
+
 declare -r compose_service="${PF_SERVICE:=worker}"
 
 # [docker compose run] flags
