@@ -51,7 +51,9 @@ jobs:
       - name: Restore buildx cache
         uses: actions/cache/restore@v4
         with:
-          key: buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          key: buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
+          restore-keys: |
+            buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-
           path: |
             .cache/buildx
 
