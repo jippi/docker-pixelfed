@@ -60,3 +60,10 @@ apt-get install --yes "${packages[@]}"
 
 locale-gen
 update-locale
+
+# Set www-data to be RUNTIME_UID/RUNTIME_GID
+groupmod --gid "${RUNTIME_GID?:missing}" www-data
+usermod --uid "${RUNTIME_UID?:missing}" --gid "${RUNTIME_GID}" www-data
+
+mkdir -pv /var/www/
+chown -R "${RUNTIME_UID}:${RUNTIME_GID}" /var/www

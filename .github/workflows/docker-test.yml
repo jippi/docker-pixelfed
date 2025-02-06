@@ -97,7 +97,7 @@ jobs:
 
     # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
     concurrency:
-      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}-${{ matrix.pixelfed_branch }}
+      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}-${{ matrix.pixelfed_branch }}-
       cancel-in-progress: true
 
     permissions:
@@ -105,11 +105,23 @@ jobs:
       packages: write
 
     steps:
-      # checout this repo
+      # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # checkout pixelfed source code into src/
+      - name: Restore buildx cache (from 'dev' build)
+        uses: actions/cache/restore@v4
+        with:
+          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
+          restore-keys: |
+            buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-
+          path: |
+            .cache/buildx
+
+      - name: Ensure buildx cache directory exists
+        run: mkdir -pv .cache/buildx
+
+      # Checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
         uses: actions/checkout@v4
         with:
@@ -164,9 +176,18 @@ jobs:
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          # Use cache from the last 'main' build to (optimistically) reduce build time in a PR
           cache-from: |
-            type=gha,scope=pixelfed/branch/main/${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+            type=local,src=.cache/buildx
+          cache-to: |
+            type=local,dest=.cache/buildx,mode=min
+
+      - name: Save buildx cache
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v4
+        with:
+          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
+          path: |
+            .cache/buildx
 
       - name: Setup
         run: docker/tests/setup.sh

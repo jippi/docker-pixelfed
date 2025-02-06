@@ -1,96 +1,137 @@
 {
     extends: [
-        "config:recommended",
-        ":pinDevDependencies",
-        ":separateMultipleMajorReleases",
-        "default:pinDigestsDisabled",
+        'config:recommended',
+        ':pinDevDependencies',
+        ':separateMultipleMajorReleases',
+        'default:pinDigestsDisabled',
     ],
     schedule: [
-        /* every hour */
-        "* * * * *",
+        '* * * * *',
     ],
     automerge: true,
     configMigration: true,
-    baseBranches: ["main"],
-    rebaseWhen: "behind-base-branch",
-    labels: ["dependencies"],
+    baseBranches: [
+        'main',
+    ],
+    rebaseWhen: 'behind-base-branch',
+    labels: [
+        'dependencies',
+    ],
     osvVulnerabilityAlerts: true,
     platformAutomerge: true,
-    postUpdateOptions: ["npmDedupe"],
+    postUpdateOptions: [
+        'npmDedupe',
+    ],
     prHourlyLimit: 1,
     vulnerabilityAlerts: {
         enabled: true,
-        labels: ["security"],
+        labels: [
+            'security',
+        ],
     },
     packageRules: [
         {
-            matchFileNames: ["package.json"],
+            matchFileNames: [
+                'package.json',
+            ],
             enabled: true,
         },
         {
-            matchPackageNames: ["mariadb"],
-            groupName: "MariaDB",
+            matchPackageNames: [
+                'mariadb',
+            ],
+            groupName: 'MariaDB',
             automerge: false,
-            allowedVersions: "<=11",
+            versioning: 'semver-coerced',
+            allowedVersions: '<11.7', // 11.7 is RC
+            extractVersion: '^(?<version>\\d+\\.\\d+)',
+            semanticCommitType: 'feat',
+            // Wait for at least a patch release before upgrading
+            patch: {
+                matchNewValue: "/\\.0$/"
+            }
         },
         {
-            matchPackageNames: ["redis"],
-            groupName: "Redis",
+            matchPackageNames: [
+                'redis',
+            ],
+            groupName: 'Redis',
+            automerge: false,
+            allowedVersions: '<=7',
+            extractVersion: '^(?<version>\\d+\\.\\d+)',
+            semanticCommitType: 'feat',
+            patch: {
+                enabled: false,
+            },
+        },
+        {
+            matchPackageNames: [
+                'php',
+            ],
+            groupName: 'PHP',
+            automerge: false,
+            extractVersion: '^(?<version>\\d+\\.\\d+)',
+            semanticCommitType: 'feat',
+            patch: {
+                enabled: false,
+            },
+        },
+        {
+            matchPackageNames: [
+                'jippi/docker-pixelfed',
+            ],
             automerge: false,
         },
         {
-            matchPackageNames: ["php"],
-            groupName: "PHP",
+            matchPackageNames: [
+                'nginxproxy/nginx-proxy',
+            ],
             automerge: false,
         },
         {
-            matchPackageNames: ["jippi/docker-pixelfed"],
-            automerge: false,
-        },
-        {
-            matchPackageNames: ["nginxproxy/nginx-proxy"],
-            automerge: false,
-        },
-        {
-            matchPackageNames: ["ghcr.io/jippi/dottie"],
-            groupName: "Dottie",
+            matchPackageNames: [
+                'ghcr.io/jippi/dottie',
+            ],
+            groupName: 'dottie',
             automerge: false,
         },
     ],
     customManagers: [
         {
-            customType: "regex",
-            fileMatch: ["(^|/)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
-            matchStrings: [
-                // example:
-                //
-                // # renovate: datasource=github-releases depName=hashicorp/terraform versioning=hashicorp
-                // ENV DEFAULT_TERRAFORM_VERSION=x.x.x
-                //
-                // # renovate: datasource=github-releases depName=open-policy-agent/conftest
-                // ARG DEFAULT_CONFTEST_VERSION=x.x.x
-                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=\"(?<currentValue>.*?)\"?\\s",
+            customType: 'regex',
+            fileMatch: [
+                '(^|/)Dockerfile$',
+                '(^|/)Dockerfile\\.[^/]*$',
             ],
-            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
+            matchStrings: [
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION="(?<currentValue>.*?)"?\\s',
+            ],
+            versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
+            extractVersionTemplate: '^v?(?<version>\\d+\\.\\d+\\.\\d+)',
         },
         {
-            customType: "regex",
-            fileMatch: ["^\\.github/workflows/[^/]+\\.ya?ml$"],
-            matchStrings: [
-                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: \"?(?<currentValue>.*?)\"?\\s",
+            customType: 'regex',
+            fileMatch: [
+                '^\\.github/workflows/[^/]+\\.ya?ml$',
             ],
-            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
+            matchStrings: [
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: "?(?<currentValue>.*?)"?\\s',
+            ],
+            versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
+            extractVersionTemplate: '^v?(?<version>\\d+\\.\\d+\\.\\d+)',
         },
         {
-            customType: "regex",
-            fileMatch: ["(^|/)\\.env\\.docker$", "(^|/)scripts/set-recommended-versions$"],
-            matchStrings: [
-                "@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?=\"?(?<currentValue>.*?)\"?\\s",
+            customType: 'regex',
+            fileMatch: [
+                '(^|/)\\.env\\.docker$',
+                '(^|/)scripts/dottie$',
+                '(^|/)scripts/set-recommended-versions$',
             ],
-            versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            extractVersionTemplate: "^v?(?<version>\\d+\\.\\d+\\.\\d+)",
+            matchStrings: [
+                '@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?="?(?<currentValue>.*?)"?\\s',
+            ],
+            versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
+            extractVersionTemplate: '^(?<version>v?\\d+\\.\\d+\\.\\d+)',
         },
     ],
 }
