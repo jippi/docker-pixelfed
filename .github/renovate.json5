@@ -93,7 +93,6 @@
                 'ghcr.io/jippi/dottie',
             ],
             groupName: 'dottie',
-            automerge: false,
         },
     ],
     customManagers: [
