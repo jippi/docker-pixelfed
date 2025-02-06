@@ -2,26 +2,13 @@
 
 set -e -o errexit -o nounset -o pipefail
 
-declare project_root="${PWD}"
+# [dottie] flags
+declare -a dottie_flags=()
 
-command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+# [dottie] skip validation when running in the container
+if [[ "${1:-}" == "update" ]]; then
+    dottie_flags+=(--no-validate)
+fi
 
-# @renovate datasource=docker depName=ghcr.io/jippi/dottie
-declare dottie_version="v0.15.0"
-declare user="${PF_USER:=www-data}"
-
-# default [docker run] flags
-declare -a flags=(
-    --rm
-    --user "${user}"
-    --env TERM
-    --env COLORTERM
-    --volume "${project_root}:/var/www"
-    --workdir /var/www
-)
-
-# if the shell is interactive, attach the tty and stdin to the container
-tty -s && [ $# -eq 0 ] && flags+=(--interactive --tty)
-
-# run dottie
-exec docker run "${flags[@]}" "ghcr.io/jippi/dottie:${DOTTIE_VERSION:-${dottie_version}}" "$@"
+# run dottie within the worker container
+exec scripts/shell dottie "$@" "${dottie_flags[@]}"

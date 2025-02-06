@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
-declare service="${PF_SERVICE:=worker}"
-declare user="${PF_USER:=www-data}"
+declare -r compose_service="${PF_SERVICE:=worker}"
+
+# [docker compose run] flags
+declare -a compose_flags=(
+    --rm
+    --no-deps
+    --env TERM
+    --env COLORTERM
+    --entrypoint=''
+)
+
+# if the shell is interactive, attach the tty and stdin to the container
+tty -s && compose_flags+=(--interactive --tty)
 
 declare -a command=("bash")
 
@@ -9,9 +20,10 @@ if [[ $# -ge 1 ]]; then
     command=("$@")
 fi
 
-exec docker compose exec \
-    --user "${user}" \
-    --env TERM \
-    --env COLORTERM \
-    "${service}" \
+exec \
+    docker \
+    compose \
+    run \
+    "${compose_flags[@]}" \
+    "${compose_service}" \
     "${command[@]}"
