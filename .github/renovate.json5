@@ -129,7 +129,6 @@
             ],
             matchStrings: [
                 '@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?="?(?<currentValue>.*?)"?\\s',
-                '@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sdeclare .*?="?(?<currentValue>.*?)"?\\s',
             ],
             versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
             extractVersionTemplate: '^v?(?<version>\\d+\\.\\d+\\.\\d+)',
