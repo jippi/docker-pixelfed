@@ -23,7 +23,7 @@ ARG GOMPLATE_VERSION="4.3.0"
 # See: https://github.com/jippi/dottie
 #
 # renovate: datasource=docker depName=ghcr.io/jippi/dottie
-ARG DOTTIE_VERSION="v0.15.0"
+ARG DOTTIE_VERSION="v0.15.1"
 
 # See: https://github.com/composer/composer
 #
