@@ -58,6 +58,6 @@ find "${ENTRYPOINT_TEMPLATE_DIR}" -follow -type f -print | while read -r templat
         # file types
         resolved_path="$(readlink -f "${output_file_path}")"
 
-        git --no-pager diff --text --color=always "${template_file}" "${resolved_path}" || : # ignore diff exit code
+        stream-prefix-command-output git --no-pager diff --text --color=always "${template_file}" "${resolved_path}" || : # ignore diff exit code
     fi
 done
