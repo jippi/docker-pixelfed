@@ -1,0 +1,17 @@
+---
+services:
+  worker:
+    build:
+      dockerfile: docker/Dockerfile
+      context: .
+      target: ${DOCKER_APP_RUNTIME}-runtime
+      cache_from:
+        - "type=registry,ref=${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
+      args:
+        APT_PACKAGES_EXTRA: "${DOCKER_APP_APT_PACKAGES_EXTRA:-}"
+        BUILD_FRONTEND: "${DOCKER_APP_BUILD_FRONTEND:-0}"
+        PHP_BASE_TYPE: "${DOCKER_APP_BASE_TYPE}"
+        PHP_DEBIAN_RELEASE: "${DOCKER_APP_DEBIAN_RELEASE}"
+        PHP_EXTENSIONS_EXTRA: "${DOCKER_APP_PHP_EXTENSIONS_EXTRA:-}"
+        PHP_PECL_EXTENSIONS_EXTRA: "${DOCKER_APP_PHP_PECL_EXTENSIONS_EXTRA:-}"
+        PHP_VERSION: "${DOCKER_APP_PHP_VERSION:?missing}"

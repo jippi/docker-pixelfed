@@ -246,10 +246,6 @@ jobs:
         run: docker compose logs cron
 
       - if: always()
-        name: Show docker compose logs (proxy)
-        run: docker compose logs proxy proxy-acme
-
-      - if: always()
         name: Show docker compose logs (db)
         run: docker compose logs db
 

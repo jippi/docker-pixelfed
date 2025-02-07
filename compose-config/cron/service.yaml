@@ -1,0 +1,16 @@
+services:
+  cron:
+    image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
+    command: gosu www-data php artisan schedule:work -vvv
+    restart: unless-stopped
+    stop_signal: SIGTERM
+    environment:
+      # Used by Pixelfed Docker init script
+      DOCKER_SERVICE_NAME: "cron"
+      DOCKER_APP_ENTRYPOINT_DEBUG: ${DOCKER_APP_ENTRYPOINT_DEBUG:-0}
+      ENTRYPOINT_SKIP_SCRIPTS: ${ENTRYPOINT_SKIP_SCRIPTS:-}
+    volumes:
+      - "./env:/var/www/.env"
+      - "${DOCKER_APP_HOST_CACHE_PATH}:/var/www/bootstrap/cache"
+      - "${DOCKER_APP_HOST_OVERRIDES_PATH}:/docker/overrides:ro"
+      - "${DOCKER_APP_HOST_STORAGE_PATH}:/var/www/storage"

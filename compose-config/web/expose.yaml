@@ -1,0 +1,4 @@
+services:
+  web:
+    ports:
+      - "${DOCKER_WEB_PORT_EXTERNAL_HTTP}:80"
