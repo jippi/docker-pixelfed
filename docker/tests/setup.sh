@@ -20,7 +20,7 @@ app_domain="localhost"
 echo
 echo "==> Reconfiguring .env file for testing"
 echo
-scripts/dottie set \
+dottie set \
     APP_DOMAIN="${app_domain}" \
     APP_NAME="docker-pixelfed e2e" \
     DB_PASSWORD="helloworld" \
