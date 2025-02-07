@@ -17,10 +17,9 @@ export TZ="UTC"
 echo
 echo -e "${BLUE}Printing debug information for GitHub issue${NO_COLOR}"
 echo
-echo -e "${GREEN}--- COPY FROM BELOW THIS LINE ---${NO_COLOR}"
+echo -e "${GREEN}<!--- COPY FROM BELOW THIS LINE --->${NO_COLOR}"
 echo
-echo "### Debug info"
-echo
+
 echo -n "_Generated on_ "
 echo -n '`'
 date | tr -d '\n'
@@ -122,7 +121,7 @@ echo '```'
 echo '</details>'
 
 echo
-echo -e "${GREEN}--- STOP COPYING ---${NO_COLOR}"
+echo -e "${GREEN}<!--- STOP COPYING --->${NO_COLOR}"
 echo
 echo -e "${BLUE}Please paste the output above into your GitHub issue or comment${NO_COLOR}"
 echo -e "${BLUE}Before pasting, ensure there are no output you consider sensitive to share${NO_COLOR}"
