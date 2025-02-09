@@ -7,9 +7,8 @@ declare -a dottie_flags=()
 
 # [dottie update]
 if [[ "${1:-}" == "update" ]]; then
-    echo ''
-    # dottie_flags+=(--no-validate)
-    # dottie_flags+=(--backup-file /var/www/storage/docker/dot-env-file-backup)
+    dottie_flags+=(--no-validate)
+    dottie_flags+=(--backup-file /var/www/storage/docker/dot-env-file-backup)
 fi
 
 # [dottie set]
