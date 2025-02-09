@@ -31,11 +31,6 @@ git pull || action_error_exit "could not update branch ${docker_release}"
 action_ok "OK"
 echo
 
-action_start_newline "update .env file (via dottie)"
-scripts/dottie update || action_error_exit "could not update .env file"
-action_ok "OK"
-echo
-
 action_start_newline "Updating 'DOCKER_APP_RELEASE' in '.env' file (via dottie)"
 scripts/dottie set DOCKER_APP_RELEASE="${pixelfed_release}" || action_error_exit "could not update DOCKER_APP_RELEASE"
 action_ok "OK"
@@ -43,6 +38,11 @@ echo
 
 action_start_newline "pulling new Docker images"
 docker compose pull || action_error_exit "could not pull docker images"
+action_ok "OK"
+echo
+
+action_start_newline "update .env file (via dottie)"
+scripts/dottie update || action_error_exit "could not update .env file"
 action_ok "OK"
 echo
 
