@@ -9,7 +9,10 @@ command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
 source "${project_root}/scripts/lib/shared.sh"
 
 # ensure gum is installed or available
-__gum -v >/dev/null
+action_start_newline "Preparing the environment (might be a bit slow on first run)"
+__gum -v >/dev/null || action_error_exit "failed to install [gum]"
+__dottie -v >/dev/null || action_error_exit "failed to install [dottie]"
+action_ok "OK"
 
 # Check if the .env file exist, or copy the template
 if [[ ! -f "${project_root}/.env" ]]; then
@@ -29,7 +32,7 @@ if [[ ! -w "${project_root}/.env" ]]; then
     action_error_exit ".env file is not writable by you - please fix the permissions"
 fi
 
-# Bastic site setup
+# Basic site setup
 ask_input "APP_NAME" "The name/title for your site"
 ask_input "APP_DOMAIN" "Application domain used for routing. (e.g., pixelfed.org)"
 ask_input "INSTANCE_CONTACT_EMAIL" "The public e-mail address people can use to contact you by"

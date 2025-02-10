@@ -25,7 +25,7 @@ declare -a compose_flags=(
 )
 
 # if the shell is interactive, attach the tty and stdin to the container
-tty -s && compose_flags+=(--interactive --tty)
+tty -s && [ $# -eq 0 ] && compose_flags+=(--interactive --tty)
 
 declare -a command=("bash")
 
