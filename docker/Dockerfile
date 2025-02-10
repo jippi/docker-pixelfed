@@ -257,7 +257,7 @@ COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/composer.* /var/www/
 
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files available (yet)
-RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},sharing=locked,target=/cache/composer \
+RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},uid=${RUNTIME_UID},gid=${RUNTIME_GID},sharing=locked,target=/cache/composer \
     set -ex \
     && composer install --prefer-dist --no-autoloader --ignore-platform-reqs
 
