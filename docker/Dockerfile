@@ -74,7 +74,7 @@ ARG NGINX_GPGKEY_PATH="/usr/share/keyrings/nginx-archive-keyring.gpg"
 # NOTE: Docker will *not* pull this image unless it's referenced (via build target)
 FROM nginx:${NGINX_VERSION} AS nginx-image
 
-# Forego is a Procfile "runner" that makes it trival to run multiple
+# Forego is a Procfile "runner" that makes it trivial to run multiple
 # processes under a simple init / PID 1 process.
 #
 # NOTE: Docker will *not* pull this image unless it's referenced (via build target)
@@ -178,7 +178,7 @@ ENV COMPOSER_CACHE_DIR="/cache/composer"
 # Don't enforce any memory limits for composer
 ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Disable interactvitity from composer
+# Disable interactivity from composer
 ENV COMPOSER_NO_INTERACTION=1
 
 #######################################################

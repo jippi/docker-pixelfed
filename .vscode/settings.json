@@ -19,8 +19,27 @@
         ".env.*": "shellscript"
     },
     "cSpell.words": [
+        "bcmath",
+        "dismod",
+        "enconf",
+        "enmod",
         "envsubst",
         "gomplate",
-        "pixelfed"
+        "GPGKEY",
+        "hairyhenderson",
+        "imagick",
+        "keyrings",
+        "keyserver",
+        "mbstring",
+        "nginxproxy",
+        "noninteractive",
+        "PECL",
+        "pgsql",
+        "pixelfed",
+        "Procfile",
+        "remoteip",
+        "reqs",
+        "rootfs",
+        "skel"
     ]
 }
