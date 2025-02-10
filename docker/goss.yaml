@@ -1,6 +1,7 @@
 # See: https://github.com/goss-org/goss/blob/master/docs/manual.md#goss-manual
 
 package:
+  bzip2: { installed: true }
   curl: { installed: true }
   ffmpeg: { installed: true }
   gifsicle: { installed: true }
