@@ -74,7 +74,7 @@ ARG NGINX_GPGKEY_PATH="/usr/share/keyrings/nginx-archive-keyring.gpg"
 # NOTE: Docker will *not* pull this image unless it's referenced (via build target)
 FROM nginx:${NGINX_VERSION} AS nginx-image
 
-# Forego is a Procfile "runner" that makes it trival to run multiple
+# Forego is a Procfile "runner" that makes it trivial to run multiple
 # processes under a simple init / PID 1 process.
 #
 # NOTE: Docker will *not* pull this image unless it's referenced (via build target)
@@ -178,7 +178,7 @@ ENV COMPOSER_CACHE_DIR="/cache/composer"
 # Don't enforce any memory limits for composer
 ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Disable interactvitity from composer
+# Disable interactivity from composer
 ENV COMPOSER_NO_INTERACTION=1
 
 #######################################################
@@ -257,7 +257,7 @@ COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/composer.* /var/www/
 
 # Install composer dependencies
 # NOTE: we skip the autoloader generation here since we don't have all files available (yet)
-RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},sharing=locked,target=/cache/composer \
+RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},uid=${RUNTIME_UID},gid=${RUNTIME_GID},sharing=locked,target=/cache/composer \
     set -ex \
     && composer install --prefer-dist --no-autoloader --ignore-platform-reqs
 
