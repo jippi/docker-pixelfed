@@ -24,7 +24,7 @@ npx playwright install chromium --with-deps
 echo
 echo "==> Wait for the site to come up, while streaming the logs"
 echo
-curl --retry-delay 1 --retry 180 --retry-max-time 180 --retry-all-errors --fail -o /dev/null "http://${app_domain}:8080"
+curl --retry-delay 1 --retry 60 --retry-max-time 60 --retry-all-errors --fail -o /dev/null "http://${app_domain}:8080"
 
 echo
 echo "==> Run playwright tests"

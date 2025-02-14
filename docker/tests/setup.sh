@@ -31,5 +31,7 @@ dottie set \
     DOCKER_PROXY_PROFILE="disabled" \
     ENFORCE_EMAIL_VERIFICATION="false" \
     INSTANCE_CONTACT_EMAIL="github@example.com" \
+    ACTIVITY_PUB="true" \
     OAUTH_ENABLED="true" \
+    PF_LOGIN_WITH_MASTODON_ENABLED="true" \
     DOCKER_APP_PHP_MEMORY_LIMIT="256M"
