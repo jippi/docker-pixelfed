@@ -8,11 +8,8 @@ command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
 # shellcheck source=lib/shared.sh
 source "${project_root}/scripts/lib/shared.sh"
 
-# ensure gum is installed or available
 action_start_newline "Preparing the environment (might be a bit slow on first run)"
-__gum -v >/dev/null || action_error_exit "failed to install [gum]"
-__dottie -v >/dev/null || action_error_exit "failed to install [dottie]"
-action_ok "OK"
+echo
 
 # Check if the .env file exist, or copy the template
 if [[ ! -f "${project_root}/.env" ]]; then
@@ -21,11 +18,23 @@ if [[ ! -f "${project_root}/.env" ]]; then
     action_ok "OK"
     echo
 
-    action_start_newline "Ensuring permissions are correct (0660)"
-    chmod 0660 "${project_root}/.env" || action_error_exit "chmod operation failed"
+    action_start_newline "Ensuring permissions are correct (0777)"
+    chmod -v 0777 "${project_root}/.env" || action_error_exit "chmod operation failed"
     action_ok "OK"
     echo
 fi
+
+# ensure gum is installed or available
+action_start_newline "Ensuring [gum] is available"
+__gum -v >/dev/null || action_error_exit "failed to install [gum]"
+action_ok "OK"
+echo
+
+# ensure dottie can run
+action_start_newline "Ensuring [dottie] is available"
+__dottie -v >/dev/null || action_error_exit "failed to install [dottie] - try to run [script/dottie] manually for more information"
+action_ok "OK"
+echo
 
 # Check if the .env file is writable
 if [[ ! -w "${project_root}/.env" ]]; then
