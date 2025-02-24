@@ -2,6 +2,9 @@ setup() {
     DIR="$(cd "$(dirname "${BATS_TEST_FILENAME:-}")" >/dev/null 2>&1 && pwd)"
     ROOT="$(dirname "$(dirname "$DIR")")"
 
+    export RUNTIME_UID=0
+    export ENTRYPOINT_D_ROOT="/var/www/docker/rootfs/shared/docker/entrypoint.d/"
+
     load "$ROOT/rootfs/shared/docker/helpers.sh"
 }
 
@@ -124,4 +127,18 @@ teardown() {
     run trim-whitespace " " " hello " "    " " world"
 
     [ "$output" = "hello        world" ]
+}
+
+@test "test [POST_MAX_SIZE] - defaults" {
+    source "$ROOT/rootfs/shared/docker/entrypoint.d/04-defaults.envsh"
+
+    [ "$POST_MAX_SIZE" = "61M" ]
+}
+
+@test "test [POST_MAX_SIZE] - over 1GB should say in M unit" {
+    export MAX_PHOTO_SIZE="275000"
+
+    source "$ROOT/rootfs/shared/docker/entrypoint.d/04-defaults.envsh"
+
+    [ "$POST_MAX_SIZE" = "1101M" ]
 }
