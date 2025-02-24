@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run bats
-        run: docker run -v "$PWD/docker/:/var/www" bats/bats:latest /var/www/tests/bats
+        run: docker/tests/run-bats-tests.sh
 
   hadolint:
     name: hadolint
