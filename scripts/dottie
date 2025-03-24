@@ -2,13 +2,25 @@
 
 set -e -o errexit -o nounset -o pipefail
 
+declare project_root="${PWD}"
+command -v git &>/dev/null && project_root=$(git rev-parse --show-toplevel)
+
 # [dottie] command flags
 declare -a dottie_flags=()
 
 # [dottie update]
 if [[ "${1:-}" == "update" ]]; then
+    if [[ -e "${project_root}/.env" ]]; then
+        # shellcheck source=../.env
+        source "${project_root}/.env"
+    fi
+
     dottie_flags+=(--no-validate)
-    dottie_flags+=(--backup-file /var/www/storage/docker/dot-env-file-backup)
+
+    # Don't enable backup flag on old versions of docker-pixelfed
+    if [[ "${DOCKER_APP_RELEASE:-}" != "v0.12.4"* ]]; then
+        dottie_flags+=(--backup-file /var/www/storage/docker/dot-env-file-backup)
+    fi
 fi
 
 # [dottie set]
