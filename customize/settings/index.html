@@ -6000,7 +6000,7 @@ Use a site like <a href="https://pwgen.io/">https://pwgen.io/</a> to generate it
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6"/></svg></span></a></span><span class="mdx-badge__text"><code>3306</code></span></span>
 <span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#external-docs" title="External Documentation"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></span><span class="mdx-badge__text"><a href="https://docs.pixelfed.org/running-pixelfed/installation.html#database-variables" target="_blank">docs.pixelfed.org</a></span></span></p>
-<p>Use "3306" for MySQL/MariaDB and "5432" for PostgreeSQL</p>
+<p>Use "3306" for MySQL/MariaDB and "5432" for PostgresSQL</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6569,7 +6569,7 @@ will be stored (data, config, overrides)</p>
 <h3 id="docker_all_host_config_root_path">DOCKER_ALL_HOST_CONFIG_ROOT_PATH<a class="headerlink" href="#docker_all_host_config_root_path" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DOCKER_ALL_HOST_ROOT_PATH:?error}/config</code></span></span></p>
-<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will store their confguration</p>
+<p>Path (relative to the compose.yaml) or absolute (/some/other/path) where containers will store their configuration</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6648,7 +6648,7 @@ the [DOCKER_APP_RUNTIME] and [PHP_DEBIAN_RELEASE] settings</p>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6"/></svg></span></a></span><span class="mdx-badge__text"><code>bookworm</code></span></span></p>
 <p>The <abbr title="Debian is a free operating system that's among the most mature versions of Linux available">Debian</abbr> release variant to use of the [php] <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image</p>
-<p>Examlpe: [bookworm]</p>
+<p>Example: [bookworm]</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6711,7 +6711,7 @@ its [cache] data.</p>
 </ul>
 <h3 id="docker_app_ensure_ownership_paths">DOCKER_APP_ENSURE_OWNERSHIP_PATHS<a class="headerlink" href="#docker_app_ensure_ownership_paths" title="Permanent link">&para;</a></h3>
 <p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is empty"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 3.77-.75.84S9.97 6.06 8.68 7.94 6 12.07 6 14.23a6 6 0 0 0 6 6 6 6 0 0 0 6-6c0-2.16-1.39-4.41-2.68-6.29s-2.57-3.33-2.57-3.33zm0 3.13c.44.52.84.95 1.68 2.17 1.21 1.76 2.32 4 2.32 5.16 0 2.22-1.78 4-4 4s-4-1.78-4-4c0-1.16 1.11-3.4 2.32-5.16.84-1.22 1.24-1.65 1.68-2.17"/></svg></span></a></span></span></p>
-<p>A space-seperated list of paths (inside the container) to <em>recursively</em> [chown]
+<p>A space-separated list of paths (inside the container) to <em>recursively</em> [chown]
 to the container user/group id (UID/GID) in case of permission issues.</p>
 <p>! You should <em>not</em> leave this on permanently, at it can significantly slow down startup
 ! time for the container, and during normal operations there should never be permission
@@ -6769,7 +6769,7 @@ building locally using [docker compose build].</p>
 <p><span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a6 6 0 0 1-6-6c0-4 6-10.75 6-10.75S18 10 18 14a6 6 0 0 1-6 6"/></svg></span></a></span><span class="mdx-badge__text"><code>1</code></span></span>
 <span class="mdx-badge"><span class="mdx-badge__icon"><a href="../../conventions/#external-docs" title="External Documentation"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></span><span class="mdx-badge__text"><a href="https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.enable" target="_blank">www.php.net</a></span></span></p>
 <p>Enables the opcode cache.</p>
-<p>When disabled, code is not optimised or cached.</p>
+<p>When disabled, code is not optimized or cached.</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>oneof=0 1</code></li>
@@ -6958,7 +6958,7 @@ For PostgreSQL this should be [/var/lib/postgresql/data]</p>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DB_PORT:?error}</code></span></span></p>
 <p>Port that the database will listen on <em>OUTSIDE</em> the container (e.g. the host machine)</p>
-<p>Use "3306" for MySQL/MariaDB and "5432" for PostgreeSQL</p>
+<p>Use "3306" for MySQL/MariaDB and "5432" for PostgresSQL</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
@@ -6968,7 +6968,7 @@ For PostgreSQL this should be [/var/lib/postgresql/data]</p>
 <p><span class="mdx-badge mdx-badge--attention"><span class="mdx-badge__icon"><a href="../../conventions/#required" title="Required value"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg></span></a></span></span>
 <span class="mdx-badge mdx-badge--improvement"><span class="mdx-badge__icon"><a href="../../conventions/#default" title="Default value is computed"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.75 16.25 17 21l-2.75-3 1.16-1.16L17 18.43l3.59-3.59zM17.62 12C16.31 8.1 12 3.25 12 3.25S6 10 6 14c0 3.31 2.69 6 6 6h.34c-.22-.64-.34-1.3-.34-2 0-3.18 2.5-5.78 5.62-6"/></svg></span></a></span><span class="mdx-badge__text"><code>${DB_PORT:?error}</code></span></span></p>
 <p>Port that the database will listen on <em>INSIDE</em> the container</p>
-<p>Use "3306" for MySQL/MariaDB and "5432" for PostgreeSQL</p>
+<p>Use "3306" for MySQL/MariaDB and "5432" for PostgresSQL</p>
 <p><strong>Validation rules:</strong></p>
 <ul>
 <li><code>required</code></li>
