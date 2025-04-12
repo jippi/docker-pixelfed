@@ -28,7 +28,7 @@ ARG DOTTIE_VERSION="v0.16.0"
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
-ARG COMPOSER_VERSION="2.8.7"
+ARG COMPOSER_VERSION="2.8.8"
 
 ARG RUNTIME_UID=33 # often called 'www-data'
 ARG RUNTIME_GID=33 # often called 'www-data'
