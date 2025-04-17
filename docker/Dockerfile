@@ -8,7 +8,7 @@
 # See: https://nginx.org/
 #
 # renovate: datasource=docker depName=nginx versioning=semver
-ARG NGINX_VERSION="1.27.4"
+ARG NGINX_VERSION="1.27.5"
 
 # See: https://github.com/ddollar/forego
 #
@@ -18,17 +18,17 @@ ARG FOREGO_VERSION="0.18.2"
 # See: https://github.com/hairyhenderson/gomplate
 #
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
-ARG GOMPLATE_VERSION="4.3.1"
+ARG GOMPLATE_VERSION="4.3.2"
 
 # See: https://github.com/jippi/dottie
 #
 # renovate: datasource=docker depName=ghcr.io/jippi/dottie
-ARG DOTTIE_VERSION="v0.15.1"
+ARG DOTTIE_VERSION="v0.16.0"
 
 # See: https://github.com/composer/composer
 #
 # renovate: datasource=github-releases depName=composer/composer
-ARG COMPOSER_VERSION="2.8.6"
+ARG COMPOSER_VERSION="2.8.8"
 
 ARG RUNTIME_UID=33 # often called 'www-data'
 ARG RUNTIME_GID=33 # often called 'www-data'
