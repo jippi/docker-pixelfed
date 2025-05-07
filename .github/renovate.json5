@@ -43,13 +43,12 @@
             groupName: 'MariaDB',
             automerge: false,
             versioning: 'semver-coerced',
-            allowedVersions: '<11.7', // 11.7 is RC
+            allowedVersions: '<11.7',
             extractVersion: '^(?<version>\\d+\\.\\d+)',
             semanticCommitType: 'feat',
-            // Wait for at least a patch release before upgrading
             patch: {
-                matchNewValue: "/\\.0$/"
-            }
+                matchNewValue: '/\\.0$/',
+            },
         },
         {
             matchPackageNames: [
@@ -98,9 +97,9 @@
     customManagers: [
         {
             customType: 'regex',
-            fileMatch: [
-                '(^|/)Dockerfile$',
-                '(^|/)Dockerfile\\.[^/]*$',
+            managerFilePatterns: [
+                '/(^|/)Dockerfile$/',
+                '/(^|/)Dockerfile\\.[^/]*$/',
             ],
             matchStrings: [
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION="(?<currentValue>.*?)"?\\s',
@@ -110,8 +109,8 @@
         },
         {
             customType: 'regex',
-            fileMatch: [
-                '^\\.github/workflows/[^/]+\\.ya?ml$',
+            managerFilePatterns: [
+                '/^\\.github/workflows/[^/]+\\.ya?ml$/',
             ],
             matchStrings: [
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: "?(?<currentValue>.*?)"?\\s',
@@ -121,10 +120,10 @@
         },
         {
             customType: 'regex',
-            fileMatch: [
-                '(^|/)\\.env\\.docker$',
-                '(^|/)scripts/dottie$',
-                '(^|/)scripts/set-recommended-versions$',
+            managerFilePatterns: [
+                '/(^|/)\\.env\\.docker$/',
+                '/(^|/)scripts/dottie$/',
+                '/(^|/)scripts/set-recommended-versions$/',
             ],
             matchStrings: [
                 '@renovate datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?="?(?<currentValue>.*?)"?\\s',
