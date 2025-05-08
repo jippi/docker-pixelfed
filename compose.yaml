@@ -46,7 +46,7 @@ services:
   #
   # See: https://github.com/nginx-proxy/acme-companion/tree/main/docs
   proxy-acme:
-    image: nginxproxy/acme-companion:2.5
+    image: nginxproxy/acme-companion:2.6
     container_name: "${DOCKER_ALL_CONTAINER_NAME_PREFIX}-proxy-acme"
     restart: unless-stopped
     profiles:
