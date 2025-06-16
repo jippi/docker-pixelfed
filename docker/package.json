@@ -6,7 +6,7 @@
     },
     "devDependencies": {
         "@playwright/test": "1.53.0",
-        "@types/node": "22.15.31",
+        "@types/node": "22.15.32",
         "http-server": "14.1.1"
     }
 }
