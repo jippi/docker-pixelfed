@@ -15,7 +15,7 @@ DB_VERSION="11.6"
 DOCKER_APP_PHP_VERSION="8.4"
 
 # @renovate datasource=github-releases depName=jippi/docker-pixelfed versioning=semver-coerced
-DOCKER_APP_RELEASE="v0.14"
+DOCKER_APP_RELEASE="v0.12.5"
 
 # @renovate datasource=docker depName=nginxproxy/nginx-proxy versioning=semver-coerced
 DOCKER_PROXY_VERSION="1.7.1"
