@@ -59,7 +59,7 @@ ARG PHP_EXTENSIONS_EXTRA=""
 ARG PHP_EXTENSIONS_DATABASE="pgsql mysql sqlite"
 
 # GPG key for nginx apt repository
-ARG NGINX_GPGKEY="573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62"
+ARG NGINX_GPGKEY="2FD21310B49F6B46"
 
 # GPP key path for nginx apt repository
 ARG NGINX_GPGKEY_PATH="/usr/share/keyrings/nginx-archive-keyring.gpg"
