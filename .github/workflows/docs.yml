@@ -35,7 +35,7 @@ jobs:
         run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs build
 
       - name: "Setup NodeJS"
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
 
       - name: Start HTTP server
         run: |
