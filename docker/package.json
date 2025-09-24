@@ -2,7 +2,7 @@
     "license": "MIT",
     "type": "module",
     "volta": {
-        "node": "22.19.0"
+        "node": "22.20.0"
     },
     "devDependencies": {
         "@playwright/test": "1.55.1",
