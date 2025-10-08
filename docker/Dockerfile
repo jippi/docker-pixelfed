@@ -8,7 +8,7 @@
 # See: https://nginx.org/
 #
 # renovate: datasource=docker depName=nginx versioning=semver
-ARG NGINX_VERSION="1.29.1"
+ARG NGINX_VERSION="1.29.2"
 
 # See: https://github.com/ddollar/forego
 #
