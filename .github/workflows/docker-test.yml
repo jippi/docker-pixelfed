@@ -262,7 +262,7 @@ jobs:
         run: docker compose logs
 
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
