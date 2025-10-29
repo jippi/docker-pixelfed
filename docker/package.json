@@ -2,11 +2,11 @@
     "license": "MIT",
     "type": "module",
     "volta": {
-        "node": "22.21.1"
+        "node": "24.11.0"
     },
     "devDependencies": {
         "@playwright/test": "1.56.1",
-        "@types/node": "24.9.1",
+        "@types/node": "24.9.2",
         "http-server": "14.1.1"
     }
 }
