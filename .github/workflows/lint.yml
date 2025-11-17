@@ -44,7 +44,7 @@ jobs:
           fetch-depth: 0
 
       - name: check
-        uses: DavidAnson/markdownlint-cli2-action@v20
+        uses: DavidAnson/markdownlint-cli2-action@v21
         with:
           config: .markdownlint.yml
           globs: "docs.io/**/*.md"
