@@ -15,7 +15,7 @@ jobs:
     name: ShellCheck
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - run: cp .env.docker .env
 
@@ -31,7 +31,7 @@ jobs:
     name: Renovate Config
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
       - run: npx --package renovate -c 'renovate-config-validator'
 
@@ -39,7 +39,7 @@ jobs:
     name: "markdownlint"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
