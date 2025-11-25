@@ -39,7 +39,7 @@ jobs:
     name: Bats Testing
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run bats
         run: docker/tests/run-bats-tests.sh
 
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Pixelfed
         uses: hadolint/hadolint-action@v3.3.0
@@ -107,7 +107,7 @@ jobs:
     steps:
       # Checkout this repo
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Restore buildx cache (from 'dev' build)
         uses: actions/cache/restore@v4
@@ -123,7 +123,7 @@ jobs:
 
       # Checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: "pixelfed/pixelfed"
           ref: "${{ matrix.pixelfed_branch }}"
