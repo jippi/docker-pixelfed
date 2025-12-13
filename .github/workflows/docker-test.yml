@@ -110,7 +110,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Restore buildx cache (from 'dev' build)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
           restore-keys: |
@@ -189,7 +189,7 @@ jobs:
 
       - name: Save buildx cache
         if: github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
           path: |
