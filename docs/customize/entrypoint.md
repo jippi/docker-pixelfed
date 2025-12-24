@@ -64,6 +64,7 @@ Of course it can also be used to override `php.ini`, `index.php` or any other co
 1. To create `/a/fantastic/example.txt` in the container put the source file in `./docker-compose-state/overrides/a/fantastic/example.txt`.
 1. To override the default `/docker/templates/php.ini` template, put the source file in `./docker-compose-state/overrides/docker/templates/php.ini`.
 1. To override `/a/path/inside/the/container`, put the source file in `./docker-compose-state/overrides/a/path/inside/the/container`.
+1. To override `./docker/rootfs/shared/docker/entrypoint.d/30-cache.sh`, put the script in `./docker-compose-state/overrides/docker/entrypoint.d'.
 
 ## Fixing ownership on startup
 
