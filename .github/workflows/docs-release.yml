@@ -32,4 +32,6 @@ jobs:
         run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
 
       - name: deploy
-        run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs gh-deploy --force
+        run: docker run --rm -e GITHUB_TOKEN -v ${PWD}:/docs docker-pixelfed-docs gh-deploy --force
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
