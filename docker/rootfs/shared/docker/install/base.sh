@@ -40,6 +40,7 @@ packages+=(
     jpegoptim
     optipng
     pngquant
+    libvips42
 )
 
 # Video Processing
