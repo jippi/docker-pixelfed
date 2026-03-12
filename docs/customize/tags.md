@@ -26,8 +26,8 @@ They are then combined into a final Docker image like this
 
 For example
 
-* `ghcr.io/jippi/docker-pixelfed:v0.12.1-docker13-apache-8.3-bookworm`
-* `ghcr.io/jippi/docker-pixelfed:nightly-20240628-staging-nginx-8.3-bookworm`
+* `ghcr.io/jippi/docker-pixelfed:v0.12.1-docker13-apache-8.4-bookworm`
+* `ghcr.io/jippi/docker-pixelfed:nightly-20240628-staging-nginx-8.4-bookworm`
 
 ## Pixelfed version
 
@@ -50,15 +50,16 @@ For example
 | `v{major}(1).{minor}(2).{patch}(3)` <br /><br />**Example**<br /> `v0.12.1` | :white_check_mark: `0.12.1` <br /> :x: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
 | `v{major}.{minor}` <br /><br />**Example**<br /> `v0.12` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :x: `0.15.4` <br /> :x: `v.0.0` <br /> :x: `2.0.0` |
 | `v{major}` <br /><br />**Example**<br /> `v0` | :white_check_mark: `0.12.1` <br /> :white_check_mark: `0.12.4` <br /> :white_check_mark: `0.15.4` <br /> :x: `1.0.0` <br /> :x: `2.0.0` |
-| `nightly-{branch}(6)` <br /><br />**Example**<br />`nightly-dev-apache-8.3`<br />`nightly-staging-apache-8.3` | :x: N/A |
+| `nightly-{branch}(6)` <br /><br />**Example**<br />`nightly-dev-apache-8.4`<br />`nightly-staging-apache-8.4` | :x: N/A |
 | `nightly-{YYYY-MM-DD}(7)-{branch}` <br /><br />**Example**<br />`nightly-2024-05-01-dev`<br />`nightly-2024-05-01-staging` | :x: N/A |
+
 </div>
 
 1. `{major}` is the first part in the versioning `(X.y.z)`.
 2. `{minor}` is the second part of the versioning `(x.Y.z)`.
 3. `{patch}` is the third part of the versioning `(x.y.Z)`.
 4. `{runtime}` can be either `apache` or `nginx`. Please see [the Runtime Documentation](runtimes.md).
-5. `{php_version}` Currently supports `8.3` and `8.4`.
+5. `{php_version}` Currently supports `8.4` and `8.5`.
 6. `{branch}` is the `staging` or `dev` branch that Pixelfed is developed from.
 7. `{YYYY-MM-DD}` is a date format, e.x., `2024-09-14`, where
     * `YYYY => 2024`
@@ -134,8 +135,8 @@ We will now automatically create *nightly* builds of Pixelfed from the `dev` and
 
 We currently support following PHP release:
 
-* `8.3`
 * `8.4`
+* `8.5`
 
 ## Debian release
 
