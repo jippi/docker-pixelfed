@@ -8,12 +8,12 @@
 # See: https://nginx.org/
 #
 # renovate: datasource=docker depName=nginx versioning=semver
-ARG NGINX_VERSION="1.29.5"
+ARG NGINX_VERSION="1.29.6"
 
 # See: https://github.com/ddollar/forego
 #
 # renovate: datasource=docker depName=nginxproxy/forego
-ARG FOREGO_VERSION="0.18.4"
+ARG FOREGO_VERSION="0.18.5"
 
 # See: https://github.com/hairyhenderson/gomplate
 #
@@ -23,7 +23,7 @@ ARG GOMPLATE_VERSION="5.0.0"
 # See: https://github.com/jippi/dottie
 #
 # renovate: datasource=docker depName=ghcr.io/jippi/dottie
-ARG DOTTIE_VERSION="v0.16.0"
+ARG DOTTIE_VERSION="v1.1.0"
 
 # See: https://github.com/composer/composer
 #
