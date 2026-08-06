@@ -10,42 +10,99 @@ on:
       - "*"
       - "**"
 
+# Only keep the newest run per branch alive
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deadlinks:
     name: "dead links"
     runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
+      # Building the docs site and crawling it for dead links takes a couple of
+      # minutes, so only do it when something that ends up *in* the site changed.
+      #
+      # ! NOTE: this is deliberately *not* a [paths:] filter on the workflow.
+      # !
+      # ! [dead links] is a required status check, and a workflow that never
+      # ! runs never reports one - which leaves every pull request that doesn't
+      # ! touch the docs waiting on a check that can't arrive.
+      # !
+      # ! Skipping the steps instead keeps the job (and therefore the check)
+      # ! reporting on every push.
+      - name: check for docs changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+              - 'docs-customization/**'
+              - 'mkdocs.yml'
+              - 'Dockerfile.docs'
+              - '.env.docker'
+              - '.markdownlint.yml'
+              - '.github/workflows/docs.yml'
+
       - name: install dottie
+        if: steps.changes.outputs.docs == 'true'
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
       - name: generate .env docs
+        if: steps.changes.outputs.docs == 'true'
         run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
 
+      - name: Set up Docker Buildx
+        if: steps.changes.outputs.docs == 'true'
+        uses: docker/setup-buildx-action@v4
+
       - name: build container
-        run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
+        if: steps.changes.outputs.docs == 'true'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile.docs
+          tags: docker-pixelfed-docs
+          load: true
+          cache-from: type=gha,scope=docs
+          cache-to: type=gha,scope=docs,mode=max
 
       - name: dist site
+        if: steps.changes.outputs.docs == 'true'
         run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs build
 
       - name: "Setup NodeJS"
+        if: steps.changes.outputs.docs == 'true'
         uses: actions/setup-node@v6
 
       - name: Start HTTP server
+        if: steps.changes.outputs.docs == 'true'
         run: |
           find site/
           npx http-server --port 8000 site/ &
 
       - name: Wait for HTTP server to respond
+        if: steps.changes.outputs.docs == 'true'
         run: curl --retry-delay 1 --retry 30 --retry-max-time 30 --retry-all-errors --fail -o /dev/null http://0.0.0.0:8000/
 
       - name: check for dead links
+        if: steps.changes.outputs.docs == 'true'
         run : |
           docker run --rm --net=host raviqqe/muffet \
             --verbose \

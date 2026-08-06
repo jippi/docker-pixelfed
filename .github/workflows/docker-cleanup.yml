@@ -48,3 +48,15 @@ jobs:
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           delete-untagged: true
+
+      # The BuildKit cache lives in its own package so that reading it doesn't
+      # count towards the download numbers of the real image.
+      #
+      # Its tags are a fixed set that gets overwritten in place, but every
+      # rewrite orphans the manifest it replaced - so those need reaping.
+      - name: "Delete orphaned build cache"
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          token: ${{ secrets.GH_CLEANUP_PAT }}
+          packages: docker-pixelfed-buildcache
+          delete-untagged: true
