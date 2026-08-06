@@ -20,16 +20,31 @@ jobs:
           fetch-depth: 0
 
       - name: install dottie
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
       - name: generate .env docs
         run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
       - name: build
-        run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile.docs
+          tags: docker-pixelfed-docs
+          load: true
+          # Shared with [docs.yml], which builds the same image on every
+          # docs-touching push and keeps this warm.
+          cache-from: type=gha,scope=docs
 
       - name: change git source
         run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY

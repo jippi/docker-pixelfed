@@ -19,9 +19,6 @@ on:
     branches:
       - main
 
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-  # pull_request:
-
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
   schedule:
     #        ┌───────────── minute (0 - 59)
@@ -33,6 +30,25 @@ on:
     #        │  │ │ │ │
     #        │  │ │ │ │
     - cron: "30 8 * * *" # run at 8:30 AM UTC
+
+# Supersede in-flight runs for the same branch, except on [main] where the run
+# also refreshes the shared build cache.
+concurrency:
+  group: docker-test-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  # Where the images are published
+  IMAGE: ghcr.io/${{ github.repository }}
+
+  # Where the BuildKit cache lives.
+  #
+  # ! This is deliberately a *separate* package from [IMAGE]:
+  # !
+  # !   1. Cache reads would otherwise be counted as pulls of the real image,
+  # !      inflating the download numbers we use to gauge actual usage.
+  # !   2. It keeps the cleanup rules for the two from interfering.
+  CACHE_IMAGE: ghcr.io/${{ github.repository }}-buildcache
 
 jobs:
   bats:
@@ -61,9 +77,15 @@ jobs:
           config: docker/.hadolint.yaml
           failure-threshold: error
 
-  pixelfed:
-    name: pixelfed
+  # Build the image for the runner's own architecture and test it, without
+  # involving the registry at all.
+  #
+  # Publishing is handled separately by [publish] + [merge] below, so test
+  # feedback doesn't wait on the arm64 build or on a registry round-trip.
+  test:
+    name: test
     runs-on: ubuntu-24.04
+
     strategy:
       fail-fast: false
 
@@ -85,7 +107,6 @@ jobs:
           - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
-        # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
         exclude:
           # targeting [apache] runtime with [fpm] base type doesn't make sense
           - target_runtime: apache
@@ -95,31 +116,17 @@ jobs:
           - target_runtime: nginx
             php_base: apache
 
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}-${{ matrix.pixelfed_branch }}-
-      cancel-in-progress: true
-
     permissions:
       contents: read
-      packages: write
+      packages: read
+
+    env:
+      CACHE_REF: ghcr.io/${{ github.repository }}-buildcache:${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-amd64
 
     steps:
       # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v6
-
-      - name: Restore buildx cache (from 'dev' build)
-        uses: actions/cache/restore@v5
-        with:
-          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
-          restore-keys: |
-            buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-
-          path: |
-            .cache/buildx
-
-      - name: Ensure buildx cache directory exists
-        run: mkdir -pv .cache/buildx
 
       # Checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
@@ -130,13 +137,14 @@ jobs:
           path: "src/"
 
       - name: install dottie
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -155,7 +163,7 @@ jobs:
         id: meta
         with:
           images: |
-            name=ghcr.io/${{ github.repository }},enable=true
+            name=${{ env.IMAGE }},enable=true
           flavor: |
             suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           tags: |
@@ -166,34 +174,27 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
-      - name: Build and push image
+      # Single architecture, kept on the runner. The [publish] job is what
+      # actually pushes anything.
+      - name: Build image
         uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
+          load: true
           provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          # Read-only. The cache is written by [publish] on [main] only.
           cache-from: |
-            type=local,src=.cache/buildx
-          cache-to: |
-            type=local,dest=.cache/buildx,mode=min
-
-      - name: Save buildx cache
-        if: github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
-        with:
-          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
-          path: |
-            .cache/buildx
+            type=registry,ref=${{ env.CACHE_REF }}
 
       - name: Setup
         run: docker/tests/setup.sh
@@ -267,3 +268,299 @@ jobs:
           name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
           retention-days: 30
+
+  # Build each architecture on a runner of that architecture - arm64 under QEMU
+  # used to account for ~73% of the total build time.
+  #
+  # This *always* runs, on every event, so that a change which only breaks one
+  # architecture cannot slip through. That matters most for Renovate pull
+  # requests, which auto-merge: an arm64-only breakage there would otherwise
+  # not surface until the next release build.
+  #
+  # Whether the result is pushed is a separate question - see [NO_PUBLISH].
+  build:
+    name: build
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php_version:
+          - 8.3
+          - 8.4
+        pixelfed_branch:
+          - staging
+          - dev
+        debian_release:
+          - bookworm
+        php_base:
+          - apache
+          - fpm
+        target_runtime:
+          - apache
+          - nginx
+        platform:
+          - amd64
+          - arm64
+
+        exclude:
+          # targeting [apache] runtime with [fpm] base type doesn't make sense
+          - target_runtime: apache
+            php_base: fpm
+
+          # targeting [nginx] runtime with [apache] base type doesn't make sense
+          - target_runtime: nginx
+            php_base: apache
+
+        # Map each architecture onto a runner of that architecture.
+        #
+        # [ubuntu-24.04-arm] is free for public repositories.
+        include:
+          - platform: amd64
+            runner: ubuntu-24.04
+          - platform: arm64
+            runner: ubuntu-24.04-arm
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      CACHE_REF: ghcr.io/${{ github.repository }}-buildcache:${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
+
+      # Build, but don't push, when nobody is going to pull the result:
+      #
+      #   * Renovate pull requests (bot-authored dependency bumps)
+      #   * Fork pull requests (whose GITHUB_TOKEN is read-only, so they
+      #     cannot push to ghcr.io regardless of the permissions requested)
+      #
+      # Human pull requests still publish multi-arch images, so the changes
+      # can be tested on arm64 hardware by end-users.
+      #
+      # ! NOTE: this only controls *publishing*. Both architectures are built
+      # !       either way, so breakage is always caught.
+      NO_PUBLISH: ${{ github.event_name == 'pull_request' && (startsWith(github.head_ref, 'renovate/') || github.event.pull_request.head.repo.full_name != github.repository) }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v6
+        with:
+          repository: "pixelfed/pixelfed"
+          ref: "${{ matrix.pixelfed_branch }}"
+          path: "src/"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+        id: buildx
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build (and push by digest, unless NO_PUBLISH)
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: ${{ matrix.target_runtime }}-runtime
+          platforms: linux/${{ matrix.platform }}
+          builder: ${{ steps.buildx.outputs.name }}
+          provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
+          # [cacheonly] still runs the whole build - it just throws the result
+          # away instead of exporting it anywhere.
+          outputs: ${{ env.NO_PUBLISH == 'true' && 'type=cacheonly' || format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.IMAGE) }}
+          build-args: |
+            PHP_VERSION=${{ matrix.php_version }}
+            PHP_BASE_TYPE=${{ matrix.php_base }}
+            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          cache-from: |
+            type=registry,ref=${{ env.CACHE_REF }}
+          # ! SECURITY: only ever write the cache from the [main] branch.
+          # !
+          # ! Unlike [actions/cache], a registry cache is *not* scoped per branch,
+          # ! so anything able to write here could inject layers into the images
+          # ! produced by [docker-release.yml].
+          # !
+          # ! Gating on the ref (rather than the event) means pull requests and
+          # ! [workflow_dispatch] runs on a side branch can read the cache, but
+          # ! never write it. The nightly [schedule] run keeps it warm.
+          cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,mode=max,ref={0}', env.CACHE_REF) || '' }}
+
+      - name: Export digest
+        if: env.NO_PUBLISH != 'true'
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          mkdir -p /tmp/digests
+          touch "/tmp/digests/${DIGEST#sha256:}"
+
+      - name: Upload digest
+        if: env.NO_PUBLISH != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Assemble the per-architecture digests into the tagged manifest list that
+  # users actually pull.
+  #
+  # [build] and [test] run concurrently - the per-architecture images are
+  # pushed *untagged*, by digest, so they are inert until this job names them.
+  #
+  # Depending on [test] here is what makes the tag conditional on the tests
+  # passing, without serialising the two: an untagged digest from a failed run
+  # is just garbage, and gets reaped by the weekly [delete-untagged] cleanup.
+  merge:
+    name: merge
+    runs-on: ubuntu-24.04
+    needs:
+      - build
+      - test
+
+    # Nothing was pushed, so there are no digests to assemble.
+    #
+    # ! Must mirror [NO_PUBLISH] in the [build] job.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'renovate/') &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php_version:
+          - 8.3
+          - 8.4
+        pixelfed_branch:
+          - staging
+          - dev
+        debian_release:
+          - bookworm
+        target_runtime:
+          - apache
+          - nginx
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v6
+        with:
+          pattern: digests-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-*
+          merge-multiple: true
+          path: /tmp/digests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        uses: docker/metadata-action@v6
+        id: meta
+        with:
+          images: |
+            name=${{ env.IMAGE }},enable=true
+          flavor: |
+            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          tags: |
+            # schedule
+            type=schedule,pattern=nightly
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
+            # default behavior
+            type=ref,event=branch,prefix=branch/
+            type=ref,event=pr,prefix=pr/
+
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          sources=()
+          for digest in *; do
+              sources+=("${IMAGE}@sha256:${digest}")
+          done
+
+          # shellcheck disable=SC2046 # deliberate word splitting of the --tag list
+          docker buildx imagetools create \
+            $(jq --raw-output --compact-output '.tags | map("--tag " + .) | join(" ")' <<< "${DOCKER_METADATA_OUTPUT_JSON}") \
+            "${sources[@]}"
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect "${IMAGE}:${VERSION}"
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+
+  # Single aggregate status check for this whole workflow.
+  #
+  # Renovate auto-merges, so anything that can break has to be *required* -
+  # but requiring the matrix jobs by name means the branch ruleset silently
+  # stops covering them the moment a matrix axis or a job name changes, and a
+  # required check that never reports blocks every pull request instead.
+  #
+  # Requiring this one job avoids both failure modes: it always reports, and
+  # it fails if anything it depends on did.
+  #
+  # ! When adding a job to this workflow, add it to [needs] as well.
+  ci-ok:
+    name: ci-ok
+    runs-on: ubuntu-24.04
+    if: always()
+    needs:
+      - bats
+      - hadolint
+      - test
+      - build
+      - merge
+
+    steps:
+      - name: Check job results
+        env:
+          # Keyed by job name, so a failure can say *which* job failed rather
+          # than just that something did.
+          #
+          # For a matrix job the result is the aggregate: 'failure' if any leg
+          # failed.
+          #
+          # ! NOTE: the observed values are wider than the documented
+          # !       success/failure/cancelled/skipped - a GitHub Actions
+          # !       incident produced 'abandoned' here. Treat anything that is
+          # !       not an explicit pass as a failure, rather than listing the
+          # !       ways a job can go wrong.
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          jq --raw-output 'to_entries[] | "  \(.value.result)\t\(.key)"' <<< "${NEEDS}"
+
+          # 'skipped' is a pass: [merge] does not run for Renovate and fork
+          # pull requests, by design.
+          failed=$(jq --raw-output '
+              to_entries[]
+              | select(.value.result != "success" and .value.result != "skipped")
+              | "\(.key) (\(.value.result))"
+          ' <<< "${NEEDS}")
+
+          if [ -n "${failed}" ]; then
+              while read -r job; do
+                  echo "::error::${job} did not pass"
+              done <<< "${failed}"
+              exit 1
+          fi
+
+          echo "all good"
