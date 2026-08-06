@@ -10,6 +10,24 @@ on:
       - "*"
       - "**"
 
+    # Building the docs site and crawling it for dead links takes a couple of
+    # minutes, so only do it when something that ends up *in* the site changes.
+    #
+    # Use [workflow_dispatch] above to run it on demand for any other reason.
+    paths:
+      - "docs/**"
+      - "docs-customization/**"
+      - "mkdocs.yml"
+      - "Dockerfile.docs"
+      - ".env.docker"
+      - ".markdownlint.yml"
+      - ".github/workflows/docs.yml"
+
+# Only keep the newest run per branch alive
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deadlinks:
     name: "dead links"
@@ -20,10 +38,14 @@ jobs:
           fetch-depth: 0
 
       - name: install dottie
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
       - name: generate .env docs
         run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md

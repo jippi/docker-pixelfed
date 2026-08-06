@@ -43,19 +43,17 @@ jobs:
       contents: read
       packages: write
 
+    env:
+      # Registry-backed build cache, written by the 'dev' matrix entries of
+      # [docker-test.yml] on pushes to main.
+      #
+      # This job only ever *reads* it.
+      CACHE_REF: ghcr.io/${{ github.repository }}:buildcache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
     steps:
       # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v6
-
-      - name: Restore buildx cache
-        uses: actions/cache/restore@v5
-        with:
-          key: buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
-          restore-keys: |
-            buildx-cache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-
-          path: |
-            .cache/buildx
 
       - name: Find Pixelfed release tag
         env:
@@ -125,4 +123,4 @@ jobs:
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
-            type=local,src=.cache/buildx
+            type=registry,ref=${{ env.CACHE_REF }}

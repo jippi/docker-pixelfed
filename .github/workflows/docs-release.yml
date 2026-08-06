@@ -20,10 +20,14 @@ jobs:
           fetch-depth: 0
 
       - name: install dottie
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
       - name: generate .env docs
         run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md

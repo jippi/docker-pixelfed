@@ -104,22 +104,30 @@ jobs:
       contents: read
       packages: write
 
+    env:
+      # Registry-backed build cache, shared with [docker-release.yml].
+      #
+      # We use a registry cache rather than [actions/cache] because the GitHub
+      # Actions cache is capped at 10 GB per repository, and ~900 MB per matrix
+      # entry meant the caches were evicted before they could be reused.
+      CACHE_REF: ghcr.io/${{ github.repository }}:buildcache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+
+      # Build a single (native) architecture and keep the image on the runner
+      # instead of building multi-arch under QEMU and pushing it to ghcr.io.
+      #
+      # We only do this when nobody is realistically going to pull the image:
+      #
+      #   * Renovate pull requests (bot-authored dependency bumps)
+      #   * Fork pull requests (which can't push to ghcr.io anyway)
+      #
+      # Human pull requests still publish multi-arch images, so the changes can
+      # be tested on arm64 hardware by end-users.
+      LOCAL_ONLY: ${{ github.event_name == 'pull_request' && (startsWith(github.head_ref, 'renovate/') || github.event.pull_request.head.repo.full_name != github.repository) }}
+
     steps:
       # Checkout this repo
       - name: Checkout Code
         uses: actions/checkout@v6
-
-      - name: Restore buildx cache (from 'dev' build)
-        uses: actions/cache/restore@v5
-        with:
-          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
-          restore-keys: |
-            buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-
-          path: |
-            .cache/buildx
-
-      - name: Ensure buildx cache directory exists
-        run: mkdir -pv .cache/buildx
 
       # Checkout pixelfed source code into src/
       - name: Checkout pixelfed/pixelfed
@@ -130,12 +138,18 @@ jobs:
           path: "src/"
 
       - name: install dottie
+        env:
+          # renovate: datasource=github-releases depName=jippi/dottie
+          DOTTIE_VERSION: "1.2.0"
         run: |
-          echo 'deb [trusted=yes] https://pkg.jippi.dev/apt/ * *' | sudo tee /etc/apt/sources.list.d/dottie.list
-          sudo apt update
-          sudo apt install dottie
+          curl --fail --silent --show-error --location \
+            --output /tmp/dottie.deb \
+            "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
+          sudo dpkg --install /tmp/dottie.deb
 
+      # Only needed when we cross-build for arm64
       - name: Set up QEMU
+        if: env.LOCAL_ONLY != 'true'
         uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
@@ -172,28 +186,29 @@ jobs:
           context: .
           file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ env.LOCAL_ONLY == 'true' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
+          push: ${{ env.LOCAL_ONLY != 'true' }}
+          load: ${{ env.LOCAL_ONLY == 'true' }}
           provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
           cache-from: |
-            type=local,src=.cache/buildx
-          cache-to: |
-            type=local,dest=.cache/buildx,mode=min
-
-      - name: Save buildx cache
-        if: github.ref == 'refs/heads/main'
-        uses: actions/cache/save@v5
-        with:
-          key: buildx-cache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ hashFiles('docker/**') }}
-          path: |
-            .cache/buildx
+            type=registry,ref=${{ env.CACHE_REF }}
+          # ! SECURITY: only ever write the cache from the [main] branch.
+          # !
+          # ! Unlike [actions/cache], a registry cache is *not* scoped per branch,
+          # ! so anything able to write here could inject layers into the images
+          # ! produced by [docker-release.yml].
+          # !
+          # ! Gating on the ref (rather than the event) means pull requests and
+          # ! [workflow_dispatch] runs on a side branch can read the cache, but
+          # ! never write it. The nightly [schedule] run keeps it warm.
+          cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,mode=max,ref={0}', env.CACHE_REF) || '' }}
 
       - name: Setup
         run: docker/tests/setup.sh
