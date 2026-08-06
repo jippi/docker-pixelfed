@@ -59,7 +59,7 @@ For example
 2. `{minor}` is the second part of the versioning `(x.Y.z)`.
 3. `{patch}` is the third part of the versioning `(x.y.Z)`.
 4. `{runtime}` can be either `apache` or `nginx`. Please see [the Runtime Documentation](runtimes.md).
-5. `{php_version}` Currently supports `8.4` and `8.5`.
+5. `{php_version}` Currently supports `8.3`, `8.4` and `8.5`.
 6. `{branch}` is the `staging` or `dev` branch that Pixelfed is developed from.
 7. `{YYYY-MM-DD}` is a date format, e.x., `2024-09-14`, where
     * `YYYY => 2024`
