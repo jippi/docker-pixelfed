@@ -533,23 +533,34 @@ jobs:
     steps:
       - name: Check job results
         env:
-          # 'success', 'failure', 'cancelled' or 'skipped' per needed job.
+          # Keyed by job name, so a failure can say *which* job failed rather
+          # than just that something did.
           #
-          # For a matrix job this is the aggregate: 'failure' if any leg failed.
-          RESULTS: ${{ join(needs.*.result, ' ') }}
+          # For a matrix job the result is the aggregate: 'failure' if any leg
+          # failed.
+          #
+          # ! NOTE: the observed values are wider than the documented
+          # !       success/failure/cancelled/skipped - a GitHub Actions
+          # !       incident produced 'abandoned' here. Treat anything that is
+          # !       not an explicit pass as a failure, rather than listing the
+          # !       ways a job can go wrong.
+          NEEDS: ${{ toJSON(needs) }}
         run: |
-          echo "dependency results: ${RESULTS}"
+          jq --raw-output 'to_entries[] | "  \(.value.result)\t\(.key)"' <<< "${NEEDS}"
 
-          # 'skipped' is a pass: [build] publishes nothing and [merge] does not
-          # run at all for Renovate and fork pull requests, by design.
-          for result in ${RESULTS}; do
-              case "${result}" in
-                  success | skipped) ;;
-                  *)
-                      echo "::error::a job this check depends on concluded '${result}'"
-                      exit 1
-                      ;;
-              esac
-          done
+          # 'skipped' is a pass: [merge] does not run for Renovate and fork
+          # pull requests, by design.
+          failed=$(jq --raw-output '
+              to_entries[]
+              | select(.value.result != "success" and .value.result != "skipped")
+              | "\(.key) (\(.value.result))"
+          ' <<< "${NEEDS}")
+
+          if [ -n "${failed}" ]; then
+              while read -r job; do
+                  echo "::error::${job} did not pass"
+              done <<< "${failed}"
+              exit 1
+          fi
 
           echo "all good"
