@@ -50,8 +50,18 @@ jobs:
       - name: generate .env docs
         run: dottie template --file .env.docker --with-disabled docs-customization/template/dot-env.template.tmpl > docs/customize/settings.md
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
       - name: build container
-        run: docker build -t docker-pixelfed-docs -f Dockerfile.docs .
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile.docs
+          tags: docker-pixelfed-docs
+          load: true
+          cache-from: type=gha,scope=docs
+          cache-to: type=gha,scope=docs,mode=max
 
       - name: dist site
         run: docker run --rm -v ${PWD}:/docs docker-pixelfed-docs build

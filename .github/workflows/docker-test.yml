@@ -19,9 +19,6 @@ on:
     branches:
       - main
 
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-  # pull_request:
-
   # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
   schedule:
     #        ┌───────────── minute (0 - 59)
@@ -33,6 +30,25 @@ on:
     #        │  │ │ │ │
     #        │  │ │ │ │
     - cron: "30 8 * * *" # run at 8:30 AM UTC
+
+# Supersede in-flight runs for the same branch, except on [main] where the run
+# also refreshes the shared build cache.
+concurrency:
+  group: docker-test-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  # Where the images are published
+  IMAGE: ghcr.io/${{ github.repository }}
+
+  # Where the BuildKit cache lives.
+  #
+  # ! This is deliberately a *separate* package from [IMAGE]:
+  # !
+  # !   1. Cache reads would otherwise be counted as pulls of the real image,
+  # !      inflating the download numbers we use to gauge actual usage.
+  # !   2. It keeps the cleanup rules for the two from interfering.
+  CACHE_IMAGE: ghcr.io/${{ github.repository }}-buildcache
 
 jobs:
   bats:
@@ -61,9 +77,15 @@ jobs:
           config: docker/.hadolint.yaml
           failure-threshold: error
 
-  pixelfed:
-    name: pixelfed
+  # Build the image for the runner's own architecture and test it, without
+  # involving the registry at all.
+  #
+  # Publishing is handled separately by [publish] + [merge] below, so test
+  # feedback doesn't wait on the arm64 build or on a registry round-trip.
+  test:
+    name: test
     runs-on: ubuntu-24.04
+
     strategy:
       fail-fast: false
 
@@ -85,7 +107,6 @@ jobs:
           - nginx
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
-        # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
         exclude:
           # targeting [apache] runtime with [fpm] base type doesn't make sense
           - target_runtime: apache
@@ -95,34 +116,12 @@ jobs:
           - target_runtime: nginx
             php_base: apache
 
-    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-concurrency-and-the-default-behavior
-    concurrency:
-      group: pixelfed-${{ github.ref }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.target_runtime }}-${{ matrix.pixelfed_branch }}-
-      cancel-in-progress: true
-
     permissions:
       contents: read
-      packages: write
+      packages: read
 
     env:
-      # Registry-backed build cache, shared with [docker-release.yml].
-      #
-      # We use a registry cache rather than [actions/cache] because the GitHub
-      # Actions cache is capped at 10 GB per repository, and ~900 MB per matrix
-      # entry meant the caches were evicted before they could be reused.
-      CACHE_REF: ghcr.io/${{ github.repository }}:buildcache-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
-
-      # Build a single (native) architecture and keep the image on the runner
-      # instead of building multi-arch under QEMU and pushing it to ghcr.io.
-      #
-      # We only do this when nobody is realistically going to pull the image:
-      #
-      #   * Renovate pull requests (bot-authored dependency bumps)
-      #   * Fork pull requests (which can't push to ghcr.io anyway)
-      #
-      # Human pull requests still publish multi-arch images, so the changes can
-      # be tested on arm64 hardware by end-users.
-      LOCAL_ONLY: ${{ github.event_name == 'pull_request' && (startsWith(github.head_ref, 'renovate/') || github.event.pull_request.head.repo.full_name != github.repository) }}
+      CACHE_REF: ghcr.io/${{ github.repository }}-buildcache:${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-amd64
 
     steps:
       # Checkout this repo
@@ -147,11 +146,6 @@ jobs:
             "https://github.com/jippi/dottie/releases/download/v${DOTTIE_VERSION}/dottie_${DOTTIE_VERSION}_amd64.deb"
           sudo dpkg --install /tmp/dottie.deb
 
-      # Only needed when we cross-build for arm64
-      - name: Set up QEMU
-        if: env.LOCAL_ONLY != 'true'
-        uses: docker/setup-qemu-action@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
         id: buildx
@@ -169,7 +163,7 @@ jobs:
         id: meta
         with:
           images: |
-            name=ghcr.io/${{ github.repository }},enable=true
+            name=${{ env.IMAGE }},enable=true
           flavor: |
             suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           tags: |
@@ -180,35 +174,27 @@ jobs:
             type=ref,event=branch,prefix=branch/
             type=ref,event=pr,prefix=pr/
 
-      - name: Build and push image
+      # Single architecture, kept on the runner. The [publish] job is what
+      # actually pushes anything.
+      - name: Build image
         uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/Dockerfile
           target: ${{ matrix.target_runtime }}-runtime
-          platforms: ${{ env.LOCAL_ONLY == 'true' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
+          platforms: linux/amd64
           builder: ${{ steps.buildx.outputs.name }}
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          push: ${{ env.LOCAL_ONLY != 'true' }}
-          load: ${{ env.LOCAL_ONLY == 'true' }}
+          load: true
           provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             PHP_BASE_TYPE=${{ matrix.php_base }}
             PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          # Read-only. The cache is written by [publish] on [main] only.
           cache-from: |
             type=registry,ref=${{ env.CACHE_REF }}
-          # ! SECURITY: only ever write the cache from the [main] branch.
-          # !
-          # ! Unlike [actions/cache], a registry cache is *not* scoped per branch,
-          # ! so anything able to write here could inject layers into the images
-          # ! produced by [docker-release.yml].
-          # !
-          # ! Gating on the ref (rather than the event) means pull requests and
-          # ! [workflow_dispatch] runs on a side branch can read the cache, but
-          # ! never write it. The nightly [schedule] run keeps it warm.
-          cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,mode=max,ref={0}', env.CACHE_REF) || '' }}
 
       - name: Setup
         run: docker/tests/setup.sh
@@ -282,3 +268,218 @@ jobs:
           name: playwright-report-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
           path: test-results/
           retention-days: 30
+
+  # Build each architecture on a runner of that architecture - arm64 under QEMU
+  # used to account for ~73% of the total build time.
+  #
+  # Each job pushes an untagged, single-architecture image by digest; [merge]
+  # then assembles those digests into the tagged manifest list.
+  publish:
+    name: publish
+    runs-on: ${{ matrix.runner }}
+
+    # Skip publishing entirely when nobody is going to pull the result:
+    #
+    #   * Renovate pull requests (bot-authored dependency bumps)
+    #   * Fork pull requests (whose GITHUB_TOKEN is read-only, so they cannot
+    #     push to ghcr.io regardless of the permissions requested below)
+    #
+    # Human pull requests still publish multi-arch images, so the changes can
+    # be tested on arm64 hardware by end-users.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'renovate/') &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php_version:
+          - 8.3
+          - 8.4
+        pixelfed_branch:
+          - staging
+          - dev
+        debian_release:
+          - bookworm
+        php_base:
+          - apache
+          - fpm
+        target_runtime:
+          - apache
+          - nginx
+        platform:
+          - amd64
+          - arm64
+
+        exclude:
+          # targeting [apache] runtime with [fpm] base type doesn't make sense
+          - target_runtime: apache
+            php_base: fpm
+
+          # targeting [nginx] runtime with [apache] base type doesn't make sense
+          - target_runtime: nginx
+            php_base: apache
+
+        # Map each architecture onto a runner of that architecture.
+        #
+        # [ubuntu-24.04-arm] is free for public repositories.
+        include:
+          - platform: amd64
+            runner: ubuntu-24.04
+          - platform: arm64
+            runner: ubuntu-24.04-arm
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      CACHE_REF: ghcr.io/${{ github.repository }}-buildcache:${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Checkout pixelfed/pixelfed
+        uses: actions/checkout@v6
+        with:
+          repository: "pixelfed/pixelfed"
+          ref: "${{ matrix.pixelfed_branch }}"
+          path: "src/"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+        id: buildx
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: ${{ matrix.target_runtime }}-runtime
+          platforms: linux/${{ matrix.platform }}
+          builder: ${{ steps.buildx.outputs.name }}
+          provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
+          outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          build-args: |
+            PHP_VERSION=${{ matrix.php_version }}
+            PHP_BASE_TYPE=${{ matrix.php_base }}
+            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          cache-from: |
+            type=registry,ref=${{ env.CACHE_REF }}
+          # ! SECURITY: only ever write the cache from the [main] branch.
+          # !
+          # ! Unlike [actions/cache], a registry cache is *not* scoped per branch,
+          # ! so anything able to write here could inject layers into the images
+          # ! produced by [docker-release.yml].
+          # !
+          # ! Gating on the ref (rather than the event) means pull requests and
+          # ! [workflow_dispatch] runs on a side branch can read the cache, but
+          # ! never write it. The nightly [schedule] run keeps it warm.
+          cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,mode=max,ref={0}', env.CACHE_REF) || '' }}
+
+      - name: Export digest
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          mkdir -p /tmp/digests
+          touch "/tmp/digests/${DIGEST#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Assemble the per-architecture digests into the tagged manifest list that
+  # users actually pull.
+  merge:
+    name: merge
+    runs-on: ubuntu-24.04
+    needs:
+      - publish
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php_version:
+          - 8.3
+          - 8.4
+        pixelfed_branch:
+          - staging
+          - dev
+        debian_release:
+          - bookworm
+        target_runtime:
+          - apache
+          - nginx
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v6
+        with:
+          pattern: digests-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-*
+          merge-multiple: true
+          path: /tmp/digests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker meta
+        uses: docker/metadata-action@v6
+        id: meta
+        with:
+          images: |
+            name=${{ env.IMAGE }},enable=true
+          flavor: |
+            suffix=-${{ matrix.pixelfed_branch }}-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+          tags: |
+            # schedule
+            type=schedule,pattern=nightly
+            type=schedule,pattern=nightly-{{ date 'YYYY-MM-DD' tz='UTC' }}
+            # default behavior
+            type=ref,event=branch,prefix=branch/
+            type=ref,event=pr,prefix=pr/
+
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          sources=()
+          for digest in *; do
+              sources+=("${IMAGE}@sha256:${digest}")
+          done
+
+          # shellcheck disable=SC2046 # deliberate word splitting of the --tag list
+          docker buildx imagetools create \
+            $(jq --raw-output --compact-output '.tags | map("--tag " + .) | join(" ")' <<< "${DOCKER_METADATA_OUTPUT_JSON}") \
+            "${sources[@]}"
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect "${IMAGE}:${VERSION}"
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}

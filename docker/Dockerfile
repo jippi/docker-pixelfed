@@ -47,6 +47,12 @@ ARG PHP_BASE_TYPE="apache"
 ARG PHP_DEBIAN_RELEASE="bookworm"
 ARG APT_PACKAGES_EXTRA=
 
+# Whether to build the frontend assets with npm.
+#
+# ! NOTE: must be a *global* ARG (declared before the first FROM) since it
+# !       selects which [frontend-build-*] stage is aliased to [frontend-build]
+ARG BUILD_FRONTEND="0"
+
 # PHP extensions installed via [pecl install]
 ARG PHP_PECL_EXTENSIONS=""
 ARG PHP_PECL_EXTENSIONS_EXTRA=
@@ -200,9 +206,9 @@ USER ${RUNTIME_UID}:${RUNTIME_GID}
 # We force the (CPU) [--platform] here to be architecture
 # of the "builder"/"server" and not the *target* CPU architecture
 # (e.g.) building the ARM version of Pixelfed on AMD64.
-FROM --platform=${BUILDARCH} node:lts AS frontend-build
+FROM --platform=${BUILDARCH} node:lts AS frontend-build-1
 
-ARG BUILD_FRONTEND=0
+ARG BUILD_FRONTEND
 ARG BUILDARCH
 ARG RUNTIME_GID
 ARG RUNTIME_UID
@@ -263,6 +269,25 @@ RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},uid=${R
 
 # Copy all other files over
 COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/ /var/www/
+
+#######################################################
+# Node: frontend stage selection
+#######################################################
+
+# When [BUILD_FRONTEND] is not 1 - the default, and what CI uses - there is
+# nothing for [frontend-build-1] to do, but it would still cost a [node:lts]
+# pull and a full copy of src/ on every build, only for [shared-runtime] to
+# copy /var/www/public straight back out again.
+#
+# Aliasing [frontend-build] on the value of [BUILD_FRONTEND] lets BuildKit
+# prune the node stage from the graph entirely, since [composer-and-src]
+# already carries an unmodified public/.
+#
+# ! NOTE: this has to come *after* [composer-and-src], as a Dockerfile stage
+# !       cannot reference a stage defined later in the file.
+FROM composer-and-src AS frontend-build-0
+
+FROM frontend-build-${BUILD_FRONTEND} AS frontend-build
 
 #######################################################
 # Runtime: base

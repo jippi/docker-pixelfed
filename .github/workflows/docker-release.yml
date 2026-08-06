@@ -6,10 +6,16 @@ on:
       - "*"
       - "**"
 
+env:
+  # Where the images are published
+  IMAGE: ghcr.io/${{ github.repository }}
+
 jobs:
-  pixelfed:
-    name: pixelfed
-    runs-on: ubuntu-24.04
+  # Build each architecture on a runner of that architecture, and push it
+  # untagged by digest. [merge] then assembles the tagged manifest list.
+  build:
+    name: build
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       fail-fast: false
@@ -27,6 +33,9 @@ jobs:
         target_runtime:
           - apache
           - nginx
+        platform:
+          - amd64
+          - arm64
 
         # See: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#excluding-matrix-configurations
         # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrixexclude
@@ -39,6 +48,15 @@ jobs:
           - target_runtime: nginx
             php_base: apache
 
+        # Map each architecture onto a runner of that architecture.
+        #
+        # [ubuntu-24.04-arm] is free for public repositories.
+        include:
+          - platform: amd64
+            runner: ubuntu-24.04
+          - platform: arm64
+            runner: ubuntu-24.04-arm
+
     permissions:
       contents: read
       packages: write
@@ -48,7 +66,7 @@ jobs:
       # [docker-test.yml] on pushes to main.
       #
       # This job only ever *reads* it.
-      CACHE_REF: ghcr.io/${{ github.repository }}:buildcache-dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
+      CACHE_REF: ghcr.io/${{ github.repository }}-buildcache:dev-${{ matrix.target_runtime }}-${{ matrix.php_base }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
 
     steps:
       # Checkout this repo
@@ -59,7 +77,7 @@ jobs:
         env:
           TAG_NAME: ${{ github.ref_name }}
         id: pixelfed_release
-        run: echo "fragment=${TAG_NAME%%-*}" >> $GITHUB_OUTPUT
+        run: echo "fragment=${TAG_NAME%%-*}" >> "$GITHUB_OUTPUT"
 
       # checkout pixelfed source code
       - name: Checkout pixelfed/pixelfed
@@ -68,9 +86,6 @@ jobs:
           repository: "pixelfed/pixelfed"
           ref: "${{ steps.pixelfed_release.outputs.fragment }}"
           path: "src/"
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -84,12 +99,94 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: ${{ matrix.target_runtime }}-runtime
+          platforms: linux/${{ matrix.platform }}
+          builder: ${{ steps.buildx.outputs.name }}
+          provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
+          outputs: type=image,name=${{ env.IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          build-args: |
+            PHP_VERSION=${{ matrix.php_version }}
+            PHP_BASE_TYPE=${{ matrix.php_base }}
+            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
+          cache-from: |
+            type=registry,ref=${{ env.CACHE_REF }}
+
+      - name: Export digest
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          mkdir -p /tmp/digests
+          touch "/tmp/digests/${DIGEST#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-${{ matrix.platform }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Assemble the per-architecture digests into the tagged manifest list that
+  # users actually pull.
+  merge:
+    name: merge
+    runs-on: ubuntu-24.04
+    needs:
+      - build
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php_version:
+          - 8.3
+          - 8.4
+        debian_release:
+          - bookworm
+        target_runtime:
+          - apache
+          - nginx
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Find Pixelfed release tag
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        id: pixelfed_release
+        run: echo "fragment=${TAG_NAME%%-*}" >> "$GITHUB_OUTPUT"
+
+      - name: Download digests
+        uses: actions/download-artifact@v6
+        with:
+          pattern: digests-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}-*
+          merge-multiple: true
+          path: /tmp/digests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Docker meta
         uses: docker/metadata-action@v6
         id: meta
         with:
           images: |
-            name=ghcr.io/${{ github.repository }}
+            name=${{ env.IMAGE }}
           flavor: |
             suffix=-${{ matrix.target_runtime }}-${{ matrix.php_version }}-${{ matrix.debian_release }}
             prefix=v
@@ -106,21 +203,21 @@ jobs:
             type=semver,pattern={{ major }}.{{ minor }}.{{ patch }},value=${{ steps.pixelfed_release.outputs.fragment }}
             type=semver,pattern={{ version }},value=${{ steps.pixelfed_release.outputs.fragment }}
 
-      - name: Build and push image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: docker/Dockerfile
-          target: ${{ matrix.target_runtime }}-runtime
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          push: true
-          provenance: false # https://github.com/docker/build-push-action/issues/894#issuecomment-1785937908
-          build-args: |
-            PHP_VERSION=${{ matrix.php_version }}
-            PHP_BASE_TYPE=${{ matrix.php_base }}
-            PHP_DEBIAN_RELEASE=${{ matrix.debian_release }}
-          cache-from: |
-            type=registry,ref=${{ env.CACHE_REF }}
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          sources=()
+          for digest in *; do
+              sources+=("${IMAGE}@sha256:${digest}")
+          done
+
+          # shellcheck disable=SC2046 # deliberate word splitting of the --tag list
+          docker buildx imagetools create \
+            $(jq --raw-output --compact-output '.tags | map("--tag " + .) | join(" ")' <<< "${DOCKER_METADATA_OUTPUT_JSON}") \
+            "${sources[@]}"
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect "${IMAGE}:${VERSION}"
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
