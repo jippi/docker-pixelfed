@@ -92,7 +92,9 @@ find "${ENTRYPOINT_D_ROOT}" -follow -type f -print | sort -V | while read -r fil
             log-info "${section_message_color}You can disable this script by setting [\$ENTRYPOINT_SKIP_SCRIPTS=\"${skip_value}\"] in your .env file"
             log-info "${section_message_color}============================================================${color_clear}"
 
-            "${file}"
+            # stdin is redirected from /dev/null so an (unexpectedly) interactive command
+            # can't consume the file list this loop is reading from
+            "${file}" </dev/null
             ;;
 
         *)
