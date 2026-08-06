@@ -405,11 +405,19 @@ jobs:
 
   # Assemble the per-architecture digests into the tagged manifest list that
   # users actually pull.
+  #
+  # [publish] and [test] run concurrently - the per-architecture images are
+  # pushed *untagged*, by digest, so they are inert until this job names them.
+  #
+  # Depending on [test] here is what makes the tag conditional on the tests
+  # passing, without serialising the two: an untagged digest from a failed run
+  # is just garbage, and gets reaped by the weekly [delete-untagged] cleanup.
   merge:
     name: merge
     runs-on: ubuntu-24.04
     needs:
       - publish
+      - test
 
     strategy:
       fail-fast: false
