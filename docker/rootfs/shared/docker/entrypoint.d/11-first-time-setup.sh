@@ -44,5 +44,7 @@ if is-true "${OAUTH_ENABLED:-false}"; then
 fi
 
 if is-true "${PF_LOGIN_WITH_MASTODON_ENABLED:-false}"; then
-    only-once "passport:client::personal" run-as-runtime-user php artisan passport:client --personal --name "Created_By_Docker_11-first-time-setup.sh"
+    # NOTE: [--provider] and [--no-interaction] are required, else newer versions of
+    # laravel/passport prompt for the user provider, which can't be answered in a container
+    only-once "passport:client::personal" run-as-runtime-user php artisan passport:client --personal --no-interaction --name "Created_By_Docker_11-first-time-setup.sh" --provider "${PF_PASSPORT_USER_PROVIDER:-users}"
 fi
