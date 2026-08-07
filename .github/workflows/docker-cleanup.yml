@@ -22,7 +22,7 @@ jobs:
     steps:
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
       - name: Delete old PR + Branch images
-        uses: dataaxiom/ghcr-cleanup-action@v1
+        uses: dataaxiom/ghcr-cleanup-action@d52806a0dc70b430571a37da1fde39733ffd640f # v1.2.2
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           delete-tags: "pr-*,branch-*"
@@ -31,7 +31,7 @@ jobs:
 
       # See: https://github.com/dataaxiom/ghcr-cleanup-action?tab=readme-ov-file#action-options
       - name: Delete old nightly images
-        uses: dataaxiom/ghcr-cleanup-action@v1
+        uses: dataaxiom/ghcr-cleanup-action@d52806a0dc70b430571a37da1fde39733ffd640f # v1.2.2
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           delete-tags: "nightly-*"
@@ -44,7 +44,7 @@ jobs:
       #   by a tagged one before deleting - meaning that "untagged" here is NOT the same as the
       #   'untagged images' tab in the GHCR UI
       - name: "Delete all untagged images"
-        uses: dataaxiom/ghcr-cleanup-action@v1
+        uses: dataaxiom/ghcr-cleanup-action@d52806a0dc70b430571a37da1fde39733ffd640f # v1.2.2
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           delete-untagged: true
@@ -55,7 +55,7 @@ jobs:
       # Its tags are a fixed set that gets overwritten in place, but every
       # rewrite orphans the manifest it replaced - so those need reaping.
       - name: "Delete orphaned build cache"
-        uses: dataaxiom/ghcr-cleanup-action@v1
+        uses: dataaxiom/ghcr-cleanup-action@d52806a0dc70b430571a37da1fde39733ffd640f # v1.2.2
         with:
           token: ${{ secrets.GH_CLEANUP_PAT }}
           packages: docker-pixelfed-buildcache

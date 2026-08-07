@@ -4,6 +4,9 @@
         ':pinDevDependencies',
         ':separateMultipleMajorReleases',
         'default:pinDigestsDisabled',
+        // Pin GitHub Actions to a commit SHA (with a `# vX.Y.Z` comment kept in
+        // sync by Renovate), so a moved tag cannot swap out the action code.
+        'helpers:pinGitHubActionDigests',
     ],
     schedule: [
         '* * * * *',
