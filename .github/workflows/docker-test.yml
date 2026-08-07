@@ -94,6 +94,7 @@ jobs:
         php_version:
           - 8.3
           - 8.4
+          - 8.5
         pixelfed_branch:
           - staging
           - dev
@@ -289,6 +290,7 @@ jobs:
         php_version:
           - 8.3
           - 8.4
+          - 8.5
         pixelfed_branch:
           - staging
           - dev
@@ -442,6 +444,7 @@ jobs:
         php_version:
           - 8.3
           - 8.4
+          - 8.5
         pixelfed_branch:
           - staging
           - dev
