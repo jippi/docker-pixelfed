@@ -152,13 +152,40 @@ command:
       - '1.14'
     stderr: []
 
-{{ if eq .Env.PHP_BASE_TYPE "nginx" }}
+  # [dottie] is copied in from its own image, and was the only one of the four
+  # bundled binaries with no assertion covering it.
+  #
+  # The version pattern asserts a real release rather than a dev build, which
+  # is what an unset or mis-resolved [DOTTIE_VERSION] would produce.
+  dottie-version:
+    exit-status: 0
+    exec: 'dottie -v'
+    stdout:
+      - 'dottie: Making .env file management easy'
+      - '/GitVersion:\s+[0-9]+\.[0-9]+\.[0-9]+/'
+
+# ! NOTE: [PHP_BASE_TYPE] is the *base image* variant - it is only ever
+# !       "apache" or "fpm" (see the [php_base] matrix axis). It was
+# !       previously compared against "nginx", which never matched, so none
+# !       of the nginx assertions below ever ran.
+{{ if eq .Env.PHP_BASE_TYPE "fpm" }}
   nginx-version:
     exit-status: 0
     exec: 'nginx -v'
     stdout: []
     stderr:
       - 'nginx version: nginx'
+
+  # The nginx config must be valid, not merely present
+  nginx-config-valid:
+    exit-status: 0
+    exec: 'nginx -t'
+
+  php-fpm-version:
+    exit-status: 0
+    exec: 'php-fpm{{ .Env.EXPECTED_PHP_VERSION }} --version'
+    stdout:
+      - 'PHP {{ .Env.EXPECTED_PHP_VERSION }}'
 {{ end }}
 
 {{ if eq .Env.PHP_BASE_TYPE "apache" }}
@@ -168,4 +195,119 @@ command:
     stdout:
       - 'Server version: Apache/'
     stderr: []
+
+  # The modules enabled by [a2enmod] in the runtime stage. Pixelfed is broken
+  # in non-obvious ways without these, so assert them rather than assuming the
+  # a2enmod step ran.
+  #
+  # ! NOTE: [stderr] is deliberately unasserted - apachectl warns about not
+  # !       being able to determine the server's fully qualified domain name.
+  apache-modules:
+    exit-status: 0
+    exec: 'apachectl -M'
+    stdout:
+      - php_module
+      - proxy_module
+      - remoteip_module
+      - rewrite_module
+{{ end }}
+
+# Layout assertions.
+#
+# These exist to catch a *build* regression rather than a runtime one: the
+# ownership, the symlink and the skeleton directory below are produced by
+# individual Dockerfile steps, and reordering or restructuring those stages
+# can silently drop them. Nothing else in this suite would notice.
+file:
+  # The application itself, owned by the runtime user
+  /var/www:
+    exists: true
+    filetype: directory
+    owner: www-data
+    group: www-data
+
+  /var/www/public/index.php:
+    exists: true
+    filetype: file
+    owner: www-data
+    group: www-data
+
+  # [html] is a symlink to [public] - webservers serve from it
+  /var/www/html:
+    exists: true
+    filetype: symlink
+    linked-to: public
+
+  # Pristine copy of [storage], used to seed a volume on first boot
+  #
+  # See: https://github.com/pixelfed/pixelfed/pull/2137#discussion_r434468862
+  /var/www/storage.skel:
+    exists: true
+    filetype: directory
+    owner: www-data
+    group: www-data
+
+  # Only written by [composer dump-autoload --optimize] - its absence means
+  # the optimised autoloader silently did not get generated
+  /var/www/vendor/composer/autoload_classmap.php:
+    exists: true
+    filetype: file
+
+  # Binaries copied in from their own build stages
+  /usr/local/bin/forego:
+    exists: true
+    filetype: file
+    mode: "0755"
+
+  /usr/local/bin/dottie:
+    exists: true
+    filetype: file
+    mode: "0755"
+
+  /usr/local/bin/gomplate:
+    exists: true
+    filetype: file
+    mode: "0755"
+
+  # Shipped from [docker/rootfs/shared]
+  /docker/entrypoint.sh:
+    exists: true
+    filetype: file
+    mode: "0755"
+
+  /docker/entrypoint.d/05-templating.sh:
+    exists: true
+    filetype: file
+
+  # The [gomplate] *templates*, not their rendered output.
+  #
+  # ! NOTE: asserting /etc/php/<version>/... would prove nothing - the Debian
+  # !       php packages ship a stock php.ini at that path, so the assertion
+  # !       passes whether or not we have a template to render over it.
+  # !
+  # !       Adding a PHP version to the build matrix without adding a matching
+  # !       template directory leaves the image on stock defaults. That is
+  # !       what these assertions catch.
+  /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/cli/php.ini:
+    exists: true
+    filetype: file
+
+{{ if eq .Env.PHP_BASE_TYPE "fpm" }}
+  /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/php.ini:
+    exists: true
+    filetype: file
+
+  /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/php-fpm.conf:
+    exists: true
+    filetype: file
+
+  /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/pool.d/www.conf:
+    exists: true
+    filetype: file
+{{ end }}
+
+{{ if eq .Env.PHP_BASE_TYPE "apache" }}
+  /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/apache2/php.ini:
+    exists: true
+    filetype: file
 {{ end }}
