@@ -49,7 +49,7 @@ jobs:
           fetch-depth: 0
 
       - name: check
-        uses: DavidAnson/markdownlint-cli2-action@v22
+        uses: DavidAnson/markdownlint-cli2-action@v23
         with:
           config: .markdownlint.yml
           # ! NOTE: this used to point at [docs.io/**/*.md] - a directory that
