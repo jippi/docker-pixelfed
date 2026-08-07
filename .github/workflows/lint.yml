@@ -52,4 +52,13 @@ jobs:
         uses: DavidAnson/markdownlint-cli2-action@v22
         with:
           config: .markdownlint.yml
-          globs: "docs.io/**/*.md"
+          # ! NOTE: this used to point at [docs.io/**/*.md] - a directory that
+          # !       does not exist in this repository - so the job matched no
+          # !       files and passed without linting anything.
+          # !
+          # !       [settings.md] is generated from [.env.docker] by dottie and
+          # !       is gitignored, so it is absent here but present in the docs
+          # !       workflow. Excluding it keeps local runs consistent with CI.
+          globs: |
+            docs/**/*.md
+            !docs/customize/settings.md
