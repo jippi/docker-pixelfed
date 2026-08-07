@@ -31,10 +31,17 @@ on:
     #        │  │ │ │ │
     - cron: "30 8 * * *" # run at 8:30 AM UTC
 
-# Supersede in-flight runs for the same branch, except on [main] where the run
-# also refreshes the shared build cache.
+# Supersede in-flight runs for the same branch, except on [main] where every
+# commit gets its own group.
+#
+# [cancel-in-progress] only protects a run that has already *started*: GitHub
+# always cancels an older *pending* run when a newer one joins the same group.
+# With runners backed up, a rapid series of pushes to [main] kept cancelling the
+# queued run before it ever got a runner - so main was rarely tested and the
+# shared build cache went stale. Keying main's group on the SHA gives each
+# commit its own group, so main runs only ever queue, never cancel.
 concurrency:
-  group: docker-test-${{ github.ref }}
+  group: docker-test-${{ github.ref }}-${{ github.ref == 'refs/heads/main' && github.sha || '' }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 env:
