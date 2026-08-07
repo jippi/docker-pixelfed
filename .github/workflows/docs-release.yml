@@ -22,7 +22,7 @@ jobs:
       - name: install dottie
         env:
           # renovate: datasource=github-releases depName=jippi/dottie
-          DOTTIE_VERSION: "1.2.0"
+          DOTTIE_VERSION: "1.3.0"
         run: |
           curl --fail --silent --show-error --location \
             --output /tmp/dottie.deb \
