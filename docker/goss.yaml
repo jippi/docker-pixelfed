@@ -279,15 +279,16 @@ file:
     exists: true
     filetype: file
 
-  # The [gomplate] *templates*, not their rendered output.
+  # The [gomplate] templates that ship in the image.
   #
-  # ! NOTE: asserting /etc/php/<version>/... would prove nothing - the Debian
-  # !       php packages ship a stock php.ini at that path, so the assertion
-  # !       passes whether or not we have a template to render over it.
+  # ! NOTE: asserting only /etc/php/<version>/... would prove nothing on its
+  # !       own - the Debian php packages ship a stock php.ini at that path,
+  # !       so an existence check there passes whether or not we have a
+  # !       template to render over it.
   # !
   # !       Adding a PHP version to the build matrix without adding a matching
-  # !       template directory leaves the image on stock defaults. That is
-  # !       what these assertions catch.
+  # !       template directory leaves the image on stock defaults, which is
+  # !       what this catches - and it names the missing path directly.
   /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/cli/php.ini:
     exists: true
     filetype: file
@@ -310,4 +311,65 @@ file:
   /docker/templates/etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/apache2/php.ini:
     exists: true
     filetype: file
+{{ end }}
+
+  # ...and the *rendered* result of those templates.
+  #
+  # goss runs after the entrypoint, so [05-templating.sh] has already run
+  # gomplate by this point. Asserting the output - rather than only that a
+  # template existed to render - is what proves the whole chain worked:
+  #
+  #   * a missing template leaves the stock Debian values (8M, not 61M)
+  #   * a gomplate failure leaves the delimiters behind verbatim
+  #   * a skipped [05-templating.sh] does both
+  #
+  # ! NOTE: the negated pattern is written as {{ "{{" }} escaped through Go
+  # !       templating, since this file is itself a Go template.
+  /etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/cli/php.ini:
+    exists: true
+    filetype: file
+    contains:
+      - "expose_php = Off"
+      - "memory_limit = 256M"
+      - "post_max_size = 61M"
+      # no unrendered gomplate delimiters may survive
+      - '!{{ "{{" }}'
+
+{{ if eq .Env.PHP_BASE_TYPE "fpm" }}
+  /etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/php.ini:
+    exists: true
+    filetype: file
+    contains:
+      - "expose_php = Off"
+      - "memory_limit = 256M"
+      - "post_max_size = 61M"
+      - '!{{ "{{" }}'
+
+  /etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/php-fpm.conf:
+    exists: true
+    filetype: file
+    contains:
+      - "daemonize = no"
+      - '!{{ "{{" }}'
+
+  /etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/fpm/pool.d/www.conf:
+    exists: true
+    filetype: file
+    contains:
+      - "user = www-data"
+      - "group = www-data"
+      - "listen = 9000"
+      - '!{{ "{{" }}'
+{{ end }}
+
+{{ if eq .Env.PHP_BASE_TYPE "apache" }}
+  /etc/php/{{ .Env.EXPECTED_PHP_VERSION }}/apache2/php.ini:
+    exists: true
+    filetype: file
+    contains:
+      - "expose_php = Off"
+      - "memory_limit = 256M"
+      - "post_max_size = 61M"
+      - "upload_max_filesize = 61M"
+      - '!{{ "{{" }}'
 {{ end }}
