@@ -290,10 +290,16 @@ FROM composer-and-src AS frontend-build-0
 FROM frontend-build-${BUILD_FRONTEND} AS frontend-build
 
 #######################################################
-# Runtime: base
+# Application payload
 #######################################################
 
-FROM base AS shared-runtime
+# The application itself, with no webserver in it.
+#
+# The runtime stages below copy this in as their *last* expensive step, so a
+# change to the Pixelfed source - which happens on essentially every build,
+# since [dev] and [staging] move constantly - no longer invalidates the
+# webserver install that used to sit downstream of it.
+FROM base AS app
 
 ARG RUNTIME_UID
 ARG RUNTIME_GID
@@ -325,19 +331,36 @@ COPY --link --from=gomplate-image /usr/local/bin/gomplate /usr/local/bin/gomplat
 #! Changing to root user
 USER root
 
-COPY docker/rootfs/shared /
-
-ENTRYPOINT ["/docker/entrypoint.sh"]
+COPY --link docker/rootfs/shared /
 
 #######################################################
 # Runtime: apache
 #######################################################
 
-FROM shared-runtime AS apache-runtime
+# ! NOTE: derived from [base], *not* from [app].
+# !
+# !       Installing the webserver on top of the application meant every
+# !       change to the Pixelfed source re-ran this apt install - measured at
+# !       33s per arm64 job for apache and 18s for nginx, on builds where
+# !       nothing about the webserver had changed.
+# !
+# !       The application is copied in at the end instead, so it is the cheap
+# !       layer that churns rather than the expensive one.
+FROM base AS apache-runtime
 
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
+ARG RUNTIME_GID
+ARG RUNTIME_UID
 ARG TARGETARCH
+
+ENV RUNTIME_UID=${RUNTIME_UID}
+ENV RUNTIME_GID=${RUNTIME_GID}
+
+# ! NOTE: [base] ends as the runtime user, and this stage no longer inherits
+# !       root from the old [shared-runtime] parent - so claim it explicitly
+# !       before touching apt.
+USER root
 
 # Install apache webserver
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
@@ -346,13 +369,29 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
     && apt-get update \
     && apt-get install -y apache2
 
-COPY docker/rootfs/apache /
+# ! NOTE: the copy order below has to match the order these were applied in
+# !       previously - [rootfs/shared] and [rootfs/apache] both write into
+# !       /docker/templates, and the apache-specific files have to land last.
+# ! NOTE: [--chown] is required - /var/www already exists in [base] (via
+# !       WORKDIR, created as root), and a plain COPY leaves the
+# !       destination directory's own ownership untouched.
+COPY --link --from=app --chown=${RUNTIME_UID}:${RUNTIME_GID} /var/www /var/www
+COPY --link --from=app /docker /docker
+COPY --link --from=app /shared /shared
+COPY --link --from=app /usr/local/bin/forego /usr/local/bin/forego
+COPY --link --from=app /usr/local/bin/dottie /usr/local/bin/dottie
+COPY --link --from=app /usr/local/bin/gomplate /usr/local/bin/gomplate
 
+COPY --link docker/rootfs/apache /
+
+# [a2enconf remoteip] needs the config shipped by [rootfs/apache] above
 RUN set -ex \
     && a2dismod mpm_event \
     && a2enmod php${PHP_VERSION} \
     && a2enmod rewrite remoteip proxy proxy_http \
     && a2enconf remoteip
+
+ENTRYPOINT ["/docker/entrypoint.sh"]
 
 CMD ["apache2-foreground"]
 
@@ -361,14 +400,26 @@ CMD ["apache2-foreground"]
 # Runtime: nginx
 #######################################################
 
-FROM shared-runtime AS nginx-runtime
+# ! NOTE: derived from [base] rather than from [app] - see the note on
+# !       [apache-runtime] above for why.
+FROM base AS nginx-runtime
 
 ARG NGINX_GPGKEY
 ARG NGINX_GPGKEY_PATH
 ARG NGINX_VERSION
 ARG PHP_DEBIAN_RELEASE
 ARG PHP_VERSION
+ARG RUNTIME_GID
+ARG RUNTIME_UID
 ARG TARGETARCH
+
+ENV RUNTIME_UID=${RUNTIME_UID}
+ENV RUNTIME_GID=${RUNTIME_GID}
+
+# ! NOTE: [base] ends as the runtime user, and this stage no longer inherits
+# !       root from the old [shared-runtime] parent - so claim it explicitly
+# !       before touching apt.
+USER root
 
 # Install nginx dependencies
 RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TARGETARCH},target=/var/lib/apt \
@@ -380,10 +431,23 @@ RUN --mount=type=cache,id=pixelfed-apt-${PHP_VERSION}-${PHP_DEBIAN_RELEASE}-${TA
     && apt-get update \
     && apt-get install -y --no-install-recommends nginx=${NGINX_VERSION}*
 
+# ! NOTE: copy order matters - see the note on [apache-runtime] above.
+# ! NOTE: [--chown] is required - /var/www already exists in [base] (via
+# !       WORKDIR, created as root), and a plain COPY leaves the
+# !       destination directory's own ownership untouched.
+COPY --link --from=app --chown=${RUNTIME_UID}:${RUNTIME_GID} /var/www /var/www
+COPY --link --from=app /docker /docker
+COPY --link --from=app /shared /shared
+COPY --link --from=app /usr/local/bin/forego /usr/local/bin/forego
+COPY --link --from=app /usr/local/bin/dottie /usr/local/bin/dottie
+COPY --link --from=app /usr/local/bin/gomplate /usr/local/bin/gomplate
+
 # copy docker entrypoints from the *real* nginx image directly
 COPY --link --from=nginx-image /docker-entrypoint.d /docker/entrypoint.d/
 
-COPY docker/rootfs/nginx /
+COPY --link docker/rootfs/nginx /
+
+ENTRYPOINT ["/docker/entrypoint.sh"]
 
 STOPSIGNAL SIGQUIT
 
