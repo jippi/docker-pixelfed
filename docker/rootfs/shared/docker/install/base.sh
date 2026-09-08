@@ -41,6 +41,7 @@ packages+=(
     optipng
     pngquant
     libvips42
+    libvips-dev
 )
 
 # Video Processing
