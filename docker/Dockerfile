@@ -262,10 +262,10 @@ ARG TARGETARCH
 COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/composer.* /var/www/
 
 # Install composer dependencies
-# NOTE: we skip the autoloader generation here since we don't have all files available (yet)
+# NOTE: we skip the autoloader generation and scripts here since we don't have all files (e.g. artisan) available (yet)
 RUN --mount=type=cache,id=pixelfed-composer-${PHP_VERSION}-${TARGETARCH},uid=${RUNTIME_UID},gid=${RUNTIME_GID},sharing=locked,target=/cache/composer \
     set -ex \
-    && composer install --prefer-dist --no-autoloader --ignore-platform-reqs
+    && composer install --prefer-dist --no-autoloader --no-scripts --ignore-platform-reqs
 
 # Copy all other files over
 COPY --chown=${RUNTIME_UID}:${RUNTIME_GID} src/ /var/www/
