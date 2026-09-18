@@ -137,7 +137,7 @@ jobs:
   # users actually pull.
   merge:
     name: merge
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
 
