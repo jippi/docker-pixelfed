@@ -60,7 +60,7 @@ env:
 jobs:
   bats:
     name: Bats Testing
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run bats
@@ -68,7 +68,7 @@ jobs:
 
   hadolint:
     name: hadolint
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: read
@@ -91,7 +91,7 @@ jobs:
   # feedback doesn't wait on the arm64 build or on a registry round-trip.
   test:
     name: test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     strategy:
       fail-fast: false
@@ -431,7 +431,7 @@ jobs:
   # is just garbage, and gets reaped by the weekly [delete-untagged] cleanup.
   merge:
     name: merge
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
       - test
@@ -531,7 +531,7 @@ jobs:
   # ! When adding a job to this workflow, add it to [needs] as well.
   ci-ok:
     name: ci-ok
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: always()
     needs:
       - bats
