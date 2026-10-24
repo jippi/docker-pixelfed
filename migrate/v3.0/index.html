@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1096,28 +1096,28 @@
 <h3 id="breaking-change-new-docker-image-names"><span class="mdx-badge mdx-badge--danger"><span class="mdx-badge__icon"><a href="../../conventions/" title="Breaking Change"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14z"/></svg></span></a></span><span class="mdx-badge__text">Breaking Change</span></span> New <abbr title="Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers">Docker</abbr> image names<a class="headerlink" href="#breaking-change-new-docker-image-names" title="Permanent link">&para;</a></h3>
 <p>Since <code>docker-pixelfed</code> do not exist within the <code>pixelfed</code> project itself, the URL for the container images will change.</p>
 <p>Before you might have something like the following in your <code>.env</code> file</p>
-<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bullseye&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/pixelfed&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.2&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;jippi-fork-1&quot;</span>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">"bullseye"</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">"ghcr.io/jippi/pixelfed"</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">"8.2"</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">"jippi-fork-1"</span>
 </code></pre></div>
 <p>Those are now</p>
 <div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># [v0] for the least v0.x.y release of Pixelfed</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># [v0.12] for the least v0.12.x release of Pixelfed</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># [v0.12.1] for the v0.12.1 release of Pixelfed</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">&quot;v0.12.1&quot;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">DOCKER_APP_RELEASE</span><span class="o">=</span><span class="s2">"v0.12.1"</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># changed from ghcr.io/jippi/pixelfed</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">&quot;ghcr.io/jippi/docker-pixelfed&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">DOCKER_APP_IMAGE</span><span class="o">=</span><span class="s2">"ghcr.io/jippi/docker-pixelfed"</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># changed from &quot;bullseye&quot;</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">&quot;bookworm&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># changed from "bullseye"</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">DOCKER_APP_DEBIAN_RELEASE</span><span class="o">=</span><span class="s2">"bookworm"</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># We support 8.4 and 8.5</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">&quot;8.4&quot;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">DOCKER_APP_PHP_VERSION</span><span class="o">=</span><span class="s2">"8.4"</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Different format</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">DOCKER_APP_TAG</span><span class="o">=</span><span class="s2">&quot;${DOCKER_APP_RELEASE:?missing}-${DOCKER_APP_RUNTIME:?missing}-${DOCKER_APP_PHP_VERSION:?missing}-${DOCKER_APP_DEBIAN_RELEASE:?missing}&quot;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">DOCKER_APP_TAG</span><span class="o">=</span><span class="s2">"${DOCKER_APP_RELEASE:?missing}-${DOCKER_APP_RUNTIME:?missing}-${DOCKER_APP_PHP_VERSION:?missing}-${DOCKER_APP_DEBIAN_RELEASE:?missing}"</span>
 </code></pre></div>
 <h3 id="no-latest-tags">No <code>latest</code> tags<a class="headerlink" href="#no-latest-tags" title="Permanent link">&para;</a></h3>
 <p><code>latest</code> tags are typically pretty dangerous to use, especially in a fast-moving project such as Pixelfed where things might break in patch releases.</p>
@@ -1183,10 +1183,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.tooltips", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.tooltips", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "navigation.expand", "navigation.instant", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>
