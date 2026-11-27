@@ -13,7 +13,7 @@ ARG NGINX_VERSION="1.31.8"
 # See: https://github.com/ddollar/forego
 #
 # renovate: datasource=docker depName=nginxproxy/forego
-ARG FOREGO_VERSION="0.18.8"
+ARG FOREGO_VERSION="0.18.9"
 
 # See: https://github.com/hairyhenderson/gomplate
 #
